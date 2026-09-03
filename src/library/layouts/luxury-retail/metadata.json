@@ -1,0 +1,11 @@
+{
+  "id": "luxury-retail",
+  "displayName": "Luxury Retail",
+  "vertical": [
+    "RETAIL"
+  ],
+  "purpose": [
+    "LOCATION"
+  ],
+  "pageSetType": "ENTITY"
+}
