@@ -1,13 +1,12 @@
 import type { SectionConfig } from "@yext/visual-editor";
 
-import { isValidElement } from "react";
 import { PuckComponent } from "@puckeditor/core";
 import { CircleSlash2 } from "lucide-react";
+import { renderResolvedRichText } from "../shared/sectionHelpers";
 import { useTranslation } from "react-i18next";
 import {
   Body,
   EntityField,
-  MaybeRTF,
   PageSection,
   type StyledTextValue,
   type ThemeColor,
@@ -165,7 +164,6 @@ const LuxuryRetailBannerComponent: PuckComponent<LuxuryRetailBannerProps> = ({
     data.text,
     i18n.language,
     streamDocument,
-    { richTextStyleOverrides },
   );
 
   if (!resolvedText) {
@@ -189,14 +187,7 @@ const LuxuryRetailBannerComponent: PuckComponent<LuxuryRetailBannerProps> = ({
         displayName="Banner Text"
         fieldId={data.text.field}
       >
-        {isValidElement(resolvedText) ? (
-          resolvedText
-        ) : typeof resolvedText === "string" ? (
-          <MaybeRTF
-            data={resolvedText}
-            richTextStyleOverrides={richTextStyleOverrides}
-          />
-        ) : null}
+        {renderResolvedRichText(resolvedText, richTextStyleOverrides)}
       </EntityField>
     </PageSection>
   );
@@ -207,7 +198,7 @@ const LuxuryRetailBannerComponent: PuckComponent<LuxuryRetailBannerProps> = ({
  */
 export const LuxuryRetailBanner: YextComponentConfig<LuxuryRetailBannerProps> = {
   label: "Banner",
-  fields: toPuckFields(LuxuryRetailBannerFields),
+  fields: toPuckFields<LuxuryRetailBannerProps>(LuxuryRetailBannerFields),
   defaultProps: {
     data: {
       text: {

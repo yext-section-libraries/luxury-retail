@@ -3,27 +3,25 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
+  Background,
   EntityField,
   getAnalyticsScopeHash,
-  isDarkColor,
+  getSurfaceColorStyle,
   resolveComponentData,
   useDocument,
-  type StyledTextValue,
   type ThemeColor,
-  type TranslatableString,
   type YextComponentConfig,
-  type YextEntityField,
   type YextFields,
   getAggregateRating,
   VisibilityWrapper,
 } from "@yext/visual-editor";
 import { AnalyticsScopeProvider } from "@yext/pages-components";
-
-type StyledTextProps = {
-  text: YextEntityField<TranslatableString>;
-  styles: StyledTextValue;
-  fontColor?: ThemeColor;
-};
+import {
+  getReadableTextColor,
+  getTextStyles,
+  getThemeColorCssValue,
+  type StyledTextProps,
+} from "../shared/sectionHelpers";
 
 type LuxuryRetailReviewsSectionProps = {
   title: StyledTextProps;
@@ -258,61 +256,6 @@ const reviewsCss = `
   }
 `;
 
-function getThemeColorCssValue(color?: ThemeColor | string): string | undefined {
-  const selectedColor = typeof color === "string" ? color : color?.selectedColor;
-  if (!selectedColor || selectedColor === "default") {
-    return undefined;
-  }
-
-  switch (selectedColor) {
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    default:
-      return selectedColor;
-  }
-}
-
-function getReadableTextColor(
-  fontColor: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-): string {
-  return (
-    getThemeColorCssValue(fontColor) ??
-    (isDarkColor(
-      backgroundColor ?? {
-        selectedColor: "white",
-        contrastingColor: "palette-quaternary",
-      },
-      streamDocument,
-    )
-      ? "#FFFFFF"
-      : "#000000")
-  );
-}
-
 type Review = {
   authorName?: string;
   rating?: number;
@@ -345,33 +288,15 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
     props.section?.backgroundColor,
     streamDocument,
   );
-  const titleStyle: React.CSSProperties = {
-    fontFamily:
-      props.title.styles.fontFamily === "default"
-        ? undefined
-        : props.title.styles.fontFamily,
-    fontSize:
-      props.title.styles.fontSize === "default"
-        ? undefined
-        : props.title.styles.fontSize,
-    fontWeight:
-      props.title.styles.fontWeight === "default"
-        ? undefined
-        : props.title.styles.fontWeight,
-    fontStyle:
-      props.title.styles.fontStyle === "default"
-        ? undefined
-        : props.title.styles.fontStyle,
-    textTransform:
-      props.title.styles.textTransform === "default"
-        ? undefined
-        : props.title.styles.textTransform,
-    color: getThemeColorCssValue(props.title.fontColor) ?? readableTextColor,
-  };
-  const sectionStyle: React.CSSProperties = {
-    backgroundColor: getThemeColorCssValue(props.section?.backgroundColor),
-    color: readableTextColor,
-  };
+  const titleStyle = getTextStyles(
+    props.title.styles,
+    props.title.fontColor,
+    readableTextColor,
+  );
+  const sectionStyle = getSurfaceColorStyle(
+    props.section?.backgroundColor,
+    streamDocument,
+  );
   const reviewColor = getThemeColorCssValue(props.reviewColor) ?? readableTextColor;
 
   if (!reviews.length && !props.puck.isEditing) {
@@ -388,7 +313,12 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
           isEditing={props.puck.isEditing}
         >
           <style>{reviewsCss}</style>
-          <section className="luxury-reviews" style={sectionStyle}>
+          <Background
+            as="section"
+            background={props.section.backgroundColor}
+            className="luxury-reviews"
+            style={sectionStyle}
+          >
             <div className="luxury-reviews__inner">
               <EntityField
                 displayName="Title"
@@ -403,7 +333,7 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
                 <p>No first-party reviews</p>
               ) : null}
             </div>
-          </section>
+          </Background>
         </VisibilityWrapper>
       </AnalyticsScopeProvider>
     );
@@ -418,7 +348,12 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
         isEditing={props.puck.isEditing}
       >
         <style>{reviewsCss}</style>
-        <section className="luxury-reviews" style={sectionStyle}>
+        <Background
+          as="section"
+          background={props.section.backgroundColor}
+          className="luxury-reviews"
+          style={sectionStyle}
+        >
           <div className="luxury-reviews__inner">
             <EntityField
               displayName="Title"
@@ -470,7 +405,7 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
               ))}
             </div>
           </div>
-        </section>
+        </Background>
       </VisibilityWrapper>
     </AnalyticsScopeProvider>
   );

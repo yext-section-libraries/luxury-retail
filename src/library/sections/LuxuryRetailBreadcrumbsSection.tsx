@@ -3,28 +3,25 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
+  Background,
   EntityField,
   VisibilityWrapper,
   getAnalyticsScopeHash,
-  isDarkColor,
+  getSurfaceColorStyle,
   resolveBreadcrumbs,
   resolveComponentData,
   useDocument,
   useTemplateProps,
-  type StyledTextValue,
   type ThemeColor,
-  type TranslatableString,
   type YextComponentConfig,
-  type YextEntityField,
   type YextFields,
 } from "@yext/visual-editor";
 import { AnalyticsScopeProvider, Link } from "@yext/pages-components";
-
-type StyledTextProps = {
-  text: YextEntityField<TranslatableString>;
-  styles: StyledTextValue;
-  fontColor?: ThemeColor;
-};
+import {
+  getReadableTextColor,
+  getTextStyles,
+  type StyledTextProps,
+} from "../shared/sectionHelpers";
 
 type LuxuryRetailBreadcrumbsSectionProps = {
   rootLabel: StyledTextProps;
@@ -123,92 +120,6 @@ const LuxuryRetailBreadcrumbsSectionFields: YextFields<LuxuryRetailBreadcrumbsSe
       type: "text",
     },
   };
-
-const resolveThemeColorCssValue = (color?: ThemeColor): string | undefined => {
-  if (!color?.selectedColor || color.selectedColor === "default") {
-    return undefined;
-  }
-
-  const customColorMatch = color.selectedColor.match(
-    /^\[(#[0-9A-Fa-f]{3,8})\]$/,
-  );
-  if (customColorMatch) {
-    return customColorMatch[1].toUpperCase();
-  }
-
-  switch (color.selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    default:
-      return color.selectedColor;
-  }
-};
-
-const getReadableTextColor = (
-  fontColor: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-): string => {
-  return (
-    resolveThemeColorCssValue(fontColor) ??
-    (isDarkColor(
-      backgroundColor ?? {
-        selectedColor: "white",
-        contrastingColor: "palette-quaternary",
-      },
-      streamDocument,
-    )
-      ? "#FFFFFF"
-      : "#111111")
-  );
-};
-
-const getTextStyles = (
-  props: StyledTextProps,
-  fallbackColor: string,
-): React.CSSProperties => {
-  return {
-    color: resolveThemeColorCssValue(props.fontColor) ?? fallbackColor,
-    fontFamily:
-      props.styles.fontFamily === "default"
-        ? undefined
-        : props.styles.fontFamily,
-    fontSize:
-      props.styles.fontSize === "default" ? undefined : props.styles.fontSize,
-    fontWeight:
-      props.styles.fontWeight === "default"
-        ? undefined
-        : props.styles.fontWeight,
-    fontStyle:
-      props.styles.fontStyle === "default" ? undefined : props.styles.fontStyle,
-    textTransform:
-      props.styles.textTransform === "default"
-        ? undefined
-        : props.styles.textTransform,
-  };
-};
 
 const breadcrumbsCss = `
   .luxury-breadcrumbs {
@@ -323,8 +234,9 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
     );
   }
 
-  const sectionBackgroundColor = resolveThemeColorCssValue(
+  const sectionStyle = getSurfaceColorStyle(
     props.section.backgroundColor,
+    streamDocument,
   );
   const rootTextColor = getReadableTextColor(
     props.rootLabel.fontColor,
@@ -336,8 +248,16 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
     props.section.backgroundColor,
     streamDocument,
   );
-  const rootTextStyle = getTextStyles(props.rootLabel, rootTextColor);
-  const currentTextStyle = getTextStyles(props.currentPage, currentTextColor);
+  const rootTextStyle = getTextStyles(
+    props.rootLabel.styles,
+    props.rootLabel.fontColor,
+    rootTextColor,
+  );
+  const currentTextStyle = getTextStyles(
+    props.currentPage.styles,
+    props.currentPage.fontColor,
+    currentTextColor,
+  );
   const rootLabelValue =
     resolveComponentData(props.rootLabel.text, locale, streamDocument) || "";
   const currentPageLabel =
@@ -354,9 +274,11 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
         liveVisibility={props.section.visibleOnLivePage}
         isEditing={props.puck.isEditing}
       >
-        <section
+        <Background
+          as="section"
+          background={props.section.backgroundColor}
           className="luxury-breadcrumbs"
-          style={{ backgroundColor: sectionBackgroundColor }}
+          style={sectionStyle}
         >
           <style>{breadcrumbsCss}</style>
           <div className="luxury-breadcrumbs__inner">
@@ -438,7 +360,7 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
               </ol>
             </nav>
           </div>
-        </section>
+        </Background>
       </VisibilityWrapper>
     </AnalyticsScopeProvider>
   );

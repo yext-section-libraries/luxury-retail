@@ -2,12 +2,12 @@ import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
-import { parsePhoneNumber } from "awesome-phonenumber";
 import {
+  Background,
   ComprehensiveCTA,
   EntityField,
   getAnalyticsScopeHash,
-  isDarkColor,
+  getSurfaceColorStyle,
   resolveComponentData,
   useDocument,
   type ComprehensiveCTAValue,
@@ -29,12 +29,14 @@ import {
   type HoursType,
 } from "@yext/pages-components";
 import { useTranslation } from "react-i18next";
-
-type StyledTextProps = {
-  text: YextEntityField<TranslatableString>;
-  styles: StyledTextValue;
-  fontColor?: ThemeColor;
-};
+import {
+  formatPhoneNumber,
+  getReadableTextColor as resolveReadableTextColor,
+  getReadableThemeColor as resolveReadableThemeColor,
+  getTextStyles as resolveTextStyles,
+  getThemeColorCssValue as resolveThemeColorCssValue,
+  type StyledTextProps,
+} from "../shared/sectionHelpers";
 
 type PhoneItemProps = {
   number: YextEntityField<string>;
@@ -393,117 +395,6 @@ const LuxuryRetailStoreDetailsSectionFields: YextFields<
       },
     },
   },
-};
-
-const resolveThemeColorCssValue = (color?: ThemeColor): string | undefined => {
-  if (!color?.selectedColor || color.selectedColor === "default") {
-    return undefined;
-  }
-
-  switch (color?.selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    default:
-      return color?.selectedColor;
-  }
-};
-
-const resolveReadableTextColor = (
-  fontColor: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-): string => {
-  return (
-    resolveThemeColorCssValue(fontColor) ??
-    (isDarkColor(
-      backgroundColor ?? {
-        selectedColor: "white",
-        contrastingColor: "palette-quaternary",
-      },
-      streamDocument,
-    )
-      ? "#FFFFFF"
-      : "#000000")
-  );
-};
-
-const resolveReadableThemeColor = (
-  color: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-  variant?: ComprehensiveCTAValue["styles"]["variant"],
-): ThemeColor => {
-  const resolvedBackgroundColor = backgroundColor ?? {
-    selectedColor: "white",
-    contrastingColor: "palette-quaternary",
-  };
-  const backgroundIsDark = isDarkColor(resolvedBackgroundColor, streamDocument);
-
-  if (variant === "secondary" && backgroundIsDark) {
-    return {
-      selectedColor: "white",
-      contrastingColor: resolvedBackgroundColor.selectedColor,
-    };
-  }
-
-  if (color && resolveThemeColorCssValue(color)) {
-    return color;
-  }
-
-  return {
-    selectedColor: backgroundIsDark ? "white" : "black",
-    contrastingColor: resolvedBackgroundColor.selectedColor,
-  };
-};
-
-const resolveTextStyles = (styles: StyledTextValue): React.CSSProperties => ({
-  fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-  fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-  fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-  fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-  textTransform:
-    styles.textTransform === "default" ? undefined : styles.textTransform,
-});
-
-const formatPhoneNumber = (
-  phoneNumberString: string,
-  format: "international" | "domestic",
-): string => {
-  const cleanedPhoneNumberString = phoneNumberString.replace(
-    /(?!^\+)\+|[^\d+]/g,
-    "",
-  );
-
-  const parsedPhoneNumber = parsePhoneNumber(cleanedPhoneNumberString);
-  if (!parsedPhoneNumber.valid || parsedPhoneNumber.number === undefined) {
-    return phoneNumberString;
-  }
-
-  return format === "international"
-    ? parsedPhoneNumber.number.international
-    : parsedPhoneNumber.number.national;
 };
 
 const detailsCss = `
@@ -960,7 +851,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
     props.secondaryCta.styles.variant,
   );
   const sectionStyle = {
-    backgroundColor: resolveThemeColorCssValue(props.section?.backgroundColor),
+    ...getSurfaceColorStyle(props.section?.backgroundColor, streamDocument),
     "--luxury-store-details-title-color": titleStyle.color,
     "--luxury-store-details-heading-color":
       locationInformationHeadingStyle.color,
@@ -979,7 +870,9 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
         isEditing={puck.isEditing}
       >
         <style>{detailsCss}</style>
-        <section
+        <Background
+          as="section"
+          background={props.section.backgroundColor}
           className="luxury-store-details"
           style={sectionStyle}
         >
@@ -1194,7 +1087,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
             </div>
           </div>
           </div>
-        </section>
+        </Background>
       </VisibilityWrapper>
     </AnalyticsScopeProvider>
   );

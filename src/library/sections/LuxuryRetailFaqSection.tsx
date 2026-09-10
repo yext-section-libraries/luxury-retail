@@ -3,16 +3,16 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
 import {
+  Background,
   createItemSource,
   EntityField,
   getDefaultRTF,
-  MaybeRTF,
   resolveComponentData,
   VisibilityWrapper,
   YextComponentConfig,
   YextFields,
   getAnalyticsScopeHash,
-  isDarkColor,
+  getSurfaceColorStyle,
   toPuckFields,
   type StyledTextValue,
   type ThemeColor,
@@ -22,12 +22,13 @@ import {
   useDocument,
 } from "@yext/visual-editor";
 import { AnalyticsScopeProvider, useAnalytics } from "@yext/pages-components";
-
-type StyledTextProps = {
-  text: YextEntityField<TranslatableString>;
-  styles: StyledTextValue;
-  fontColor?: ThemeColor;
-};
+import {
+  getReadableTextColor,
+  getTextStyles,
+  getThemeColorCssValue,
+  renderResolvedRichText,
+  type StyledTextProps,
+} from "../shared/sectionHelpers";
 
 type FaqItemFields = {
   question: YextEntityField<TranslatableString>;
@@ -198,64 +199,6 @@ const LuxuryRetailFaqSectionFields: YextFields<LuxuryRetailFaqSectionProps> =
     },
   };
 
-function getThemeColorCssValue(
-  color?: ThemeColor | string,
-): string | undefined {
-  const selectedColor =
-    typeof color === "string" ? color : color?.selectedColor;
-  if (!selectedColor || selectedColor === "default") {
-    return undefined;
-  }
-
-  switch (selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#ffffff";
-    case "black":
-      return "#000000";
-    default:
-      return selectedColor;
-  }
-}
-
-function getReadableTextColor(
-  fontColor: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-): string {
-  return (
-    getThemeColorCssValue(fontColor) ??
-    (isDarkColor(
-      backgroundColor ?? {
-        selectedColor: "white",
-        contrastingColor: "palette-quaternary",
-      },
-      streamDocument,
-    )
-      ? "#FFFFFF"
-      : "#000000")
-  );
-}
-
 const faqCss = `
   .luxury-faq :where(p) {
     font-family: var(--fontFamily-body-fontFamily);
@@ -341,22 +284,6 @@ const faqCss = `
   }
 `;
 
-function getStyledTextCss(
-  styles: StyledTextValue,
-  fontColor?: ThemeColor,
-  fallbackColor?: string,
-): React.CSSProperties {
-  return {
-    fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-    fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-    fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-    fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-    textTransform:
-      styles.textTransform === "default" ? undefined : styles.textTransform,
-    color: getThemeColorCssValue(fontColor) ?? fallbackColor,
-  };
-}
-
 const LuxuryRetailFaqSectionComponent: PuckComponent<
   LuxuryRetailFaqSectionProps
 > = (props) => {
@@ -379,7 +306,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
     props.section?.backgroundColor,
     streamDocument,
   );
-  const headingStyle = getStyledTextCss(
+  const headingStyle = getTextStyles(
     props.heading.styles,
     props.heading.fontColor,
     readableTextColor,
@@ -389,8 +316,9 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
       selectedColor: props.section?.backgroundColor.contrastingColor,
       contrastingColor: props.section?.backgroundColor.selectedColor,
     }) ?? "var(--colors-palette-tertiary)";
-  const sectionBackgroundColor = getThemeColorCssValue(
+  const sectionStyle = getSurfaceColorStyle(
     props.section?.backgroundColor,
+    streamDocument,
   );
 
   return (
@@ -402,11 +330,11 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
         name={`LuxuryRetailFaqSection${getAnalyticsScopeHash(props.id)}`}
       >
         <style>{faqCss}</style>
-        <section
+        <Background
+          as="section"
+          background={props.section.backgroundColor}
           className="luxury-faq px-6 py-16 min-[1101px]:px-[30px]"
-          style={{
-            backgroundColor: sectionBackgroundColor,
-          }}
+          style={sectionStyle}
         >
           <div className="mx-auto flex w-[min(1120px,calc(100vw-60px))] flex-col gap-8">
             <EntityField
@@ -439,7 +367,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
                         streamDocument,
                       ) || ""
                     : "";
-                  const questionStyle = getStyledTextCss(
+                  const questionStyle = getTextStyles(
                     props.items.styles.question.styles,
                     props.items.styles.question.fontColor,
                     readableTextColor,
@@ -452,14 +380,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
                       ) ?? readableTextColor,
                   };
                   const resolvedAnswer = item.answer
-                    ? resolveComponentData(
-                        item.answer,
-                        locale,
-                        streamDocument,
-                        {
-                          richTextStyleOverrides: answerStyleOverrides,
-                        },
-                      )
+                    ? resolveComponentData(item.answer, locale, streamDocument)
                     : undefined;
 
                   return (
@@ -467,7 +388,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
                       key={`${resolvedQuestion}-${index}`}
                       className="border-b last:border-b-0"
                       style={{
-                        backgroundColor: sectionBackgroundColor,
+                        backgroundColor: sectionStyle?.backgroundColor,
                         borderColor: rowBorderColor,
                       }}
                     >
@@ -502,21 +423,9 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
                           className="pb-5 pr-10 text-[14px] leading-[1.7]"
                           style={{ color: answerStyleOverrides.color }}
                         >
-                          {React.isValidElement(resolvedAnswer) ? (
-                            resolvedAnswer
-                          ) : (
-                            <MaybeRTF
-                              data={
-                                resolvedAnswer as
-                                  | string
-                                  | {
-                                      html?: string;
-                                      json?: string;
-                                    }
-                                  | undefined
-                              }
-                              richTextStyleOverrides={answerStyleOverrides}
-                            />
+                          {renderResolvedRichText(
+                            resolvedAnswer,
+                            answerStyleOverrides,
                           )}
                         </div>
                       ) : null}
@@ -526,7 +435,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
               </div>
             </EntityField>
           </div>
-        </section>
+        </Background>
       </AnalyticsScopeProvider>
     </VisibilityWrapper>
   );
@@ -535,7 +444,9 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
 export const LuxuryRetailFaqSection: YextComponentConfig<LuxuryRetailFaqSectionProps> =
   {
     label: "Faq Section",
-    fields: toPuckFields(LuxuryRetailFaqSectionFields),
+    fields: toPuckFields<LuxuryRetailFaqSectionProps>(
+      LuxuryRetailFaqSectionFields,
+    ),
     defaultProps: {
       heading: {
         text: {

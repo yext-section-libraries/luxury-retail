@@ -3,22 +3,19 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
+  Background,
   ComprehensiveCTA,
   EntityField,
   Image,
   getAnalyticsScopeHash,
   getDefaultRTF,
-  isDarkColor,
+  getSurfaceColorStyle,
   resolveComponentData,
   useDocument,
-  MaybeRTF,
   type ComprehensiveCTAValue,
   type StyledImageValue,
-  type StyledTextValue,
   type ThemeColor,
   type TranslatableAssetImage,
-  type TranslatableRichText,
-  type TranslatableString,
   type YextComponentConfig,
   type YextEntityField,
   type YextFields,
@@ -26,17 +23,16 @@ import {
 } from "@yext/visual-editor";
 import { AnalyticsScopeProvider } from "@yext/pages-components";
 import { useTranslation } from "react-i18next";
-
-type StyledTextProps = {
-  text: YextEntityField<TranslatableString>;
-  styles: StyledTextValue;
-  fontColor?: ThemeColor;
-};
-
-type StyledRtfProps = {
-  text: YextEntityField<TranslatableRichText>;
-  fontColor?: ThemeColor;
-};
+import {
+  getReadableTextColor as resolveReadableTextColor,
+  getReadableThemeColor as resolveReadableThemeColor,
+  getTextStyles,
+  getThemeColorCssValue as resolveThemeColorCssValue,
+  hasImageSource,
+  renderResolvedRichText,
+  type StyledRtfProps,
+  type StyledTextProps,
+} from "../shared/sectionHelpers";
 
 type PromoImageProps = {
   image: YextEntityField<TranslatableAssetImage>;
@@ -55,8 +51,6 @@ type LuxuryRetailSeasonalPromoSectionProps = {
     visibleOnLivePage: boolean;
   };
 };
-
-type VisualEditorImageValue = NonNullable<React.ComponentProps<typeof Image>["image"]>;
 
 const LuxuryRetailSeasonalPromoSectionFields: YextFields<
   LuxuryRetailSeasonalPromoSectionProps
@@ -147,115 +141,6 @@ const LuxuryRetailSeasonalPromoSectionFields: YextFields<
       },
     },
   },
-};
-
-const resolveThemeColorCssValue = (color?: ThemeColor): string | undefined => {
-  if (!color?.selectedColor || color.selectedColor === "default") {
-    return undefined;
-  }
-
-  switch (color?.selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    default:
-      return color?.selectedColor;
-  }
-};
-
-const resolveReadableTextColor = (
-  fontColor: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-): string => {
-  return (
-    resolveThemeColorCssValue(fontColor) ??
-    (isDarkColor(
-      backgroundColor ?? {
-        selectedColor: "white",
-        contrastingColor: "palette-quaternary",
-      },
-      streamDocument,
-    )
-      ? "#FFFFFF"
-      : "#000000")
-  );
-};
-
-const resolveReadableThemeColor = (
-  color: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-  variant?: ComprehensiveCTAValue["styles"]["variant"],
-): ThemeColor => {
-  const resolvedBackgroundColor = backgroundColor ?? {
-    selectedColor: "white",
-    contrastingColor: "palette-quaternary",
-  };
-  const backgroundIsDark = isDarkColor(resolvedBackgroundColor, streamDocument);
-
-  if (variant === "secondary" && backgroundIsDark) {
-    return {
-      selectedColor: "white",
-      contrastingColor: resolvedBackgroundColor.selectedColor,
-    };
-  }
-
-  if (color && resolveThemeColorCssValue(color)) {
-    return color;
-  }
-
-  return {
-    selectedColor: backgroundIsDark ? "white" : "black",
-    contrastingColor: resolvedBackgroundColor.selectedColor,
-  };
-};
-
-const hasImageSource = (image: unknown): image is VisualEditorImageValue => {
-  if (!image || typeof image !== "object") {
-    return false;
-  }
-
-  if ("url" in image && typeof image.url === "string" && image.url.trim()) {
-    return true;
-  }
-
-  if (!("image" in image)) {
-    return false;
-  }
-
-  const nestedImage = image.image;
-
-  if (!nestedImage || typeof nestedImage !== "object") {
-    return false;
-  }
-
-  return (
-    "url" in nestedImage &&
-    typeof nestedImage.url === "string" &&
-    Boolean(nestedImage.url.trim())
-  );
 };
 
 const promoCss = `
@@ -521,72 +406,20 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
   const image = resolveComponentData(props.promoImage.image, imageLocale, streamDocument);
   const hasImage = hasImageSource(image);
   const promoImageHasAspectRatio = props.promoImage.aspectRatio > 0;
-  let bodyContent: React.ReactNode;
-
-  if (React.isValidElement(body)) {
-    bodyContent = body;
-  } else {
-    bodyContent = (
-      <MaybeRTF
-        data={
-          body as
-            | string
-            | {
-                html?: string;
-                json?: string;
-              }
-            | undefined
-        }
-      />
-    );
-  }
   const readableTextColor = resolveReadableTextColor(
     undefined,
     props.section?.backgroundColor,
     streamDocument,
   );
-  const headingStyle: React.CSSProperties = {
-    fontFamily:
-      props.heading.styles.fontFamily === "default"
-        ? undefined
-        : props.heading.styles.fontFamily,
-    fontSize:
-      props.heading.styles.fontSize === "default"
-        ? undefined
-        : props.heading.styles.fontSize,
-    fontWeight:
-      props.heading.styles.fontWeight === "default"
-        ? undefined
-        : props.heading.styles.fontWeight,
-    fontStyle:
-      props.heading.styles.fontStyle === "default"
-        ? undefined
-        : props.heading.styles.fontStyle,
-    textTransform:
-      props.heading.styles.textTransform === "default"
-        ? undefined
-        : props.heading.styles.textTransform,
-    color: resolveThemeColorCssValue(props.heading.fontColor) ?? readableTextColor,
-  };
+  const headingStyle = getTextStyles(
+    props.heading.styles,
+    props.heading.fontColor,
+    readableTextColor,
+  );
   const bodyStyleOverrides = {
     color: resolveThemeColorCssValue(props.body.fontColor) ?? readableTextColor,
   };
-  if (!React.isValidElement(body)) {
-    bodyContent = (
-      <MaybeRTF
-        data={
-          body as
-            | string
-            | {
-                html?: string;
-                json?: string;
-              }
-            | undefined
-        }
-        richTextStyleOverrides={bodyStyleOverrides}
-      />
-    );
-  }
+  const bodyContent = renderResolvedRichText(body, bodyStyleOverrides);
   const ctaClassName = `luxury-seasonal-promo__cta ${
     props.cta.styles.variant === "link"
       ? "luxury-seasonal-promo__cta--underlined"
@@ -598,6 +431,10 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
     streamDocument,
     props.cta.styles.variant,
   );
+  const sectionStyle = getSurfaceColorStyle(
+    props.section?.backgroundColor,
+    streamDocument,
+  );
 
   return (
     <AnalyticsScopeProvider
@@ -608,11 +445,11 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
         isEditing={props.puck.isEditing}
       >
         <style>{promoCss}</style>
-        <section
+        <Background
+          as="section"
+          background={props.section.backgroundColor}
           className="luxury-seasonal-promo"
-          style={{
-            backgroundColor: resolveThemeColorCssValue(props.section?.backgroundColor),
-          }}
+          style={sectionStyle}
         >
           <div className="luxury-seasonal-promo__inner">
           <div
@@ -660,13 +497,7 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
             {hasImage ? (
               <div
                 className="luxury-seasonal-promo__image-shell"
-                style={
-                  {
-                    backgroundColor: resolveThemeColorCssValue(
-                      props.section?.backgroundColor,
-                    ),
-                  } as React.CSSProperties
-                }
+                style={sectionStyle}
               >
                 <div className="luxury-seasonal-promo__image-surface">
                   <EntityField
@@ -721,7 +552,7 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
             ) : null}
           </div>
           </div>
-        </section>
+        </Background>
       </VisibilityWrapper>
     </AnalyticsScopeProvider>
   );

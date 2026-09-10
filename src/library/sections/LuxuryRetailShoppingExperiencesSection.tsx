@@ -3,17 +3,16 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
+  Background,
   ComprehensiveCTA,
   createItemSource,
   EntityField,
-  MaybeRTF,
   getDefaultRTF,
   getAnalyticsScopeHash,
-  isDarkColor,
+  getSurfaceColorStyle,
   resolveComponentData,
   useDocument,
   type StyledImageValue,
-  type StyledTextValue,
   type ComprehensiveCTAValue,
   type EnhancedTranslatableCTA,
   type ThemeColor,
@@ -29,12 +28,16 @@ import {
 } from "@yext/visual-editor";
 import { AnalyticsScopeProvider } from "@yext/pages-components";
 import { useTranslation } from "react-i18next";
-
-type StyledTextProps = {
-  text: YextEntityField<TranslatableString>;
-  styles: StyledTextValue;
-  fontColor?: ThemeColor;
-};
+import {
+  getReadableTextColor as resolveReadableTextColor,
+  getReadableThemeColor as resolveReadableThemeColor,
+  getTextStyles,
+  getThemeColorCssValue as resolveThemeColorCssValue,
+  hasImageSource,
+  renderResolvedRichText,
+  resolveBorderRadius,
+  type StyledTextProps,
+} from "../shared/sectionHelpers";
 
 type SharedCardTextStyles = Omit<StyledTextProps, "text">;
 
@@ -174,10 +177,6 @@ type LuxuryRetailShoppingExperiencesSectionProps = {
   };
 };
 
-type VisualEditorImageValue = NonNullable<
-  React.ComponentProps<typeof Image>["image"]
->;
-
 const LuxuryRetailShoppingExperiencesSectionFields: YextFields<LuxuryRetailShoppingExperiencesSectionProps> =
   {
     section: {
@@ -306,115 +305,6 @@ const LuxuryRetailShoppingExperiencesSectionFields: YextFields<LuxuryRetailShopp
       },
     },
   };
-
-const resolveThemeColorCssValue = (color?: ThemeColor): string | undefined => {
-  if (!color?.selectedColor || color.selectedColor === "default") {
-    return undefined;
-  }
-
-  switch (color?.selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    default:
-      return color?.selectedColor;
-  }
-};
-
-const resolveReadableTextColor = (
-  fontColor: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-): string => {
-  return (
-    resolveThemeColorCssValue(fontColor) ??
-    (isDarkColor(
-      backgroundColor ?? {
-        selectedColor: "white",
-        contrastingColor: "palette-quaternary",
-      },
-      streamDocument,
-    )
-      ? "#FFFFFF"
-      : "#000000")
-  );
-};
-
-const resolveReadableThemeColor = (
-  color: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-  variant?: ComprehensiveCTAValue["styles"]["variant"],
-): ThemeColor => {
-  const resolvedBackgroundColor = backgroundColor ?? {
-    selectedColor: "white",
-    contrastingColor: "palette-quaternary",
-  };
-  const backgroundIsDark = isDarkColor(resolvedBackgroundColor, streamDocument);
-
-  if (variant === "secondary" && backgroundIsDark) {
-    return {
-      selectedColor: "white",
-      contrastingColor: resolvedBackgroundColor.selectedColor,
-    };
-  }
-
-  if (color && resolveThemeColorCssValue(color)) {
-    return color;
-  }
-
-  return {
-    selectedColor: backgroundIsDark ? "white" : "black",
-    contrastingColor: resolvedBackgroundColor.selectedColor,
-  };
-};
-
-const hasImageSource = (image: unknown): image is VisualEditorImageValue => {
-  if (!image || typeof image !== "object") {
-    return false;
-  }
-
-  if ("url" in image && typeof image.url === "string" && image.url.trim()) {
-    return true;
-  }
-
-  if (!("image" in image)) {
-    return false;
-  }
-
-  const nestedImage = image.image;
-
-  if (!nestedImage || typeof nestedImage !== "object") {
-    return false;
-  }
-
-  return (
-    "url" in nestedImage &&
-    typeof nestedImage.url === "string" &&
-    Boolean(nestedImage.url.trim())
-  );
-};
 
 const sectionCss = `
   .luxury-experiences :where(p) {
@@ -683,30 +573,15 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
     props.section?.backgroundColor,
     streamDocument,
   );
-  const titleStyle: React.CSSProperties = {
-    fontFamily:
-      props.title.styles.fontFamily === "default"
-        ? undefined
-        : props.title.styles.fontFamily,
-    fontSize:
-      props.title.styles.fontSize === "default"
-        ? undefined
-        : props.title.styles.fontSize,
-    fontWeight:
-      props.title.styles.fontWeight === "default"
-        ? undefined
-        : props.title.styles.fontWeight,
-    fontStyle:
-      props.title.styles.fontStyle === "default"
-        ? undefined
-        : props.title.styles.fontStyle,
-    textTransform:
-      props.title.styles.textTransform === "default"
-        ? undefined
-        : props.title.styles.textTransform,
-    color:
-      resolveThemeColorCssValue(props.title.fontColor) ?? readableTextColor,
-  };
+  const sectionStyle = getSurfaceColorStyle(
+    props.section?.backgroundColor,
+    streamDocument,
+  );
+  const titleStyle = getTextStyles(
+    props.title.styles,
+    props.title.fontColor,
+    readableTextColor,
+  );
 
   return (
     <AnalyticsScopeProvider
@@ -717,13 +592,11 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
         isEditing={props.puck.isEditing}
       >
         <style>{sectionCss}</style>
-        <section
+        <Background
+          as="section"
+          background={props.section.backgroundColor}
           className="luxury-experiences"
-          style={{
-            backgroundColor: resolveThemeColorCssValue(
-              props.section?.backgroundColor,
-            ),
-          }}
+          style={sectionStyle}
         >
           <div className="luxury-experiences__inner">
             <div className="luxury-experiences__content">
@@ -772,71 +645,21 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
                           card.description,
                           locale,
                           streamDocument,
-                          { richTextStyleOverrides: descriptionStyleOverrides },
                         )
                       : undefined;
-                    const eyebrowStyle: React.CSSProperties = {
-                      fontFamily:
-                        props.cards.styles.eyebrow.styles.fontFamily ===
-                        "default"
-                          ? undefined
-                          : props.cards.styles.eyebrow.styles.fontFamily,
-                      fontSize:
-                        props.cards.styles.eyebrow.styles.fontSize === "default"
-                          ? undefined
-                          : props.cards.styles.eyebrow.styles.fontSize,
-                      fontWeight:
-                        props.cards.styles.eyebrow.styles.fontWeight ===
-                        "default"
-                          ? undefined
-                          : props.cards.styles.eyebrow.styles.fontWeight,
-                      fontStyle:
-                        props.cards.styles.eyebrow.styles.fontStyle ===
-                        "default"
-                          ? undefined
-                          : props.cards.styles.eyebrow.styles.fontStyle,
-                      textTransform:
-                        props.cards.styles.eyebrow.styles.textTransform ===
-                        "default"
-                          ? undefined
-                          : props.cards.styles.eyebrow.styles.textTransform,
-                      color:
-                        resolveThemeColorCssValue(
-                          props.cards.styles.eyebrow.fontColor,
-                        ) ?? readableTextColor,
-                    };
-                    const cardTitleStyle: React.CSSProperties = {
-                      fontFamily:
-                        props.cards.styles.title.styles.fontFamily === "default"
-                          ? undefined
-                          : props.cards.styles.title.styles.fontFamily,
-                      fontSize:
-                        props.cards.styles.title.styles.fontSize === "default"
-                          ? undefined
-                          : props.cards.styles.title.styles.fontSize,
-                      fontWeight:
-                        props.cards.styles.title.styles.fontWeight === "default"
-                          ? undefined
-                          : props.cards.styles.title.styles.fontWeight,
-                      fontStyle:
-                        props.cards.styles.title.styles.fontStyle === "default"
-                          ? undefined
-                          : props.cards.styles.title.styles.fontStyle,
-                      textTransform:
-                        props.cards.styles.title.styles.textTransform ===
-                        "default"
-                          ? undefined
-                          : props.cards.styles.title.styles.textTransform,
-                      color:
-                        resolveThemeColorCssValue(
-                          props.cards.styles.title.fontColor,
-                        ) ?? readableTextColor,
-                    };
-                    const imageBorderRadius =
-                      props.cards.styles.image.styles?.borderRadius ===
-                      "default"
-                        ? undefined
-                        : props.cards.styles.image.styles?.borderRadius;
+                    const eyebrowStyle = getTextStyles(
+                      props.cards.styles.eyebrow.styles,
+                      props.cards.styles.eyebrow.fontColor,
+                      readableTextColor,
+                    );
+                    const cardTitleStyle = getTextStyles(
+                      props.cards.styles.title.styles,
+                      props.cards.styles.title.fontColor,
+                      readableTextColor,
+                    );
+                    const imageBorderRadius = resolveBorderRadius(
+                      props.cards.styles.image.styles?.borderRadius,
+                    );
                     const cardImageHasAspectRatio =
                       props.cards.styles.image.aspectRatio > 0;
                     const cardCtaColor = resolveReadableThemeColor(
@@ -908,21 +731,9 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
                           className={`luxury-experiences__body${hasCardImage ? "" : " luxury-experiences__body--no-image"}`}
                           style={{ color: descriptionStyleOverrides.color }}
                         >
-                          {React.isValidElement(description) ? (
-                            description
-                          ) : (
-                            <MaybeRTF
-                              data={
-                                description as
-                                  | string
-                                  | {
-                                      html?: string;
-                                      json?: string;
-                                    }
-                                  | undefined
-                              }
-                              richTextStyleOverrides={descriptionStyleOverrides}
-                            />
+                          {renderResolvedRichText(
+                            description,
+                            descriptionStyleOverrides,
                           )}
                           {card.cta ? (
                             <ComprehensiveCTA
@@ -959,7 +770,7 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
               </EntityField>
             </div>
           </div>
-        </section>
+        </Background>
       </VisibilityWrapper>
     </AnalyticsScopeProvider>
   );
@@ -968,7 +779,9 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
 export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryRetailShoppingExperiencesSectionProps> =
   {
     label: "Shopping Experiences Section",
-    fields: toPuckFields(LuxuryRetailShoppingExperiencesSectionFields),
+    fields: toPuckFields<LuxuryRetailShoppingExperiencesSectionProps>(
+      LuxuryRetailShoppingExperiencesSectionFields,
+    ),
     defaultProps: {
       title: {
         text: {

@@ -2,12 +2,12 @@ import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
-import { parsePhoneNumber } from "awesome-phonenumber";
 import {
+  Background,
   EntityField,
   MapboxStaticMapComponent,
   getAnalyticsScopeHash,
-  isDarkColor,
+  getSurfaceColorStyle,
   mapboxStaticMapStyleOptions,
   mergeMeta,
   resolveComponentData,
@@ -15,9 +15,7 @@ import {
   useDocument,
   useNearbyLocations,
   useTemplateProps,
-  type StyledTextValue,
   type ThemeColor,
-  type TranslatableString,
   type YextComponentConfig,
   type YextEntityField,
   type YextFields,
@@ -30,12 +28,12 @@ import {
   type AddressType,
   type Coordinate,
 } from "@yext/pages-components";
-
-type StyledTextProps = {
-  text: YextEntityField<TranslatableString>;
-  styles: StyledTextValue;
-  fontColor?: ThemeColor;
-};
+import {
+  formatPhoneNumber,
+  getReadableTextColor as resolveReadableTextColor,
+  getTextStyles,
+  type StyledTextProps,
+} from "../shared/sectionHelpers";
 
 type NearbyPhoneFieldProps = {
   phoneFormat: "international" | "domestic";
@@ -78,16 +76,6 @@ type LuxuryRetailNearbyStoresSectionProps = {
     visibleOnLivePage: boolean;
   };
 };
-
-const MapboxStaticMapRuntime =
-  MapboxStaticMapComponent as React.ComponentType<{
-    apiKey: string;
-    coordinate: YextEntityField<Coordinate>;
-    mapStyle: string;
-    zoom?: number;
-    height?: string;
-    editMode?: boolean;
-  }>;
 
 const LuxuryRetailNearbyStoresSectionFields: YextFields<
   LuxuryRetailNearbyStoresSectionProps
@@ -481,85 +469,6 @@ const nearbyCss = `
   }
 `;
 
-function resolveThemeColorCssValue(color?: ThemeColor): string | undefined {
-  if (!color?.selectedColor || color.selectedColor === "default") {
-    return undefined;
-  }
-
-  switch (color?.selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    default:
-      return color?.selectedColor;
-  }
-}
-
-function resolveReadableTextColor(
-  fontColor: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-): string | undefined {
-  return (
-    resolveThemeColorCssValue(fontColor) ??
-    (isDarkColor(
-      backgroundColor ?? {
-        selectedColor: "white",
-        contrastingColor: "palette-quaternary",
-      },
-      streamDocument,
-    )
-      ? resolveThemeColorCssValue({
-          selectedColor: "white",
-          contrastingColor: "black",
-        })
-      : resolveThemeColorCssValue({
-          selectedColor: "black",
-          contrastingColor: "white",
-        }))
-  );
-}
-
-function formatNearbyPhoneNumber(
-  phoneNumberString: string,
-  format: "international" | "domestic",
-): string {
-  const cleanedPhoneNumberString = phoneNumberString.replace(
-    /(?!^\+)\+|[^\d+]/g,
-    "",
-  );
-  const parsedPhoneNumber = parsePhoneNumber(cleanedPhoneNumberString);
-
-  if (!parsedPhoneNumber.valid || parsedPhoneNumber.number === undefined) {
-    return phoneNumberString;
-  }
-
-  return format === "international"
-    ? parsedPhoneNumber.number.international
-    : parsedPhoneNumber.number.national;
-}
-
 const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
   LuxuryRetailNearbyStoresSectionProps
 > = ({ id, ...props }) => {
@@ -587,34 +496,18 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
     props.section?.backgroundColor,
     streamDocument,
   );
-  const titleStyle: React.CSSProperties = {
-    fontFamily:
-      props.title.styles.fontFamily === "default"
-        ? undefined
-        : props.title.styles.fontFamily,
-    fontSize:
-      props.title.styles.fontSize === "default"
-        ? undefined
-        : props.title.styles.fontSize,
-    fontWeight:
-      props.title.styles.fontWeight === "default"
-        ? undefined
-        : props.title.styles.fontWeight,
-    fontStyle:
-      props.title.styles.fontStyle === "default"
-        ? undefined
-        : props.title.styles.fontStyle,
-    textTransform:
-      props.title.styles.textTransform === "default"
-        ? undefined
-        : props.title.styles.textTransform,
-    color: sectionTitleColor,
-  };
-  const sectionBackgroundColor = resolveThemeColorCssValue(
-    props.section?.backgroundColor,
+  const titleStyle = getTextStyles(
+    props.title.styles,
+    props.title.fontColor,
+    sectionTitleColor,
   );
-  const cardBackgroundColor = resolveThemeColorCssValue(
+  const sectionStyle = getSurfaceColorStyle(
+    props.section?.backgroundColor,
+    streamDocument,
+  );
+  const cardStyle = getSurfaceColorStyle(
     props.cardBackgroundColor,
+    streamDocument,
   );
   const cardTextColor = resolveReadableTextColor(
     props.cardTextColor,
@@ -628,18 +521,6 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
     enableNearbyLocations &&
     status !== "pending" &&
     (!docs.length || status !== "success");
-  let mapboxApiKey = streamDocument._env?.YEXT_MAPBOX_API_KEY;
-  if (typeof window !== "undefined") {
-    const iframe = window.frameElement;
-    if (
-      iframe instanceof HTMLIFrameElement &&
-      iframe.contentDocument &&
-      streamDocument._env?.YEXT_EDIT_LAYOUT_MODE_MAPBOX_API_KEY
-    ) {
-      mapboxApiKey = streamDocument._env.YEXT_EDIT_LAYOUT_MODE_MAPBOX_API_KEY;
-    }
-  }
-
   return (
     <AnalyticsScopeProvider
       name={`LuxuryRetailNearbyStoresSection${getAnalyticsScopeHash(id)}`}
@@ -655,11 +536,11 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
         ) : (
           <>
         <style>{nearbyCss}</style>
-        <section
+        <Background
+          as="section"
+          background={props.section.backgroundColor}
           className="luxury-nearby"
-          style={{
-            backgroundColor: sectionBackgroundColor,
-          }}
+          style={sectionStyle}
         >
           <div className="luxury-nearby__inner">
           <EntityField
@@ -679,13 +560,13 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
                 fieldId={props.map.coordinate.field}
                 constantValueEnabled={props.map.coordinate.constantValueEnabled}
               >
-                <MapboxStaticMapRuntime
-                  apiKey={mapboxApiKey ?? ""}
+                <MapboxStaticMapComponent
                   coordinate={props.map.coordinate}
                   mapStyle={props.map.mapStyle}
                   zoom={props.map.zoom}
                   height={props.map.height}
-                  editMode={props.editMode}
+                  puck={props.puck}
+                  id={`${id}-map`}
                 />
               </EntityField>
             </div>
@@ -723,7 +604,7 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
                   : "";
               const telDigits = resolvedMainPhone.replace(/\D/g, "");
               const formattedPhoneNumber = resolvedMainPhone
-                ? formatNearbyPhoneNumber(
+                ? formatPhoneNumber(
                     resolvedMainPhone,
                     props.phone.phoneFormat,
                   )
@@ -737,7 +618,7 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
                   className={`luxury-nearby__card luxury-nearby__card--with-background"`}
                   key={locationData.id ?? locationData.name ?? index}
                   style={{
-                    backgroundColor: cardBackgroundColor,
+                    ...cardStyle,
                     color: cardTextColor,
                   }}
                 >
@@ -821,7 +702,7 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
             </div>
           ) : null}
           </div>
-        </section>
+        </Background>
           </>
         )}
       </VisibilityWrapper>

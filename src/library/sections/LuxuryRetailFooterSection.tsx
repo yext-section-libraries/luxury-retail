@@ -2,11 +2,11 @@ import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
-import { parsePhoneNumber } from "awesome-phonenumber";
 import {
+  Background,
   EntityField,
   getAnalyticsScopeHash,
-  isDarkColor,
+  getSurfaceColorStyle,
   msg,
   resolveComponentData,
   useDocument,
@@ -33,6 +33,11 @@ import {
   FaTiktok,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import {
+  formatPhoneNumber,
+  getReadableTextColor,
+  getThemeColorCssValue,
+} from "../shared/sectionHelpers";
 
 type FooterLink = {
   cta: YextCTAField;
@@ -174,61 +179,6 @@ function getCtaLinkData(
     link: link || fallbackLink || "#",
     linkType: resolvedLinkType ?? fallbackLinkType ?? "URL",
   };
-}
-
-function getThemeColorCssValue(color?: ThemeColor | string): string | undefined {
-  const selectedColor = typeof color === "string" ? color : color?.selectedColor;
-  if (!selectedColor || selectedColor === "default") {
-    return undefined;
-  }
-
-  switch (selectedColor) {
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    default:
-      return selectedColor;
-  }
-}
-
-function getReadableTextColor(
-  fontColor: ThemeColor | undefined,
-  backgroundColor: ThemeColor | undefined,
-  streamDocument: Record<string, unknown>,
-): string {
-  return (
-    getThemeColorCssValue(fontColor) ??
-    (isDarkColor(
-      backgroundColor ?? {
-        selectedColor: "white",
-        contrastingColor: "palette-quaternary",
-      },
-      streamDocument,
-    )
-      ? "#FFFFFF"
-      : "#000000")
-  );
 }
 
 const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps> =
@@ -625,6 +575,10 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
   const footerFontColor =
     getThemeColorCssValue(props.fontColor) ??
     getReadableTextColor(undefined, props.section?.backgroundColor, streamDocument);
+  const sectionStyle = getSurfaceColorStyle(
+    props.section?.backgroundColor,
+    streamDocument,
+  );
   const resolvedAddress = resolveComponentData(props.address, locale, streamDocument);
   const resolvedPhones = (props.phones.items ?? []).reduce<
     Array<{
@@ -643,17 +597,12 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
       return items;
     }
 
-    const parsed = parsePhoneNumber(normalizedNumber);
-    const formattedNumber =
-      parsed.valid && parsed.number
-        ? props.phones.phoneFormat === "international"
-          ? parsed.number.international
-          : parsed.number.national
-        : normalizedNumber;
-
     items.push({
       label: item.label.trim(),
-      formattedNumber,
+      formattedNumber: formatPhoneNumber(
+        normalizedNumber,
+        props.phones.phoneFormat,
+      ),
       telDigits: normalizedNumber.replace(/\D/g, ""),
       fieldId: item.number.field,
       constantValueEnabled: item.number.constantValueEnabled,
@@ -671,11 +620,11 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
         isEditing={props.puck.isEditing}
       >
         <style>{footerCss}</style>
-        <div
+        <Background
+          as="div"
+          background={props.section.backgroundColor}
           className="luxury-footer-section"
-          style={{
-            backgroundColor: getThemeColorCssValue(props.section?.backgroundColor),
-          }}
+          style={sectionStyle}
         >
           <footer className="luxury-footer">
             <div
@@ -823,7 +772,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
               </div>
             </div>
           </footer>
-        </div>
+        </Background>
       </VisibilityWrapper>
     </AnalyticsScopeProvider>
   );

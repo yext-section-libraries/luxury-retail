@@ -3,23 +3,20 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
+  Background,
   ComprehensiveCTA,
   EntityField,
   getAnalyticsScopeHash,
   getDefaultRTF,
   getAggregateRating,
+  getSurfaceColorStyle,
   Image,
-  isDarkColor,
-  MaybeRTF,
   resolveComponentData,
   useDocument,
   type ComprehensiveCTAValue,
   type StyledImageValue,
-  type StyledTextValue,
   type ThemeColor,
   type TranslatableAssetImage,
-  type TranslatableRichText,
-  type TranslatableString,
   type YextComponentConfig,
   type YextEntityField,
   type YextFields,
@@ -28,17 +25,15 @@ import {
 import { AnalyticsScopeProvider, HoursStatus, type HoursType } from "@yext/pages-components";
 import { FaStar } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-
-type StyledTextProps = {
-  text: YextEntityField<TranslatableString>;
-  styles: StyledTextValue;
-  fontColor?: ThemeColor;
-};
-
-type StyledRtfProps = {
-  text: YextEntityField<TranslatableRichText>;
-  fontColor?: ThemeColor;
-};
+import {
+  getReadableTextColor as resolveReadableTextColor,
+  getReadableThemeColor as resolveReadableThemeColor,
+  getTextStyles as resolveTextStyles,
+  hasImageSource,
+  renderResolvedRichText,
+  type StyledRtfProps,
+  type StyledTextProps,
+} from "../shared/sectionHelpers";
 
 type HeroImageProps = {
   image: YextEntityField<TranslatableAssetImage>;
@@ -73,8 +68,6 @@ type LuxuryRetailHeroSectionProps = {
     visibleOnLivePage: boolean;
   };
 };
-
-type VisualEditorImageValue = NonNullable<React.ComponentProps<typeof Image>["image"]>;
 
 const LuxuryRetailHeroSectionFields: YextFields<LuxuryRetailHeroSectionProps> = {
   section: {
@@ -255,117 +248,6 @@ const LuxuryRetailHeroSectionFields: YextFields<LuxuryRetailHeroSectionProps> = 
       },
     },
   },
-};
-
-const resolveThemeColorCssValue = (color?: ThemeColor): string | undefined => {
-  if (!color?.selectedColor || color.selectedColor === "default") {
-    return undefined;
-  }
-
-  switch (color?.selectedColor) {
-    case "palette-primary":
-      return "var(--colors-palette-primary)";
-    case "palette-secondary":
-      return "var(--colors-palette-secondary)";
-    case "palette-tertiary":
-      return "var(--colors-palette-tertiary)";
-    case "palette-quaternary":
-      return "var(--colors-palette-quaternary)";
-    case "palette-primary-light":
-      return "hsl(from var(--colors-palette-primary) h s 98)";
-    case "palette-secondary-light":
-      return "hsl(from var(--colors-palette-secondary) h s 98)";
-    case "palette-tertiary-light":
-      return "hsl(from var(--colors-palette-tertiary) h s 98)";
-    case "palette-quaternary-light":
-      return "hsl(from var(--colors-palette-quaternary) h s 98)";
-    case "palette-primary-dark":
-      return "hsl(from var(--colors-palette-primary) h s 20)";
-    case "palette-secondary-dark":
-      return "hsl(from var(--colors-palette-secondary) h s 20)";
-    case "white":
-      return "#FFFFFF";
-    case "black":
-      return "#000000";
-    default:
-      return color?.selectedColor;
-  }
-};
-
-const resolveTextStyles = (styles: StyledTextValue): React.CSSProperties => ({
-  fontFamily: styles.fontFamily === "default" ? undefined : styles.fontFamily,
-  fontSize: styles.fontSize === "default" ? undefined : styles.fontSize,
-  fontWeight: styles.fontWeight === "default" ? undefined : styles.fontWeight,
-  fontStyle: styles.fontStyle === "default" ? undefined : styles.fontStyle,
-  textTransform:
-    styles.textTransform === "default" ? undefined : styles.textTransform,
-});
-
-const resolveReadableTextColor = (
-  fontColor: ThemeColor | undefined,
-  backgroundColor: ThemeColor,
-  streamDocument: Record<string, unknown>,
-): string | undefined => {
-  const explicitFontColor = resolveThemeColorCssValue(fontColor);
-  if (explicitFontColor) {
-    return explicitFontColor;
-  }
-
-  if (isDarkColor(backgroundColor, streamDocument)) {
-    return "#FFFFFF";
-  }
-
-  return "#000000";
-};
-
-const resolveReadableThemeColor = (
-  color: ThemeColor | undefined,
-  backgroundColor: ThemeColor,
-  streamDocument: Record<string, unknown>,
-  variant?: ComprehensiveCTAValue["styles"]["variant"],
-): ThemeColor => {
-  const backgroundIsDark = isDarkColor(backgroundColor, streamDocument);
-  if (variant === "secondary" && backgroundIsDark) {
-    return {
-      selectedColor: "white",
-      contrastingColor: backgroundColor.selectedColor,
-    };
-  }
-
-  if (color && resolveThemeColorCssValue(color)) {
-    return color;
-  }
-
-  return {
-    selectedColor: backgroundIsDark ? "white" : "black",
-    contrastingColor: backgroundColor.selectedColor,
-  };
-};
-
-const hasImageSource = (image: unknown): image is VisualEditorImageValue => {
-  if (!image || typeof image !== "object") {
-    return false;
-  }
-
-  if ("url" in image && typeof image.url === "string" && image.url.trim()) {
-    return true;
-  }
-
-  if (!("image" in image)) {
-    return false;
-  }
-
-  const nestedImage = image.image;
-
-  if (!nestedImage || typeof nestedImage !== "object") {
-    return false;
-  }
-
-  return (
-    "url" in nestedImage &&
-    typeof nestedImage.url === "string" &&
-    Boolean(nestedImage.url.trim())
-  );
 };
 
 const heroCss = `
@@ -684,15 +566,6 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
     props.body.text,
     locale,
     liveStreamDocument,
-    {
-      richTextStyleOverrides: {
-        color: resolveReadableTextColor(
-          props.body.fontColor,
-          props.section?.backgroundColor,
-          liveStreamDocument,
-        ),
-      },
-    },
   );
   const resolvedImage = resolveComponentData(
     props.heroImage.image,
@@ -729,32 +602,13 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
     objectFit: props.heroImage.imageConstrain === "filled" ? "cover" : "contain",
     objectPosition: "center",
   };
-  let resolvedBodyContent: React.ReactNode;
-
-  if (React.isValidElement(resolvedBody)) {
-    resolvedBodyContent = resolvedBody;
-  } else {
-    resolvedBodyContent = (
-      <MaybeRTF
-        data={
-          resolvedBody as
-            | string
-            | {
-                html?: string;
-                json?: string;
-              }
-            | undefined
-        }
-        richTextStyleOverrides={{
-          color: resolveReadableTextColor(
-            props.body.fontColor,
-            props.section?.backgroundColor,
-            liveStreamDocument,
-          ),
-        }}
-      />
-    );
-  }
+  const resolvedBodyContent = renderResolvedRichText(resolvedBody, {
+    color: resolveReadableTextColor(
+      props.body.fontColor,
+      props.section?.backgroundColor,
+      liveStreamDocument,
+    ),
+  });
   const { averageRating, reviewCount } = getAggregateRating(liveStreamDocument);
   const headingColor = resolveReadableTextColor(
     props.heading.fontColor,
@@ -789,6 +643,10 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
     liveStreamDocument,
     props.secondaryCta.styles.variant,
   );
+  const sectionStyle = getSurfaceColorStyle(
+    props.section?.backgroundColor,
+    liveStreamDocument,
+  );
 
   return (
     <AnalyticsScopeProvider
@@ -799,11 +657,11 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
         isEditing={puck.isEditing}
       >
         <style>{heroCss}</style>
-        <section
+        <Background
+          as="section"
+          background={props.section.backgroundColor}
           className="luxury-hero"
-          style={{
-            backgroundColor: resolveThemeColorCssValue(props.section?.backgroundColor),
-          }}
+          style={sectionStyle}
         >
           <div
             className={`luxury-hero__inner${hasHeroImage ? "" : " luxury-hero__inner--text-only"}`}
@@ -815,9 +673,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
               }`}
               style={{
                 ...heroImageShellStyle,
-                backgroundColor: resolveThemeColorCssValue(
-                  props.section?.backgroundColor,
-                ),
+                backgroundColor: sectionStyle?.backgroundColor,
                 borderRadius: heroImageBorderRadius,
               }}
             >
@@ -1001,7 +857,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
             </div>
           </div>
           </div>
-        </section>
+        </Background>
       </VisibilityWrapper>
     </AnalyticsScopeProvider>
   );
