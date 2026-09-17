@@ -3,6 +3,7 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
+  pt,
   Background,
   EntityField,
   getAnalyticsScopeHash,
@@ -184,26 +185,26 @@ function getCtaLinkData(
 const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps> =
   {
     section: {
-      label: "Section",
+      label: msg("fields.section", "Section"),
       type: "object",
       objectFields: {
         backgroundColor: {
-          label: "Background Color",
+          label: msg("fields.backgroundColor", "Background Color"),
           type: "basicSelector",
           options: "BACKGROUND_COLOR",
         },
         visibleOnLivePage: {
-          label: "Visible on Live Page",
+          label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
           type: "radio",
           options: [
-            { label: "Yes", value: true },
-            { label: "No", value: false },
+            { label: msg("fields.options.yes", "Yes"), value: true },
+            { label: msg("fields.options.no", "No"), value: false },
           ],
         },
       },
     },
     footerLinks: {
-      label: "Footer Links",
+      label: msg("fields.footerLinks", "Footer Links"),
       type: "array",
       arrayFields: {
         cta: {
@@ -220,7 +221,7 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
       getItemSummary: (item) => getCtaSummary(item.cta, "Footer Link"),
     },
     socialLinks: {
-      label: "Social Links",
+      label: msg("fields.socialLinks", "Social Links"),
       type: "array",
       arrayFields: {
         cta: {
@@ -231,14 +232,14 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
           },
         },
         icon: {
-          label: "Icon",
+          label: msg("fields.icon", "Icon"),
           type: "select",
           options: [
-            { label: "Facebook", value: "facebook" },
-            { label: "Instagram", value: "instagram" },
-            { label: "Pinterest", value: "pinterest" },
-            { label: "Snapchat", value: "snapchat" },
-            { label: "TikTok", value: "tiktok" },
+            { label: msg("fields.options.facebook", "Facebook"), value: "facebook" },
+            { label: msg("fields.options.instagram", "Instagram"), value: "instagram" },
+            { label: msg("fields.options.pinterest", "Pinterest"), value: "pinterest" },
+            { label: msg("fields.options.snapchat", "Snapchat"), value: "snapchat" },
+            { label: msg("fields.options.tiktok", "TikTok"), value: "tiktok" },
             { label: "X", value: "x" },
           ],
         },
@@ -250,7 +251,7 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
       getItemSummary: (item) => getCtaSummary(item.cta, "Social Link"),
     },
     websiteCta: {
-      label: "Website Link",
+      label: msg("fields.websiteLink", "Website Link"),
       type: "entityField",
       filter: {
         types: ["type.cta"],
@@ -258,44 +259,44 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
     },
     address: {
       type: "entityField",
-      label: "Address",
+      label: msg("fields.address", "Address"),
       filter: {
         types: ["type.address"],
       },
     },
     showRegion: {
-      label: "Show Region",
+      label: msg("fields.showRegion", "Show Region"),
       type: "radio",
       options: [
-        { label: "Yes", value: true },
-        { label: "No", value: false },
+        { label: msg("fields.options.yes", "Yes"), value: true },
+        { label: msg("fields.options.no", "No"), value: false },
       ],
     },
     showCountry: {
-      label: "Show Country",
+      label: msg("fields.showCountry", "Show Country"),
       type: "radio",
       options: [
-        { label: "Yes", value: true },
-        { label: "No", value: false },
+        { label: msg("fields.options.yes", "Yes"), value: true },
+        { label: msg("fields.options.no", "No"), value: false },
       ],
     },
     phones: {
-      label: "Phones",
+      label: msg("fields.phones", "Phones"),
       type: "object",
       objectFields: {
         items: {
-          label: "Items",
+          label: msg("fields.items", "Items"),
           type: "array",
           arrayFields: {
             number: {
               type: "entityField",
-              label: "Number",
+              label: msg("fields.number", "Number"),
               filter: {
                 types: ["type.phone"],
               },
             },
             label: {
-              label: "Label",
+              label: msg("fields.label", "Label"),
               type: "text",
             },
           },
@@ -310,25 +311,25 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
           getItemSummary: (item) => item.label || "Phone",
         },
         phoneFormat: {
-          label: "Phone Format",
+          label: msg("fields.phoneFormat", "Phone Format"),
           type: "radio",
           options: [
-            { label: "Domestic", value: "domestic" },
-            { label: "International", value: "international" },
+            { label: msg("fields.options.domestic", "Domestic"), value: "domestic" },
+            { label: msg("fields.options.international", "International"), value: "international" },
           ],
         },
         includeHyperlink: {
-          label: "Include Hyperlink",
+          label: msg("fields.includeHyperlink", "Include Hyperlink"),
           type: "radio",
           options: [
-            { label: "Yes", value: true },
-            { label: "No", value: false },
+            { label: msg("fields.options.yes", "Yes"), value: true },
+            { label: msg("fields.options.no", "No"), value: false },
           ],
         },
       },
     },
     fontColor: {
-      label: "Font Color",
+      label: msg("fields.fontColor", "Font Color"),
       type: "basicSelector",
       options: "SITE_COLOR",
     },
@@ -649,7 +650,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
                     return (
                       <EntityField
                         key={`${linkData.label}-${index}`}
-                        displayName="Footer Link"
+                        displayName={pt("footerLink", "Footer Link")}
                         fieldId={item.cta.field}
                         constantValueEnabled={item.cta.constantValueEnabled}
                       >
@@ -677,7 +678,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
                   return (
                     <EntityField
                       key={`${linkData.label}-${index}`}
-                      displayName="Social Link"
+                      displayName={pt("socialLink", "Social Link")}
                       fieldId={item.cta.field}
                       constantValueEnabled={item.cta.constantValueEnabled}
                     >
@@ -703,7 +704,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
               >
                 {resolvedAddress ? (
                   <EntityField
-                    displayName="Address"
+                    displayName={pt("address", "Address")}
                     fieldId={props.address.field}
                     constantValueEnabled={props.address.constantValueEnabled}
                   >
@@ -717,7 +718,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
                 {resolvedPhones.map((item) => (
                   <EntityField
                     key={`${item.fieldId}-${item.formattedNumber}`}
-                    displayName="Phone Number"
+                    displayName={pt("fields.phoneNumber", "Phone Number")}
                     fieldId={item.fieldId}
                     constantValueEnabled={item.constantValueEnabled}
                   >
@@ -750,7 +751,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
 
                   return (
                     <EntityField
-                      displayName="Website Link"
+                      displayName={pt("fields.websiteLink", "Website Link")}
                       fieldId={props.websiteCta.field}
                       constantValueEnabled={props.websiteCta.constantValueEnabled}
                     >
@@ -780,7 +781,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
 
 export const LuxuryRetailFooterSection: YextComponentConfig<LuxuryRetailFooterSectionProps> =
   {
-    label: "Footer Section",
+    label: msg("components.footerSection", "Footer Section"),
     fields: LuxuryRetailFooterSectionFields,
     defaultProps: {
       footerLinks: [

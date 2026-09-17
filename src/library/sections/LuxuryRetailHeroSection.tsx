@@ -3,6 +3,8 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
+  msg,
+  pt,
   Background,
   ComprehensiveCTA,
   EntityField,
@@ -34,6 +36,7 @@ import {
   type StyledRtfProps,
   type StyledTextProps,
 } from "../shared/sectionHelpers";
+import { createHoursStatusTemplate } from "../shared/components/contentBlocks/createHoursStatusTemplate";
 
 type HeroImageProps = {
   image: YextEntityField<TranslatableAssetImage>;
@@ -71,179 +74,179 @@ type LuxuryRetailHeroSectionProps = {
 
 const LuxuryRetailHeroSectionFields: YextFields<LuxuryRetailHeroSectionProps> = {
   section: {
-    label: "Section",
+    label: msg("fields.section", "Section"),
     type: "object",
     objectFields: {
       backgroundColor: {
-        label: "Background Color",
+        label: msg("fields.backgroundColor", "Background Color"),
         type: "basicSelector",
         options: "BACKGROUND_COLOR",
       },
       visibleOnLivePage: {
-        label: "Visible on Live Page",
+        label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   hours: {
     type: "entityField",
-    label: "Hours",
+    label: msg("fields.hours", "Hours"),
     filter: {
       types: ["type.hours"],
     },
     disableConstantValueToggle: true,
   },
   hoursStyles: {
-    label: "Hours Styles",
+    label: msg("fields.hoursStyles", "Hours Styles"),
     type: "object",
     objectFields: {
       showCurrentStatus: {
-        label: "Show Current Status",
+        label: msg("fields.showCurrentStatus", "Show Current Status"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
       timeFormat: {
-        label: "Time Format",
+        label: msg("fields.timeFormat", "Time Format"),
         type: "select",
         options: [
-          { label: "12 Hour", value: "12h" },
-          { label: "24 Hour", value: "24h" },
+          { label: msg("fields.options.hour12Label", "12 Hour"), value: "12h" },
+          { label: msg("fields.options.hour24Label", "24 Hour"), value: "24h" },
         ],
       },
       dayOfWeekFormat: {
-        label: "Day Of Week Format",
+        label: msg("fields.dayOfWeekFormat", "Day of Week Format"),
         type: "select",
         options: [
-          { label: "Short", value: "short" },
-          { label: "Long", value: "long" },
+          { label: msg("fields.options.short", "Short"), value: "short" },
+          { label: msg("fields.options.long", "Long"), value: "long" },
         ],
       },
       showDayNames: {
-        label: "Show Day Names",
+        label: msg("fields.showDayNames", "Show Day Names"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   heading: {
-    label: "Heading",
+    label: msg("fields.heading", "Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.string"],
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
     },
   },
   subheading: {
-    label: "Subheading",
+    label: msg("fields.subheading", "Subheading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.string"],
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
     },
   },
   body: {
-    label: "Body",
+    label: msg("fields.body", "Body"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.rich_text_v2"],
         },
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
     },
   },
   heroImage: {
-    label: "Hero Image",
+    label: msg("fields.heroImage", "Hero Image"),
     type: "object",
     objectFields: {
       image: {
         type: "entityField",
-        label: "Image",
+        label: msg("fields.image", "Image"),
         filter: {
           types: ["type.image"],
         },
       },
       aspectRatio: {
-        label: "Aspect Ratio",
+        label: msg("fields.aspectRatio", "Aspect Ratio"),
         type: "number",
       },
       imageConstrain: {
-        label: "Image Constrain",
+        label: msg("fields.imageConstrain", "Image Constrain"),
         type: "select",
         options: [
-          { label: "Fixed", value: "fixed" },
-          { label: "Filled", value: "filled" },
+          { label: msg("fields.options.fixed", "Fixed"), value: "fixed" },
+          { label: msg("fields.options.filled", "Filled"), value: "filled" },
         ],
       },
       styles: {
-        label: "Image Styles",
+        label: msg("fields.imageStyles", "Image Styles"),
         type: "styledImage",
       },
     },
   },
   primaryCta: {
-    label: "Primary CTA",
+    label: msg("fields.primaryCTA", "Primary CTA"),
     type: "comprehensiveCTA",
   },
   secondaryCta: {
-    label: "Secondary CTA",
+    label: msg("fields.secondaryCTA", "Secondary CTA"),
     type: "comprehensiveCTA",
   },
   ratingSummary: {
-    label: "Rating Summary",
+    label: msg("fields.ratingSummary", "Rating Summary"),
     type: "object",
     objectFields: {
       visible: {
-        label: "Visible",
+        label: msg("fields.visible", "Visible"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
@@ -548,7 +551,7 @@ const heroCss = `
 const LuxuryRetailHeroSectionComponent: PuckComponent<
   LuxuryRetailHeroSectionProps
 > = ({ id, puck, ...props }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const liveStreamDocument = useDocument<Record<string, unknown>>();
   const resolvedHeading = resolveComponentData(
@@ -678,7 +681,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
               }}
             >
               <EntityField
-                displayName="Hero Image"
+                displayName={pt("fields.heroImage", "Hero Image")}
                 fieldId={props.heroImage.image.field}
                 constantValueEnabled={props.heroImage.image.constantValueEnabled}
               >
@@ -699,7 +702,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
                 style={{ color: bodyColor }}
               >
                 <EntityField
-                  displayName="Hours"
+                  displayName={pt("hours", "Hours")}
                   fieldId={props.hours.field}
                   constantValueEnabled={props.hours.constantValueEnabled}
                 >
@@ -712,37 +715,16 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
                           : Intl.DateTimeFormat().resolvedOptions().timeZone
                       }
                       comingSoon={Boolean(liveStreamDocument.comingSoon)}
-                      currentTemplate={(status) => (
-                        <span>{status.isOpen ? "Open Now" : "Closed Now"}</span>
-                      )}
-                      separatorTemplate={() => <span>: </span>}
-                      futureTemplate={(status) => (
-                        <span>{status.isOpen ? "Closes at" : "Opens at"}</span>
-                      )}
-                      dayOfWeekTemplate={(status) =>
-                        props.hoursStyles.showDayNames ? (
-                          <span>
-                            {" "}
-                            {status.isOpen
-                              ? status.currentInterval?.end
-                                  ?.setLocale(locale)
-                                  .toLocaleString({
-                                    weekday:
-                                      props.hoursStyles.dayOfWeekFormat === "short"
-                                        ? "short"
-                                        : "long",
-                                  })
-                              : status.futureInterval?.start
-                                  ?.setLocale(locale)
-                                  .toLocaleString({
-                                    weekday:
-                                      props.hoursStyles.dayOfWeekFormat === "short"
-                                        ? "short"
-                                        : "long",
-                                  })}
-                          </span>
-                        ) : null
-                      }
+                      statusTemplate={createHoursStatusTemplate({
+                        t,
+                        locale,
+                        showCurrentStatus: props.hoursStyles.showCurrentStatus,
+                        showDayNames: props.hoursStyles.showDayNames,
+                        boldCurrentStatus: false,
+                      })}
+                      dayOptions={{
+                        weekday: props.hoursStyles.dayOfWeekFormat,
+                      }}
                       timeOptions={{
                         hour: "numeric",
                         minute: "2-digit",
@@ -754,7 +736,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
               </div>
 
               <EntityField
-                displayName="Heading"
+                displayName={pt("heading", "Heading")}
                 fieldId={props.heading.text.field}
                 constantValueEnabled={props.heading.text.constantValueEnabled}
               >
@@ -771,7 +753,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
 
               {hasSubheading ? (
                 <EntityField
-                  displayName="Subheading"
+                  displayName={pt("fields.subheading", "Subheading")}
                   fieldId={props.subheading.text.field}
                   constantValueEnabled={
                     props.subheading.text.constantValueEnabled
@@ -795,17 +777,23 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
               reviewCount > 0 ? (
                 <p
                   className={`luxury-hero__rating${hasSubheading ? "" : " luxury-hero__rating--after-heading"}`}
-                  aria-label="Store details"
+                  aria-label={t("storeDetails", "Store details")}
                   style={{ color: bodyColor }}
                 >
                   <FaStar aria-hidden="true" />
-                  {averageRating.toFixed(1)} stars from {reviewCount} customer
-                  reviews
+                  {t(
+                    "starsFromCustomerReviews",
+                    "{{averageRating}} stars from {{reviewCount}} customer reviews",
+                    {
+                      averageRating: averageRating.toFixed(1),
+                      reviewCount,
+                    },
+                  )}
                 </p>
               ) : null}
 
               <EntityField
-                displayName="Body"
+                displayName={pt("fields.body", "Body")}
                 fieldId={props.body.text.field}
                 constantValueEnabled={props.body.text.constantValueEnabled}
               >
@@ -816,7 +804,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
 
               <div className="luxury-hero__ctas">
                 <EntityField
-                  displayName="Primary Call to Action"
+                  displayName={pt("fields.primaryCallToAction", "Primary Call to Action")}
                   fieldId={props.primaryCta.data.cta.field}
                   constantValueEnabled={
                     props.primaryCta.data.cta.constantValueEnabled
@@ -835,7 +823,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
                   />
                 </EntityField>
                 <EntityField
-                  displayName="Secondary Call to Action"
+                  displayName={pt("fields.secondaryCallToAction", "Secondary Call to Action")}
                   fieldId={props.secondaryCta.data.cta.field}
                   constantValueEnabled={
                     props.secondaryCta.data.cta.constantValueEnabled
@@ -865,7 +853,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
 
 export const LuxuryRetailHeroSection: YextComponentConfig<LuxuryRetailHeroSectionProps> =
   {
-    label: "Hero Section",
+    label: msg("components.heroSection", "Hero Section"),
     fields: LuxuryRetailHeroSectionFields,
     defaultProps: {
       heading: {

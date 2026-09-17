@@ -1,14 +1,18 @@
 import { useTranslation } from "react-i18next";
 import { PuckComponent } from "@puckeditor/core";
-import { HoursType } from "@yext/pages-components";
+import {
+  HoursStatus as HoursStatusJS,
+  HoursType,
+} from "@yext/pages-components";
 import { useDocument } from "@yext/visual-editor/section-library-support";
 import { resolveComponentData } from "@yext/visual-editor/section-library-support";
 import { EntityField } from "@yext/visual-editor/section-library-support";
 import { YextEntityField } from "@yext/visual-editor/section-library-support";
 import { msg, pt } from "@yext/visual-editor/section-library-support";
-import { HoursStatusAtom } from "@yext/visual-editor/section-library-support";
 import { resolveDataFromParent } from "@yext/visual-editor/section-library-support";
+import { themeManagerCn } from "@yext/visual-editor/section-library-support";
 import { YextComponentConfig, YextFields } from "@yext/visual-editor/section-library-support";
+import { createHoursStatusTemplate } from "./createHoursStatusTemplate";
 
 export interface HoursStatusProps {
   data: {
@@ -101,12 +105,21 @@ const HoursStatusWrapper: PuckComponent<HoursStatusProps> = ({
   parentData,
 }) => {
   const streamDocument = useDocument();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const comingSoon = parentData?.comingSoon ?? !!streamDocument.comingSoon;
   const hours =
     parentData?.hours ??
     resolveComponentData(data.hours, i18n.language, streamDocument);
   const timezone = parentData?.timezone ?? streamDocument.timezone;
+  const className = themeManagerCn(
+    "components mb-2 font-body-fontFamily font-body-fontWeight",
+    styles.bodyVariant === "lg"
+      ? "text-body-lg-fontSize"
+      : styles.bodyVariant === "sm"
+        ? "text-body-sm-fontSize"
+        : "text-body-fontSize",
+    styles.className,
+  );
 
   return hours || comingSoon ? (
     <EntityField
@@ -114,16 +127,24 @@ const HoursStatusWrapper: PuckComponent<HoursStatusProps> = ({
       fieldId={data.hours.field}
       constantValueEnabled={!parentData && data.hours.constantValueEnabled}
     >
-      <HoursStatusAtom
+      <HoursStatusJS
         hours={hours ?? {}}
         comingSoon={comingSoon}
-        timezone={timezone}
-        className={styles.className}
-        showCurrentStatus={styles.showCurrentStatus}
-        showDayNames={styles.showDayNames}
-        timeFormat={styles.timeFormat}
-        dayOfWeekFormat={styles.dayOfWeekFormat}
-        bodyVariant={styles.bodyVariant}
+        timezone={timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone}
+        className={className}
+        statusTemplate={createHoursStatusTemplate({
+          t,
+          locale: i18n.language,
+          showCurrentStatus: styles.showCurrentStatus,
+          showDayNames: styles.showDayNames,
+          className,
+        })}
+        dayOptions={{ weekday: styles.dayOfWeekFormat ?? "long" }}
+        timeOptions={
+          styles.timeFormat
+            ? { hour12: styles.timeFormat === "12h" }
+            : undefined
+        }
       />
     </EntityField>
   ) : puck.isEditing ? (

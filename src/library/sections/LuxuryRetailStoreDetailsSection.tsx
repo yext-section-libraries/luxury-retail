@@ -3,6 +3,8 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
+  msg,
+  pt,
   Background,
   ComprehensiveCTA,
   EntityField,
@@ -88,85 +90,85 @@ const LuxuryRetailStoreDetailsSectionFields: YextFields<
   LuxuryRetailStoreDetailsSectionProps
 > = {
   section: {
-    label: "Section",
+    label: msg("fields.section", "Section"),
     type: "object",
     objectFields: {
       backgroundColor: {
-        label: "Background Color",
+        label: msg("fields.backgroundColor", "Background Color"),
         type: "basicSelector",
         options: "BACKGROUND_COLOR",
       },
       visibleOnLivePage: {
-        label: "Visible on Live Page",
+        label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   title: {
-    label: "Title",
+    label: msg("fields.title", "Title"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.string"],
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
     },
   },
   locationInformationHeading: {
-    label: "Location Information Heading",
+    label: msg("fields.locationInformationHeading", "Location Information Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.string"],
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
     },
   },
   addressHeading: {
-    label: "Address Heading",
+    label: msg("fields.addressHeading", "Address Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.string"],
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
@@ -174,66 +176,66 @@ const LuxuryRetailStoreDetailsSectionFields: YextFields<
   },
   address: {
     type: "entityField",
-    label: "Address",
+    label: msg("fields.address", "Address"),
     filter: {
       types: ["type.address"],
     },
   },
   showRegion: {
-    label: "Show Region",
+    label: msg("fields.showRegion", "Show Region"),
     type: "radio",
     options: [
-      { label: "Yes", value: true },
-      { label: "No", value: false },
+      { label: msg("fields.options.yes", "Yes"), value: true },
+      { label: msg("fields.options.no", "No"), value: false },
     ],
   },
   showCountry: {
-    label: "Show Country",
+    label: msg("fields.showCountry", "Show Country"),
     type: "radio",
     options: [
-      { label: "Yes", value: true },
-      { label: "No", value: false },
+      { label: msg("fields.options.yes", "Yes"), value: true },
+      { label: msg("fields.options.no", "No"), value: false },
     ],
   },
   mainPhoneHeading: {
-    label: "Main Phone Heading",
+    label: msg("fields.mainPhoneHeading", "Main Phone Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.string"],
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
     },
   },
   phones: {
-    label: "Phones",
+    label: msg("fields.phones", "Phones"),
     type: "object",
     objectFields: {
       items: {
-        label: "Items",
+        label: msg("fields.items", "Items"),
         type: "array",
         arrayFields: {
           number: {
             type: "entityField",
-            label: "Number",
+            label: msg("fields.number", "Number"),
             filter: {
               types: ["type.phone"],
             },
           },
           label: {
-            label: "Label",
+            label: msg("fields.label", "Label"),
             type: "text",
           },
         },
@@ -249,40 +251,40 @@ const LuxuryRetailStoreDetailsSectionFields: YextFields<
           item.label || item.number?.field || item.number?.constantValue || "Phone",
       },
       phoneFormat: {
-        label: "Phone Format",
+        label: msg("fields.phoneFormat", "Phone Format"),
         type: "radio",
         options: [
-          { label: "Domestic", value: "domestic" },
-          { label: "International", value: "international" },
+          { label: msg("fields.options.domestic", "Domestic"), value: "domestic" },
+          { label: msg("fields.options.international", "International"), value: "international" },
         ],
       },
       includeHyperlink: {
-        label: "Include Hyperlink",
+        label: msg("fields.includeHyperlink", "Include Hyperlink"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   storeHoursHeading: {
-    label: "Store Hours Heading",
+    label: msg("fields.storeHoursHeading", "Store Hours Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.string"],
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
@@ -290,106 +292,106 @@ const LuxuryRetailStoreDetailsSectionFields: YextFields<
   },
   hours: {
     type: "entityField",
-    label: "Hours",
+    label: msg("fields.hours", "Hours"),
     filter: {
       types: ["type.hours"],
     },
     disableConstantValueToggle: true,
   },
   hoursStyles: {
-    label: "Hours Styles",
+    label: msg("fields.hoursStyles", "Hours Styles"),
     type: "object",
     objectFields: {
       startOfWeek: {
-        label: "Start Of Week",
+        label: msg("fields.startOfWeek", "Start Of Week"),
         type: "select",
         options: [
-          { label: "Monday", value: "monday" },
-          { label: "Tuesday", value: "tuesday" },
-          { label: "Wednesday", value: "wednesday" },
-          { label: "Thursday", value: "thursday" },
-          { label: "Friday", value: "friday" },
-          { label: "Saturday", value: "saturday" },
-          { label: "Sunday", value: "sunday" },
-          { label: "Today", value: "today" },
+          { label: msg("monday", "Monday"), value: "monday" },
+          { label: msg("tuesday", "Tuesday"), value: "tuesday" },
+          { label: msg("wednesday", "Wednesday"), value: "wednesday" },
+          { label: msg("thursday", "Thursday"), value: "thursday" },
+          { label: msg("friday", "Friday"), value: "friday" },
+          { label: msg("saturday", "Saturday"), value: "saturday" },
+          { label: msg("sunday", "Sunday"), value: "sunday" },
+          { label: msg("fields.options.today", "Today"), value: "today" },
         ],
       },
       collapseDays: {
-        label: "Collapse Days",
+        label: msg("fields.collapseDays", "Collapse Days"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
       showAdditionalHoursText: {
-        label: "Show Additional Hours Text",
+        label: msg("fields.showAdditionalHoursText", "Show Additional Hours Text"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
       alignment: {
-        label: "Alignment",
+        label: msg("fields.alignment", "Alignment"),
         visible: false,
         type: "select",
         options: [
-          { label: "Start", value: "items-start" },
-          { label: "Center", value: "items-center" },
-          { label: "End", value: "items-end" },
+          { label: msg("fields.options.start", "Start"), value: "items-start" },
+          { label: msg("fields.options.center", "Center"), value: "items-center" },
+          { label: msg("fields.options.end", "End"), value: "items-end" },
         ],
       },
     },
   },
   servicesHeading: {
-    label: "Services Heading",
+    label: msg("fields.servicesHeading", "Services Heading"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: {
           types: ["type.string"],
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
     },
   },
   primaryCta: {
-    label: "Primary CTA",
+    label: msg("fields.primaryCTA", "Primary CTA"),
     type: "comprehensiveCTA",
   },
   secondaryCta: {
-    label: "Secondary CTA",
+    label: msg("fields.secondaryCTA", "Secondary CTA"),
     type: "comprehensiveCTA",
   },
   services: {
-    label: "Services",
+    label: msg("fields.services", "Services"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text List",
+        label: msg("fields.textList", "Text List"),
         filter: {
           types: ["type.string"],
           includeListsOnly: true,
         },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
@@ -708,8 +710,17 @@ const detailsCss = `
 const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
   LuxuryRetailStoreDetailsSectionProps
 > = ({ id, puck, ...props }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const locale = i18n.language;
+  const dayOfWeekNames: DayOfWeekNames = {
+    monday: t("monday", "Monday"),
+    tuesday: t("tuesday", "Tuesday"),
+    wednesday: t("wednesday", "Wednesday"),
+    thursday: t("thursday", "Thursday"),
+    friday: t("friday", "Friday"),
+    saturday: t("saturday", "Saturday"),
+    sunday: t("sunday", "Sunday"),
+  };
   const streamDocument = useDocument<Record<string, unknown>>();
   const resolvedTitle =
     resolveComponentData(props.title.text, locale, streamDocument) || "";
@@ -879,7 +890,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
           <div className="luxury-store-details__inner">
           <div className="luxury-store-details__content">
             <EntityField
-              displayName="Title"
+              displayName={pt("fields.title", "Title")}
               fieldId={props.title.text.field}
               constantValueEnabled={props.title.text.constantValueEnabled}
             >
@@ -894,7 +905,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
             <div className="luxury-store-details__grid">
               <article className="luxury-store-details__card">
                 <EntityField
-                  displayName="Location Information Heading"
+                  displayName={pt("fields.locationInformationHeading", "Location Information Heading")}
                   fieldId={props.locationInformationHeading.text.field}
                   constantValueEnabled={
                     props.locationInformationHeading.text.constantValueEnabled
@@ -910,7 +921,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
                 <div className="luxury-store-details__stack">
                   <div className="luxury-store-details__block">
                     <EntityField
-                      displayName="Address Heading"
+                      displayName={pt("fields.addressHeading", "Address Heading")}
                       fieldId={props.addressHeading.text.field}
                       constantValueEnabled={props.addressHeading.text.constantValueEnabled}
                     >
@@ -920,7 +931,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
                     </EntityField>
                     {resolvedAddress ? (
                       <EntityField
-                        displayName="Address"
+                        displayName={pt("address", "Address")}
                         fieldId={props.address.field}
                         constantValueEnabled={props.address.constantValueEnabled}
                       >
@@ -934,7 +945,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
                   </div>
                   <div className="luxury-store-details__block">
                     <EntityField
-                      displayName="Main Phone Heading"
+                      displayName={pt("fields.mainPhoneHeading", "Main Phone Heading")}
                       fieldId={props.mainPhoneHeading.text.field}
                       constantValueEnabled={props.mainPhoneHeading.text.constantValueEnabled}
                     >
@@ -946,7 +957,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
                       {resolvedPhoneItems.map((item) => (
                         <EntityField
                           key={`${item.label}-${item.originalNumber}`}
-                          displayName="Phone Number"
+                          displayName={pt("fields.phoneNumber", "Phone Number")}
                           fieldId={item.fieldId}
                           constantValueEnabled={item.constantValueEnabled}
                         >
@@ -978,7 +989,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
                 </div>
                 <div className="luxury-store-details__actions">
                   <EntityField
-                    displayName="Primary Call to Action"
+                    displayName={pt("fields.primaryCallToAction", "Primary Call to Action")}
                     fieldId={props.primaryCta.data.cta.field}
                     constantValueEnabled={
                       props.primaryCta.data.cta.constantValueEnabled
@@ -997,7 +1008,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
                     />
                   </EntityField>
                   <EntityField
-                    displayName="Secondary Call to Action"
+                    displayName={pt("fields.secondaryCallToAction", "Secondary Call to Action")}
                     fieldId={props.secondaryCta.data.cta.field}
                     constantValueEnabled={
                       props.secondaryCta.data.cta.constantValueEnabled
@@ -1020,7 +1031,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
 
               <article className="luxury-store-details__card luxury-store-details__card--hours">
                 <EntityField
-                  displayName="Store Hours Heading"
+                  displayName={pt("fields.storeHoursHeading", "Store Hours Heading")}
                   fieldId={props.storeHoursHeading.text.field}
                   constantValueEnabled={props.storeHoursHeading.text.constantValueEnabled}
                 >
@@ -1036,7 +1047,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
                 >
                   {resolvedHours ? (
                     <EntityField
-                      displayName="Hours"
+                      displayName={pt("hours", "Hours")}
                       fieldId={props.hours.field}
                       constantValueEnabled={props.hours.constantValueEnabled}
                     >
@@ -1044,8 +1055,15 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
                         <HoursTable
                           hours={resolvedHours}
                           comingSoon={Boolean(streamDocument.comingSoon)}
+                          dayOfWeekNames={dayOfWeekNames}
                           startOfWeek={props.hoursStyles.startOfWeek}
                           collapseDays={props.hoursStyles.collapseDays}
+                          intervalTranslations={{
+                            isClosed: t("closed", "Closed"),
+                            open24Hours: t("open24Hours", "Open 24 Hours"),
+                            reopenDate: t("reopenDate", "Reopen Date"),
+                            timeFormatLocale: i18n.language,
+                          }}
                         />
                         {props.hoursStyles.showAdditionalHoursText &&
                         additionalHoursText ? (
@@ -1059,7 +1077,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
 
               <article className="luxury-store-details__card luxury-store-details__card--services">
                 <EntityField
-                  displayName="Services Heading"
+                  displayName={pt("fields.servicesHeading", "Services Heading")}
                   fieldId={props.servicesHeading.text.field}
                   constantValueEnabled={props.servicesHeading.text.constantValueEnabled}
                 >
@@ -1071,7 +1089,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
                   </h3>
                 </EntityField>
                 <EntityField
-                  displayName="Services"
+                  displayName={pt("services", "Services")}
                   fieldId={props.services.text.field}
                   constantValueEnabled={props.services.text.constantValueEnabled}
                 >
@@ -1095,7 +1113,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
 
 export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailStoreDetailsSectionProps> =
   {
-    label: "Store Details Section",
+    label: msg("fields.storeDetailsSection", "Store Details Section"),
     fields: LuxuryRetailStoreDetailsSectionFields,
     defaultProps: {
       title: {

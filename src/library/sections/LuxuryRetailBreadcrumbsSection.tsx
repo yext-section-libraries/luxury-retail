@@ -2,7 +2,10 @@ import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
+import { useTranslation } from "react-i18next";
 import {
+  msg,
+  pt,
   Background,
   EntityField,
   VisibilityWrapper,
@@ -45,78 +48,78 @@ type StreamDocumentValue = Record<string, unknown> & {
 const LuxuryRetailBreadcrumbsSectionFields: YextFields<LuxuryRetailBreadcrumbsSectionProps> =
   {
     section: {
-      label: "Section",
+      label: msg("fields.section", "Section"),
       type: "object",
       objectFields: {
         backgroundColor: {
-          label: "Background Color",
+          label: msg("fields.backgroundColor", "Background Color"),
           type: "basicSelector",
           options: "BACKGROUND_COLOR",
         },
         visibleOnLivePage: {
-          label: "Visible on Live Page",
+          label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
           type: "radio",
           options: [
-            { label: "Yes", value: true },
-            { label: "No", value: false },
+            { label: msg("fields.options.yes", "Yes"), value: true },
+            { label: msg("fields.options.no", "No"), value: false },
           ],
         },
       },
     },
     rootLabel: {
-      label: "Root Label",
+      label: msg("fields.rootLabel", "Root Label"),
       type: "object",
       objectFields: {
         text: {
           type: "entityField",
-          label: "Text",
+          label: msg("fields.text", "Text"),
           filter: {
             types: ["type.string"],
           },
         },
         styles: {
-          label: "Text Styles",
+          label: msg("fields.textStyles", "Text Styles"),
           type: "styledText",
         },
         fontColor: {
-          label: "Font Color",
+          label: msg("fields.fontColor", "Font Color"),
           type: "basicSelector",
           options: "SITE_COLOR",
         },
       },
     },
     currentPage: {
-      label: "Current Page",
+      label: msg("fields.currentPage", "Current Page"),
       type: "object",
       objectFields: {
         text: {
           type: "entityField",
-          label: "Text",
+          label: msg("fields.text", "Text"),
           filter: {
             types: ["type.string"],
           },
         },
         styles: {
-          label: "Text Styles",
+          label: msg("fields.textStyles", "Text Styles"),
           type: "styledText",
         },
         fontColor: {
-          label: "Font Color",
+          label: msg("fields.fontColor", "Font Color"),
           type: "basicSelector",
           options: "SITE_COLOR",
         },
       },
     },
     includeCurrentLocation: {
-      label: "Include Current Location",
+      label: msg("fields.includeCurrentLocation", "Include Current Location"),
       type: "radio",
       options: [
-        { label: "Yes", value: true },
-        { label: "No", value: false },
+        { label: msg("fields.options.yes", "Yes"), value: true },
+        { label: msg("fields.options.no", "No"), value: false },
       ],
     },
     separator: {
-      label: "Separator",
+      label: msg("fields.separator", "Separator"),
       type: "text",
     },
   };
@@ -209,6 +212,7 @@ const breadcrumbsCss = `
 const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
   LuxuryRetailBreadcrumbsSectionProps
 > = (props) => {
+  const { t } = useTranslation();
   const streamDocument = useDocument() as StreamDocumentValue;
   const { relativePrefixToRoot } = useTemplateProps();
   const locale = streamDocument.locale ?? "en";
@@ -226,8 +230,10 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
           padding: "18px 24px",
         }}
       >
-        No breadcrumbs available (section will be hidden on live page). Create a
-        directory to enable breadcrumbs.
+        {pt(
+          "noBreadcrumbsAvailableEditor",
+          "No breadcrumbs available (section will be hidden on live page). Create a directory to enable breadcrumbs.",
+        )}
       </p>
     ) : (
       <></>
@@ -282,7 +288,10 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
         >
           <style>{breadcrumbsCss}</style>
           <div className="luxury-breadcrumbs__inner">
-            <nav className="luxury-breadcrumbs__nav" aria-label="Breadcrumb">
+            <nav
+              className="luxury-breadcrumbs__nav"
+              aria-label={t("breadcrumb", "Breadcrumb")}
+            >
               <ol className="luxury-breadcrumbs__list">
                 {visibleBreadcrumbs.map((breadcrumb, index) => {
                   const isRoot = index === 0;
@@ -333,7 +342,7 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
                       ) : null}
                       {isRoot ? (
                         <EntityField
-                          displayName="Root Label"
+                          displayName={pt("fields.rootLabel", "Root Label")}
                           fieldId={props.rootLabel.text.field}
                           constantValueEnabled={
                             props.rootLabel.text.constantValueEnabled
@@ -343,7 +352,7 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
                         </EntityField>
                       ) : isCurrent && props.includeCurrentLocation ? (
                         <EntityField
-                          displayName="Current Page"
+                          displayName={pt("fields.currentPage", "Current Page")}
                           fieldId={props.currentPage.text.field}
                           constantValueEnabled={
                             props.currentPage.text.constantValueEnabled
@@ -368,7 +377,7 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
 
 export const LuxuryRetailBreadcrumbsSection: YextComponentConfig<LuxuryRetailBreadcrumbsSectionProps> =
   {
-    label: "Breadcrumbs Section",
+    label: msg("components.breadcrumbsSection", "Breadcrumbs Section"),
     fields: LuxuryRetailBreadcrumbsSectionFields,
     defaultProps: {
       rootLabel: {
