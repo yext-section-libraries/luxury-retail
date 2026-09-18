@@ -3,6 +3,8 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
+  msg,
+  pt,
   Background,
   ComprehensiveCTA,
   createItemSource,
@@ -99,31 +101,31 @@ const createExperienceCard = (
 });
 
 const experienceCardsSource = createItemSource<ExperienceCardFields>({
-  label: "Cards",
+  label: msg("fields.cards", "Cards"),
   mappingFields: {
     eyebrow: {
       type: "entityField",
-      label: "Eyebrow",
+      label: msg("fields.eyebrow", "Eyebrow"),
       filter: { types: ["type.string"] },
     },
     title: {
       type: "entityField",
-      label: "Title",
+      label: msg("fields.title", "Title"),
       filter: { types: ["type.string"] },
     },
     description: {
       type: "entityField",
-      label: "Description",
+      label: msg("fields.description", "Description"),
       filter: { types: ["type.rich_text_v2"] },
     },
     cta: {
       type: "entityField",
-      label: "Call to Action",
+      label: msg("fields.callToAction", "Call to Action"),
       filter: { types: ["type.cta"] },
     },
     image: {
       type: "entityField",
-      label: "Image",
+      label: msg("fields.image", "Image"),
       filter: { types: ["type.image"] },
     },
   },
@@ -180,124 +182,124 @@ type LuxuryRetailShoppingExperiencesSectionProps = {
 const LuxuryRetailShoppingExperiencesSectionFields: YextFields<LuxuryRetailShoppingExperiencesSectionProps> =
   {
     section: {
-      label: "Section",
+      label: msg("fields.section", "Section"),
       type: "object",
       objectFields: {
         backgroundColor: {
-          label: "Background Color",
+          label: msg("fields.backgroundColor", "Background Color"),
           type: "basicSelector",
           options: "BACKGROUND_COLOR",
         },
         visibleOnLivePage: {
-          label: "Visible on Live Page",
+          label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
           type: "radio",
           options: [
-            { label: "Yes", value: true },
-            { label: "No", value: false },
+            { label: msg("fields.options.yes", "Yes"), value: true },
+            { label: msg("fields.options.no", "No"), value: false },
           ],
         },
       },
     },
     title: {
-      label: "Title",
+      label: msg("fields.title", "Title"),
       type: "object",
       objectFields: {
         text: {
           type: "entityField",
-          label: "Text",
+          label: msg("fields.text", "Text"),
           filter: { types: ["type.string"] },
         },
         styles: {
-          label: "Text Styles",
+          label: msg("fields.textStyles", "Text Styles"),
           type: "styledText",
         },
         fontColor: {
-          label: "Font Color",
+          label: msg("fields.fontColor", "Font Color"),
           type: "basicSelector",
           options: "SITE_COLOR",
         },
       },
     },
     cards: {
-      label: "Cards",
+      label: msg("fields.cards", "Cards"),
       type: "object",
       objectFields: {
         data: experienceCardsSource.field,
         styles: {
-          label: "Styles",
+          label: msg("fields.styles", "Styles"),
           type: "object",
           objectFields: {
             eyebrow: {
-              label: "Eyebrow",
+              label: msg("fields.eyebrow", "Eyebrow"),
               type: "object",
               objectFields: {
-                styles: { label: "Text Styles", type: "styledText" },
+                styles: { label: msg("fields.textStyles", "Text Styles"), type: "styledText" },
                 fontColor: {
-                  label: "Font Color",
+                  label: msg("fields.fontColor", "Font Color"),
                   type: "basicSelector",
                   options: "SITE_COLOR",
                 },
               },
             },
             title: {
-              label: "Title",
+              label: msg("fields.title", "Title"),
               type: "object",
               objectFields: {
-                styles: { label: "Text Styles", type: "styledText" },
+                styles: { label: msg("fields.textStyles", "Text Styles"), type: "styledText" },
                 fontColor: {
-                  label: "Font Color",
+                  label: msg("fields.fontColor", "Font Color"),
                   type: "basicSelector",
                   options: "SITE_COLOR",
                 },
               },
             },
             description: {
-              label: "Description",
+              label: msg("fields.description", "Description"),
               type: "object",
               objectFields: {
-                styles: { label: "Text Styles", type: "styledText" },
+                styles: { label: msg("fields.textStyles", "Text Styles"), type: "styledText" },
                 fontColor: {
-                  label: "Font Color",
+                  label: msg("fields.fontColor", "Font Color"),
                   type: "basicSelector",
                   options: "SITE_COLOR",
                 },
               },
             },
             cta: {
-              label: "Call to Action",
+              label: msg("fields.callToAction", "Call to Action"),
               type: "object",
               objectFields: {
                 variant: {
-                  label: "Variant",
+                  label: msg("fields.variant", "Variant"),
                   type: "select",
                   options: [
-                    { label: "Link", value: "link" },
-                    { label: "Primary", value: "primary" },
-                    { label: "Secondary", value: "secondary" },
+                    { label: msg("fields.link", "Link"), value: "link" },
+                    { label: msg("fields.options.primary", "Primary"), value: "primary" },
+                    { label: msg("fields.options.secondary", "Secondary"), value: "secondary" },
                   ],
                 },
                 color: {
-                  label: "Color",
+                  label: msg("fields.color", "Color"),
                   type: "basicSelector",
                   options: "SITE_COLOR",
                 },
-                link: { label: "Link Styles", type: "styledLink" },
+                link: { label: msg("fields.linkStyles", "Link Styles"), type: "styledLink" },
               },
             },
             image: {
-              label: "Image",
+              label: msg("fields.image", "Image"),
               type: "object",
               objectFields: {
-                aspectRatio: { label: "Aspect Ratio", type: "number" },
+                aspectRatio: { label: msg("fields.aspectRatio", "Aspect Ratio"), type: "number" },
                 imageConstrain: {
-                  label: "Image Constrain",
+                  label: msg("fields.imageConstrain", "Image Constrain"),
                   type: "select",
                   options: [
-                    { label: "Fixed", value: "fixed" },
-                    { label: "Filled", value: "filled" },
+                    { label: msg("fields.options.fixed", "Fixed"), value: "fixed" },
+                    { label: msg("fields.options.filled", "Filled"), value: "filled" },
                   ],
                 },
-                styles: { label: "Image Styles", type: "styledImage" },
+                styles: { label: msg("fields.imageStyles", "Image Styles"), type: "styledImage" },
               },
             },
           },
@@ -601,7 +603,7 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
           <div className="luxury-experiences__inner">
             <div className="luxury-experiences__content">
               <EntityField
-                displayName="Title"
+                displayName={pt("fields.title", "Title")}
                 fieldId={props.title.text.field}
                 constantValueEnabled={props.title.text.constantValueEnabled}
               >
@@ -611,7 +613,7 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
               </EntityField>
 
               <EntityField
-                displayName="Cards"
+                displayName={pt("fields.cards", "Cards")}
                 fieldId={props.cards.data.field}
                 constantValueEnabled={props.cards.data.constantValueEnabled}
               >
@@ -778,7 +780,7 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
 
 export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryRetailShoppingExperiencesSectionProps> =
   {
-    label: "Shopping Experiences Section",
+    label: msg("fields.shoppingExperiencesSection", "Shopping Experiences Section"),
     fields: toPuckFields<LuxuryRetailShoppingExperiencesSectionProps>(
       LuxuryRetailShoppingExperiencesSectionFields,
     ),

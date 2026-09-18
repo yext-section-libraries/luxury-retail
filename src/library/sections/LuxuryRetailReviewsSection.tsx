@@ -2,7 +2,10 @@ import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
+import { useTranslation } from "react-i18next";
 import {
+  msg,
+  pt,
   Background,
   EntityField,
   getAnalyticsScopeHash,
@@ -35,46 +38,46 @@ type LuxuryRetailReviewsSectionProps = {
 const LuxuryRetailReviewsSectionFields: YextFields<LuxuryRetailReviewsSectionProps> =
   {
     section: {
-      label: "Section",
+      label: msg("fields.section", "Section"),
       type: "object",
       objectFields: {
         backgroundColor: {
-          label: "Background Color",
+          label: msg("fields.backgroundColor", "Background Color"),
           type: "basicSelector",
           options: "BACKGROUND_COLOR",
         },
         visibleOnLivePage: {
-          label: "Visible on Live Page",
+          label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
           type: "radio",
           options: [
-            { label: "Yes", value: true },
-            { label: "No", value: false },
+            { label: msg("fields.options.yes", "Yes"), value: true },
+            { label: msg("fields.options.no", "No"), value: false },
           ],
         },
       },
     },
     title: {
-      label: "Title",
+      label: msg("fields.title", "Title"),
       type: "object",
       objectFields: {
         text: {
           type: "entityField",
-          label: "Text",
+          label: msg("fields.text", "Text"),
           filter: { types: ["type.string"] },
         },
         styles: {
-          label: "Text Styles",
+          label: msg("fields.textStyles", "Text Styles"),
           type: "styledText",
         },
         fontColor: {
-          label: "Font Color",
+          label: msg("fields.fontColor", "Font Color"),
           type: "basicSelector",
           options: "SITE_COLOR",
         },
       },
     },
     reviewColor: {
-      label: "Review Color",
+      label: msg("fields.reviewColor", "Review Color"),
       type: "basicSelector",
       options: "SITE_COLOR",
     },
@@ -275,14 +278,18 @@ type ReviewStreamDocument = {
 const LuxuryRetailReviewsSectionComponent: PuckComponent<
   LuxuryRetailReviewsSectionProps
 > = ({ id, ...props }) => {
-  const streamDocument = useDocument<ReviewStreamDocument & Record<string, unknown>>();
+  const { t } = useTranslation();
+  const streamDocument = useDocument<
+    ReviewStreamDocument & Record<string, unknown>
+  >();
   const locale = streamDocument.locale ?? "en";
   const { averageRating, reviewCount } = getAggregateRating(streamDocument);
   const firstPartyAggregate = streamDocument.ref_reviewsAgg?.find(
     (aggregate) => aggregate.publisher === "FIRSTPARTY",
   );
   const reviews = firstPartyAggregate?.topReviews ?? [];
-  const title = resolveComponentData(props.title.text, locale, streamDocument) || "";
+  const title =
+    resolveComponentData(props.title.text, locale, streamDocument) || "";
   const readableTextColor = getReadableTextColor(
     undefined,
     props.section?.backgroundColor,
@@ -297,7 +304,8 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
     props.section?.backgroundColor,
     streamDocument,
   );
-  const reviewColor = getThemeColorCssValue(props.reviewColor) ?? readableTextColor;
+  const reviewColor =
+    getThemeColorCssValue(props.reviewColor) ?? readableTextColor;
 
   if (!reviews.length && !props.puck.isEditing) {
     return <></>;
@@ -321,7 +329,7 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
           >
             <div className="luxury-reviews__inner">
               <EntityField
-                displayName="Title"
+                displayName={pt("fields.title", "Title")}
                 fieldId={props.title.text.field}
                 constantValueEnabled={props.title.text.constantValueEnabled}
               >
@@ -330,7 +338,7 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
                 </h2>
               </EntityField>
               {!reviews.length && props.puck.isEditing ? (
-                <p>No first-party reviews</p>
+                <p>{pt("noFirstPartyReviews", "No first-party reviews")}</p>
               ) : null}
             </div>
           </Background>
@@ -356,7 +364,7 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
         >
           <div className="luxury-reviews__inner">
             <EntityField
-              displayName="Title"
+              displayName={pt("fields.title", "Title")}
               fieldId={props.title.text.field}
               constantValueEnabled={props.title.text.constantValueEnabled}
             >
@@ -366,13 +374,22 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
             </EntityField>
             <p
               className="luxury-reviews__summary"
-              aria-label="Customer rating summary"
+              aria-label={t("customerRatingSummary", "Customer rating summary")}
               style={{ color: reviewColor }}
             >
               <span>{averageRating.toFixed(1)}</span>
-              <span aria-hidden="true">★★★★★</span>
+              <span aria-hidden="true">
+                {"★".repeat(
+                  Math.max(0, Math.min(5, Math.round(averageRating))),
+                )}
+              </span>
               <span>|</span>
-              <span>{`${reviewCount} Reviews`}</span>
+              <span>
+                {t("reviewWithCount", {
+                  defaultValue: "{{count}} Reviews",
+                  count: reviewCount,
+                })}
+              </span>
             </p>
             <div className="luxury-reviews__list">
               {reviews.slice(0, 3).map((review, index) => (
@@ -383,7 +400,7 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
                 >
                   <header className="luxury-reviews__card-header">
                     <h3 className="luxury-reviews__name">
-                      {review.authorName || "Reviewer"}
+                      {review.authorName || t("reviewer", "Reviewer")}
                     </h3>
                     <p
                       className="luxury-reviews__rating"
@@ -392,7 +409,13 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
                       <span aria-hidden="true">
                         {"★".repeat(Math.round(review.rating ?? 5))}
                       </span>
-                      <span>{`${review.rating ?? 5}/5 stars`}</span>
+                      <span>
+                        {t(
+                          "ratingOutOfFiveStars",
+                          "{{rating}}/5 stars",
+                          { rating: review.rating ?? 5 },
+                        )}
+                      </span>
                     </p>
                   </header>
                   <p
@@ -413,7 +436,7 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
 
 export const LuxuryRetailReviewsSection: YextComponentConfig<LuxuryRetailReviewsSectionProps> =
   {
-    label: "Reviews Section",
+    label: msg("components.reviewsSection", "Reviews Section"),
     fields: LuxuryRetailReviewsSectionFields,
     defaultProps: {
       title: {

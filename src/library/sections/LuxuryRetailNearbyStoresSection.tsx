@@ -2,7 +2,10 @@ import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
+import { useTranslation } from "react-i18next";
 import {
+  msg,
+  pt,
   Background,
   EntityField,
   MapboxStaticMapComponent,
@@ -81,60 +84,60 @@ const LuxuryRetailNearbyStoresSectionFields: YextFields<
   LuxuryRetailNearbyStoresSectionProps
 > = {
   section: {
-    label: "Section",
+    label: msg("fields.section", "Section"),
     type: "object",
     objectFields: {
       backgroundColor: {
-        label: "Background Color",
+        label: msg("fields.backgroundColor", "Background Color"),
         type: "basicSelector",
         options: "BACKGROUND_COLOR",
       },
       visibleOnLivePage: {
-        label: "Visible on Live Page",
+        label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   title: {
-    label: "Title",
+    label: msg("fields.title", "Title"),
     type: "object",
     objectFields: {
       text: {
         type: "entityField",
-        label: "Text",
+        label: msg("fields.text", "Text"),
         filter: { types: ["type.string"] },
       },
       styles: {
-        label: "Text Styles",
+        label: msg("fields.textStyles", "Text Styles"),
         type: "styledText",
       },
       fontColor: {
-        label: "Font Color",
+        label: msg("fields.fontColor", "Font Color"),
         type: "basicSelector",
         options: "SITE_COLOR",
       },
     },
   },
   map: {
-    label: "Map",
+    label: msg("fields.map", "Map"),
     type: "object",
     objectFields: {
       coordinate: {
         type: "entityField",
-        label: "Coordinates",
+        label: msg("fields.coordinates", "Coordinates"),
         filter: { types: ["type.coordinate"] },
       },
       mapStyle: {
-        label: "Mapbox Map Style",
+        label: msg("fields.mapboxMapStyle", "Mapbox Map Style"),
         type: "select",
         options: mapboxStaticMapStyleOptions,
       },
       zoom: {
-        label: "Zoom",
+        label: msg("fields.zoom", "Zoom"),
         type: "number",
         min: 0,
         max: 22,
@@ -142,79 +145,79 @@ const LuxuryRetailNearbyStoresSectionFields: YextFields<
     },
   },
   radius: {
-    label: "Radius",
+    label: msg("fields.radius", "Radius"),
     type: "number",
   },
   limit: {
-    label: "Limit",
+    label: msg("fields.limit", "Limit"),
     type: "number",
   },
   cardBackgroundColor: {
-    label: "Card Background Color",
+    label: msg("fields.cardBackgroundColor", "Card Background Color"),
     type: "basicSelector",
     options: "BACKGROUND_COLOR",
   },
   cardTextColor: {
-    label: "Text Color",
+    label: msg("fields.textColor", "Text Color"),
     type: "basicSelector",
     options: "SITE_COLOR",
   },
   showPhone: {
-    label: "Show Phone",
+    label: msg("fields.showPhone", "Show Phone"),
     type: "radio",
     options: [
-      { label: "Yes", value: true },
-      { label: "No", value: false },
+      { label: msg("fields.options.yes", "Yes"), value: true },
+      { label: msg("fields.options.no", "No"), value: false },
     ],
   },
   showAddress: {
-    label: "Show Address",
+    label: msg("fields.showAddress", "Show Address"),
     type: "radio",
     options: [
-      { label: "Yes", value: true },
-      { label: "No", value: false },
+      { label: msg("fields.options.yes", "Yes"), value: true },
+      { label: msg("fields.options.no", "No"), value: false },
     ],
   },
   phone: {
-    label: "Phone",
+    label: msg("fields.phone", "Phone"),
     type: "object",
     objectFields: {
       phoneFormat: {
-        label: "Phone Number Format",
+        label: msg("fields.phoneNumberFormat", "Phone Number Format"),
         type: "radio",
         options: [
-          { label: "Domestic", value: "domestic" },
-          { label: "International", value: "international" },
+          { label: msg("fields.options.domestic", "Domestic"), value: "domestic" },
+          { label: msg("fields.options.international", "International"), value: "international" },
         ],
       },
       includeHyperlink: {
-        label: "Include Phone Hyperlink",
+        label: msg("fields.includePhoneHyperlink", "Include Phone Hyperlink"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
   },
   address: {
-    label: "Address",
+    label: msg("fields.address", "Address"),
     type: "object",
     objectFields: {
       showRegion: {
-        label: "Show Region",
+        label: msg("fields.showRegion", "Show Region"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
       showCountry: {
-        label: "Show Country",
+        label: msg("fields.showCountry", "Show Country"),
         type: "radio",
         options: [
-          { label: "Yes", value: true },
-          { label: "No", value: false },
+          { label: msg("fields.options.yes", "Yes"), value: true },
+          { label: msg("fields.options.no", "No"), value: false },
         ],
       },
     },
@@ -472,6 +475,7 @@ const nearbyCss = `
 const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
   LuxuryRetailNearbyStoresSectionProps
 > = ({ id, ...props }) => {
+  const { t } = useTranslation();
   const streamDocument = useDocument<NearbyStreamDocument>();
   const locale = streamDocument.locale ?? "en";
   const { relativePrefixToRoot } = useTemplateProps<{ relativePrefixToRoot?: string }>();
@@ -544,7 +548,7 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
         >
           <div className="luxury-nearby__inner">
           <EntityField
-            displayName="Title"
+            displayName={pt("fields.title", "Title")}
             fieldId={props.title.text.field}
             constantValueEnabled={props.title.text.constantValueEnabled}
           >
@@ -556,7 +560,7 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
           <div className="luxury-nearby__map">
             <div className="luxury-nearby__map-shell" style={{ height: "500px" }}>
               <EntityField
-                displayName="Map Coordinates"
+                displayName={pt("mapCoordinates", "Map Coordinates")}
                 fieldId={props.map.coordinate.field}
                 constantValueEnabled={props.map.coordinate.constantValueEnabled}
               >
@@ -573,11 +577,16 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
           </div>
 
           {shouldShowLoading ? (
-            <p>Loading nearby locations</p>
+            <p>{t("loadingNearbyLocations", "Loading nearby locations")}</p>
           ) : null}
 
           {shouldShowEmptyState && props.puck.isEditing ? (
-            <p>No nearby locations found for this location</p>
+            <p>
+              {t(
+                "noNearbyLocationsFoundForThisLocation",
+                "No nearby locations found for this location",
+              )}
+            </p>
           ) : null}
 
           {shouldShowContent ? (
@@ -713,7 +722,7 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
 export const LuxuryRetailNearbyStoresSection: YextComponentConfig<
   LuxuryRetailNearbyStoresSectionProps
 > = {
-  label: "Nearby Stores Section",
+  label: msg("fields.nearbyStoresSection", "Nearby Stores Section"),
   fields: LuxuryRetailNearbyStoresSectionFields,
   defaultProps: {
     title: {

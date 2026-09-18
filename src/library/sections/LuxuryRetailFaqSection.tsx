@@ -3,6 +3,8 @@ import type { SectionConfig } from "@yext/visual-editor";
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
 import {
+  msg,
+  pt,
   Background,
   createItemSource,
   EntityField,
@@ -64,18 +66,18 @@ function createFaqItem(question: string, answer: string): FaqItemFields {
 }
 
 const faqItemsSource = createItemSource<FaqItemFields>({
-  label: "Items",
+  label: msg("fields.items", "Items"),
   mappingFields: {
     question: {
       type: "entityField",
-      label: "Question",
+      label: msg("fields.question", "Question"),
       filter: {
         types: ["type.string"],
       },
     },
     answer: {
       type: "entityField",
-      label: "Answer",
+      label: msg("fields.answer", "Answer"),
       filter: {
         types: ["type.rich_text_v2"],
       },
@@ -123,71 +125,71 @@ type LuxuryRetailFaqSectionProps = {
 const LuxuryRetailFaqSectionFields: YextFields<LuxuryRetailFaqSectionProps> =
   {
     section: {
-      label: "Section",
+      label: msg("fields.section", "Section"),
       type: "object",
       objectFields: {
         backgroundColor: {
-          label: "Background Color",
+          label: msg("fields.backgroundColor", "Background Color"),
           type: "basicSelector",
           options: "BACKGROUND_COLOR",
         },
         visibleOnLivePage: {
-          label: "Visible on Live Page",
+          label: msg("fields.visibleOnLivePage", "Visible on Live Page"),
           type: "radio",
           options: [
-            { label: "Yes", value: true },
-            { label: "No", value: false },
+            { label: msg("fields.options.yes", "Yes"), value: true },
+            { label: msg("fields.options.no", "No"), value: false },
           ],
         },
       },
     },
     heading: {
-      label: "Heading",
+      label: msg("fields.heading", "Heading"),
       type: "object",
       objectFields: {
         text: {
-          label: "Text",
+          label: msg("fields.text", "Text"),
           type: "entityField",
           filter: {
             types: ["type.string"],
           },
         },
-        styles: { label: "Text Styles", type: "styledText" },
+        styles: { label: msg("fields.textStyles", "Text Styles"), type: "styledText" },
         fontColor: {
-          label: "Font Color",
+          label: msg("fields.fontColor", "Font Color"),
           type: "basicSelector",
           options: "SITE_COLOR",
         },
       },
     },
     items: {
-      label: "Items",
+      label: msg("fields.items", "Items"),
       type: "object",
       objectFields: {
         data: faqItemsSource.field,
         styles: {
-          label: "Styles",
+          label: msg("fields.styles", "Styles"),
           type: "object",
           objectFields: {
             question: {
-              label: "Question",
+              label: msg("fields.question", "Question"),
               type: "object",
               objectFields: {
-                styles: { label: "Text Styles", type: "styledText" },
+                styles: { label: msg("fields.textStyles", "Text Styles"), type: "styledText" },
                 fontColor: {
-                  label: "Font Color",
+                  label: msg("fields.fontColor", "Font Color"),
                   type: "basicSelector",
                   options: "SITE_COLOR",
                 },
               },
             },
             answer: {
-              label: "Answer",
+              label: msg("fields.answer", "Answer"),
               type: "object",
               objectFields: {
-                styles: { label: "Text Styles", type: "styledText" },
+                styles: { label: msg("fields.textStyles", "Text Styles"), type: "styledText" },
                 fontColor: {
-                  label: "Font Color",
+                  label: msg("fields.fontColor", "Font Color"),
                   type: "basicSelector",
                   options: "SITE_COLOR",
                 },
@@ -338,7 +340,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
         >
           <div className="mx-auto flex w-[min(1120px,calc(100vw-60px))] flex-col gap-8">
             <EntityField
-              displayName="Heading"
+              displayName={pt("heading", "Heading")}
               fieldId={props.heading.text.field}
               constantValueEnabled={props.heading.text.constantValueEnabled}
             >
@@ -350,7 +352,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
               </h2>
             </EntityField>
             <EntityField
-              displayName="Items"
+              displayName={pt("fields.items", "Items")}
               fieldId={props.items.data.field}
               constantValueEnabled={props.items.data.constantValueEnabled}
             >
@@ -443,7 +445,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
 
 export const LuxuryRetailFaqSection: YextComponentConfig<LuxuryRetailFaqSectionProps> =
   {
-    label: "Faq Section",
+    label: msg("components.faqSection", "Faq Section"),
     fields: toPuckFields<LuxuryRetailFaqSectionProps>(
       LuxuryRetailFaqSectionFields,
     ),
