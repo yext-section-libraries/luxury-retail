@@ -619,7 +619,9 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
               >
                 <div className="luxury-experiences__grid">
                   {resolvedCards.map((card, index) => {
-                    const image = card.image;
+                    const image = card.image
+                      ? resolveComponentData(card.image, locale, streamDocument)
+                      : undefined;
                     const hasCardImage = hasImageSource(image);
                     const eyebrow = card.eyebrow
                       ? resolveComponentData(
