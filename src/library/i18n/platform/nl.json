@@ -29,12 +29,14 @@
     "reviewsSection": "Beoordelingensectie",
     "sharedHeader": "Gedeelde koptekst"
   },
+  "currentLocation": "Huidige locatie",
   "customerRatingSummary": "Samenvatting van klantbeoordelingen",
   "customSearchArea": "Aangepast zoekgebied",
   "distance": "Afstand",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> uit zoekopdracht",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> van {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> van jou",
+  "email": "E-mail",
   "enableCookies": "Cookies inschakelen",
   "fields": {
     "aboutStoreSection": "Sectie Over de winkel",

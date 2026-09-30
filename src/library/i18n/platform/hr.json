@@ -29,12 +29,14 @@
     "reviewsSection": "Odjeljak recenzija",
     "sharedHeader": "Zajedničko zaglavlje"
   },
+  "currentLocation": "Trenutna lokacija",
   "customerRatingSummary": "Sažetak ocjena korisnika",
   "customSearchArea": "Područje prilagođenog pretraživanja",
   "distance": "Udaljenost",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> iz pretraživanja",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> od {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> od vas",
+  "email": "E-mail",
   "enableCookies": "Omogući kolačiće",
   "fields": {
     "aboutStoreSection": "Odjeljak O trgovini",

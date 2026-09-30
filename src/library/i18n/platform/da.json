@@ -29,12 +29,14 @@
     "reviewsSection": "Anmeldelsessektion",
     "sharedHeader": "Delt sidehoved"
   },
+  "currentLocation": "Nuværende placering",
   "customerRatingSummary": "Oversigt over kundebedømmelser",
   "customSearchArea": "Brugerdefineret søgeområde",
   "distance": "Afstand",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> fra søgning",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> fra {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> fra dig",
+  "email": "E-mail",
   "enableCookies": "Aktiver cookies",
   "fields": {
     "aboutStoreSection": "Sektion om butik",

@@ -29,12 +29,14 @@
     "reviewsSection": "Bewertungsabschnitt",
     "sharedHeader": "Gemeinsame Kopfzeile"
   },
+  "currentLocation": "Aktueller Standort",
   "customerRatingSummary": "Zusammenfassung der Kundenbewertungen",
   "customSearchArea": "Benutzerdefinierter Suchbereich",
   "distance": "Distanz",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> aus der Suche",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> von {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> von Ihnen",
+  "email": "E-Mail",
   "enableCookies": "Cookies aktivieren",
   "fields": {
     "aboutStoreSection": "Abschnitt Über das Geschäft",

@@ -29,12 +29,14 @@
     "reviewsSection": "Sección de reseñas",
     "sharedHeader": "Encabezado compartido"
   },
+  "currentLocation": "Ubicación actual",
   "customerRatingSummary": "Resumen de valoraciones de clientes",
   "customSearchArea": "Área de búsqueda personalizada",
   "distance": "Distancia",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> de la búsqueda",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> de {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> de ti",
+  "email": "Correo electrónico",
   "enableCookies": "Habilitar cookies",
   "fields": {
     "aboutStoreSection": "Sección Acerca de la tienda",

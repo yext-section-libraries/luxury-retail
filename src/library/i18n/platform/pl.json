@@ -29,12 +29,14 @@
     "reviewsSection": "Sekcja opinii",
     "sharedHeader": "Wspólny nagłówek"
   },
+  "currentLocation": "Aktualna lokalizacja",
   "customerRatingSummary": "Podsumowanie ocen klientów",
   "customSearchArea": "Niestandardowy obszar wyszukiwania",
   "distance": "Dystans",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> z wyszukiwania",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> od {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> od Ciebie",
+  "email": "E-mail",
   "enableCookies": "Włącz pliki cookie",
   "fields": {
     "aboutStoreSection": "Sekcja O sklepie",

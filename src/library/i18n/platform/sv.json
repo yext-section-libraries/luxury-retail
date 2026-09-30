@@ -29,12 +29,14 @@
     "reviewsSection": "Recensionssektion",
     "sharedHeader": "Delat sidhuvud"
   },
+  "currentLocation": "Nuvarande plats",
   "customerRatingSummary": "Sammanfattning av kundbetyg",
   "customSearchArea": "Anpassad sökområde",
   "distance": "Avstånd",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> från sökning",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> från {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> från dig",
+  "email": "E-post",
   "enableCookies": "Aktivera cookies",
   "fields": {
     "aboutStoreSection": "Avsnittet Om butiken",

@@ -29,12 +29,14 @@
     "reviewsSection": "レビューセクション",
     "sharedHeader": "共有ヘッダー"
   },
+  "currentLocation": "現在地",
   "customerRatingSummary": "顧客評価の概要",
   "customSearchArea": "カスタム検索領域",
   "distance": "距離",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> 検索から",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> ({{searchLocation}} から)",
   "distanceLineFromYou": "あなたからの<strong>{{distance}}</strong>",
+  "email": "電子メール",
   "enableCookies": "Cookieを有効にする",
   "fields": {
     "aboutStoreSection": "店舗についてセクション",
