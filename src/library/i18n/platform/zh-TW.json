@@ -29,12 +29,14 @@
     "reviewsSection": "評論區段",
     "sharedHeader": "共用頁首"
   },
+  "currentLocation": "目前位置",
   "customerRatingSummary": "顧客評分摘要",
   "customSearchArea": "自定義搜索區域",
   "distance": "距離",
   "distanceLineFromSearch": "來自搜尋的 <strong>{{distance}}</strong>",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> 來自 {{searchLocation}}",
   "distanceLineFromYou": "來自您的 <strong>{{distance}}</strong>",
+  "email": "電子郵件",
   "enableCookies": "啟用 Cookie",
   "fields": {
     "aboutStoreSection": "商店簡介區段",

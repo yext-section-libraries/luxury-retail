@@ -29,12 +29,14 @@
     "reviewsSection": "Yorumlar Bölümü",
     "sharedHeader": "Paylaşılan Üstbilgi"
   },
+  "currentLocation": "Mevcut Konum",
   "customerRatingSummary": "Müşteri puanları özeti",
   "customSearchArea": "Özel arama alanı",
   "distance": "Mesafe",
   "distanceLineFromSearch": "Aramadan <strong>{{distance}}</strong>",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong>, {{searchLocation}}'den",
   "distanceLineFromYou": "<strong>{{distance}}</strong> sizden",
+  "email": "E-posta",
   "enableCookies": "Çerezleri Etkinleştir",
   "fields": {
     "aboutStoreSection": "Mağaza Hakkında Bölümü",

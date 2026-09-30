@@ -29,12 +29,14 @@
     "reviewsSection": "Reviews Section",
     "sharedHeader": "Header"
   },
+  "currentLocation": "Current Location",
   "customerRatingSummary": "Customer rating summary",
   "customSearchArea": "Custom Search Area",
   "distance": "Distance",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> from search",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> from {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> from you",
+  "email": "Email",
   "enableCookies": "Enable Cookies",
   "fields": {
     "aboutStoreSection": "About Store Section",

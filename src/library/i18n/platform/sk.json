@@ -29,12 +29,14 @@
     "reviewsSection": "Sekcia recenzií",
     "sharedHeader": "Zdieľaná hlavička"
   },
+  "currentLocation": "Aktuálna poloha",
   "customerRatingSummary": "Súhrn hodnotení zákazníkov",
   "customSearchArea": "Oblasť vyhľadávania",
   "distance": "Vzdialenosť",
   "distanceLineFromSearch": "<strong>{{distance}}</strong> z vyhľadávania",
   "distanceLineFromSearchLocation": "<strong>{{distance}}</strong> od {{searchLocation}}",
   "distanceLineFromYou": "<strong>{{distance}}</strong> od vás",
+  "email": "Email",
   "enableCookies": "Povoliť súbory cookie",
   "fields": {
     "aboutStoreSection": "Sekcia O predajni",
