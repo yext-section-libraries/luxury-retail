@@ -781,7 +781,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
 
 export const LuxuryRetailFooterSection: YextComponentConfig<LuxuryRetailFooterSectionProps> =
   {
-    label: msg("components.footerSection", "Footer Section"),
+    label: msg("components.footerSection", "Footer"),
     fields: LuxuryRetailFooterSectionFields,
     defaultProps: {
       footerLinks: [
@@ -872,7 +872,7 @@ export const LuxuryRetailFooterSection: YextComponentConfig<LuxuryRetailFooterSe
 
 export const config: SectionConfig = {
   id: "LuxuryRetailFooterSection",
-  displayName: "Footer Section",
-  description: "Footer Section",
+  displayName: "Footer",
+  description: "Footer",
   pageSetTypes: ["ENTITY", "DIRECTORY", "LOCATOR"],
 };

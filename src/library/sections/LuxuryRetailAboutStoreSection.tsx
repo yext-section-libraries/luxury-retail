@@ -14,6 +14,7 @@ import {
   resolveComponentData,
   useDocument,
   type StyledImageValue,
+  type StyledTextValue,
   type ThemeColor,
   type TranslatableAssetImage,
   type YextComponentConfig,
@@ -26,7 +27,6 @@ import { useTranslation } from "react-i18next";
 import {
   getReadableTextColor,
   getTextStyles,
-  getThemeColorCssValue,
   hasImageSource,
   renderResolvedRichText,
   resolveBorderRadius,
@@ -43,7 +43,7 @@ type SectionImageProps = {
 
 type LuxuryRetailAboutStoreSectionProps = {
   heading: StyledTextProps;
-  body: StyledRtfProps;
+  body: StyledRtfProps & { styles?: StyledTextValue };
   image: SectionImageProps;
   section: {
     backgroundColor: ThemeColor;
@@ -101,6 +101,10 @@ const LuxuryRetailAboutStoreSectionFields: YextFields<
         type: "entityField",
         label: msg("fields.text", "Text"),
         filter: { types: ["type.rich_text_v2"] },
+      },
+      styles: {
+        label: msg("fields.textStyles", "Text Styles"),
+        type: "styledText",
       },
       fontColor: {
         label: msg("fields.fontColor", "Font Color"),
@@ -263,6 +267,31 @@ const splitCss = `
     line-height: 1.6;
   }
 
+  .luxury-about .luxury-about__body[style] * {
+    color: var(--luxury-about-body-font-color) !important;
+  }
+
+  /* Apply selected Body styles over inline rich text styles. Keep Default styles. */
+  .luxury-about__body[data-font-family]:not([data-font-family="default"]) * {
+    font-family: var(--luxury-about-body-font-family) !important;
+  }
+
+  .luxury-about__body[data-font-size]:not([data-font-size="default"]) * {
+    font-size: var(--luxury-about-body-font-size) !important;
+  }
+
+  .luxury-about__body[data-font-weight]:not([data-font-weight="default"]) * {
+    font-weight: var(--luxury-about-body-font-weight) !important;
+  }
+
+  .luxury-about__body[data-font-style]:not([data-font-style="default"]) * {
+    font-style: var(--luxury-about-body-font-style) !important;
+  }
+
+  .luxury-about__body[data-text-transform]:not([data-text-transform="default"]) * {
+    text-transform: var(--luxury-about-body-text-transform) !important;
+  }
+
   .luxury-about__image-shell {
     order: 1;
     align-self: start;
@@ -376,11 +405,8 @@ const LuxuryRetailAboutStoreSectionComponent: PuckComponent<
     props.heading.fontColor,
     readableTextColor,
   );
-  const bodyColor = getThemeColorCssValue(props.body.fontColor) ?? readableTextColor;
-  const bodyStyleOverrides = {
-    color: bodyColor,
-  };
-  const bodyContent = renderResolvedRichText(body, bodyStyleOverrides);
+  const bodyStyles = props.body.styles ? getTextStyles(props.body.styles) : {};
+  const bodyContent = renderResolvedRichText(body);
   const imageWrapperStyle: React.CSSProperties = {
     position: "relative",
     width: "100%",
@@ -439,7 +465,26 @@ const LuxuryRetailAboutStoreSectionComponent: PuckComponent<
                   fieldId={props.body.text.field}
                   constantValueEnabled={props.body.text.constantValueEnabled}
                 >
-                  <div className="luxury-about__body" style={{ color: bodyColor }}>
+                  <div
+                    className="luxury-about__body"
+                    data-font-family={props.body.styles?.fontFamily}
+                    data-font-size={props.body.styles?.fontSize}
+                    data-font-weight={props.body.styles?.fontWeight}
+                    data-font-style={props.body.styles?.fontStyle}
+                    data-text-transform={props.body.styles?.textTransform}
+                    style={{
+                      "--luxury-about-body-font-color": getReadableTextColor(
+                        props.body.fontColor,
+                        props.section?.backgroundColor,
+                        streamDocument,
+                      ),
+                      "--luxury-about-body-font-family": bodyStyles.fontFamily,
+                      "--luxury-about-body-font-size": bodyStyles.fontSize,
+                      "--luxury-about-body-font-weight": bodyStyles.fontWeight,
+                      "--luxury-about-body-font-style": bodyStyles.fontStyle,
+                      "--luxury-about-body-text-transform": bodyStyles.textTransform,
+                    } as React.CSSProperties}
+                  >
                     {bodyContent}
                   </div>
                 </EntityField>
@@ -482,7 +527,7 @@ const LuxuryRetailAboutStoreSectionComponent: PuckComponent<
 export const LuxuryRetailAboutStoreSection: YextComponentConfig<
   LuxuryRetailAboutStoreSectionProps
 > = {
-  label: msg("fields.aboutStoreSection", "About Store Section"),
+  label: msg("fields.aboutStoreSection", "About Store"),
   fields: LuxuryRetailAboutStoreSectionFields,
   defaultProps: {
     heading: {
@@ -513,6 +558,13 @@ export const LuxuryRetailAboutStoreSection: YextComponentConfig<
           hasLocalizedValue: "true",
         },
         constantValueEnabled: true,
+      },
+      styles: {
+        fontFamily: "default",
+        fontSize: "default",
+        fontWeight: "default",
+        fontStyle: "default",
+        textTransform: "default",
       },
       fontColor: {
         selectedColor: "palette-tertiary",
@@ -548,7 +600,7 @@ export const LuxuryRetailAboutStoreSection: YextComponentConfig<
 
 export const config: SectionConfig = {
   id: "LuxuryRetailAboutStoreSection",
-  displayName: "About Store Section",
-  description: "About Store Section",
+  displayName: "About Store",
+  description: "About Store",
   pageSetTypes: ["ENTITY"],
 };

@@ -16,6 +16,7 @@ import {
   useDocument,
   type ComprehensiveCTAValue,
   type StyledImageValue,
+  type StyledTextValue,
   type ThemeColor,
   type TranslatableAssetImage,
   type YextComponentConfig,
@@ -28,7 +29,6 @@ import {
   getReadableTextColor as resolveReadableTextColor,
   getReadableThemeColor as resolveReadableThemeColor,
   getTextStyles,
-  getThemeColorCssValue as resolveThemeColorCssValue,
   hasImageSource,
   renderResolvedRichText,
   resolveBorderRadius,
@@ -45,7 +45,7 @@ type SectionImageProps = {
 
 type LuxuryRetailCommunitySectionProps = {
   heading: StyledTextProps;
-  body: StyledRtfProps;
+  body: StyledRtfProps & { styles?: StyledTextValue };
   cta: ComprehensiveCTAValue;
   image: SectionImageProps;
   section: {
@@ -103,6 +103,10 @@ const LuxuryRetailCommunitySectionFields: YextFields<LuxuryRetailCommunitySectio
           type: "entityField",
           label: msg("fields.text", "Text"),
           filter: { types: ["type.rich_text_v2"] },
+        },
+        styles: {
+          label: msg("fields.textStyles", "Text Styles"),
+          type: "styledText",
         },
         fontColor: {
           label: msg("fields.fontColor", "Font Color"),
@@ -272,6 +276,31 @@ const communityCss = `
     margin: 0;
   }
 
+  .luxury-community .luxury-community__body[style] * {
+    color: var(--luxury-community-body-font-color) !important;
+  }
+
+  /* Apply selected Body styles over inline rich text styles. Keep Default styles. */
+  .luxury-community__body[data-font-family]:not([data-font-family="default"]) * {
+    font-family: var(--luxury-community-body-font-family) !important;
+  }
+
+  .luxury-community__body[data-font-size]:not([data-font-size="default"]) * {
+    font-size: var(--luxury-community-body-font-size) !important;
+  }
+
+  .luxury-community__body[data-font-weight]:not([data-font-weight="default"]) * {
+    font-weight: var(--luxury-community-body-font-weight) !important;
+  }
+
+  .luxury-community__body[data-font-style]:not([data-font-style="default"]) * {
+    font-style: var(--luxury-community-body-font-style) !important;
+  }
+
+  .luxury-community__body[data-text-transform]:not([data-text-transform="default"]) * {
+    text-transform: var(--luxury-community-body-text-transform) !important;
+  }
+
   .luxury-community__cta {
     display: inline-flex;
     align-items: center;
@@ -407,12 +436,8 @@ const LuxuryRetailCommunitySectionComponent: PuckComponent<
     props.heading.fontColor,
     readableTextColor,
   );
-  const bodyColor =
-    resolveThemeColorCssValue(props.body.fontColor) ?? readableTextColor;
-  const bodyStyleOverrides = {
-    color: bodyColor,
-  };
-  const bodyContent = renderResolvedRichText(body, bodyStyleOverrides);
+  const bodyStyles = props.body.styles ? getTextStyles(props.body.styles) : {};
+  const bodyContent = renderResolvedRichText(body);
   const imageWrapperStyle: React.CSSProperties = {
     position: "relative",
     width: "100%",
@@ -486,7 +511,26 @@ const LuxuryRetailCommunitySectionComponent: PuckComponent<
                   fieldId={props.body.text.field}
                   constantValueEnabled={props.body.text.constantValueEnabled}
                 >
-                  <div className="luxury-community__body" style={{ color: bodyColor }}>
+                  <div
+                    className="luxury-community__body"
+                    data-font-family={props.body.styles?.fontFamily}
+                    data-font-size={props.body.styles?.fontSize}
+                    data-font-weight={props.body.styles?.fontWeight}
+                    data-font-style={props.body.styles?.fontStyle}
+                    data-text-transform={props.body.styles?.textTransform}
+                    style={{
+                      "--luxury-community-body-font-color": resolveReadableTextColor(
+                        props.body.fontColor,
+                        props.section?.backgroundColor,
+                        streamDocument,
+                      ),
+                      "--luxury-community-body-font-family": bodyStyles.fontFamily,
+                      "--luxury-community-body-font-size": bodyStyles.fontSize,
+                      "--luxury-community-body-font-weight": bodyStyles.fontWeight,
+                      "--luxury-community-body-font-style": bodyStyles.fontStyle,
+                      "--luxury-community-body-text-transform": bodyStyles.textTransform,
+                    } as React.CSSProperties}
+                  >
                     {bodyContent}
                   </div>
                 </EntityField>
@@ -543,7 +587,7 @@ const LuxuryRetailCommunitySectionComponent: PuckComponent<
 
 export const LuxuryRetailCommunitySection: YextComponentConfig<LuxuryRetailCommunitySectionProps> =
   {
-    label: msg("fields.communitySection", "Community Section"),
+    label: msg("fields.communitySection", "Community"),
     fields: LuxuryRetailCommunitySectionFields,
     defaultProps: {
       heading: {
@@ -576,6 +620,13 @@ export const LuxuryRetailCommunitySection: YextComponentConfig<LuxuryRetailCommu
             hasLocalizedValue: "true",
           },
           constantValueEnabled: true,
+        },
+        styles: {
+          fontFamily: "default",
+          fontSize: "default",
+          fontWeight: "default",
+          fontStyle: "default",
+          textTransform: "default",
         },
         fontColor: {
           selectedColor: "palette-tertiary",
@@ -645,7 +696,7 @@ export const LuxuryRetailCommunitySection: YextComponentConfig<LuxuryRetailCommu
 
 export const config: SectionConfig = {
   id: "LuxuryRetailCommunitySection",
-  displayName: "Community Section",
-  description: "Community Section",
+  displayName: "Community",
+  description: "Community",
   pageSetTypes: ["ENTITY"],
 };
