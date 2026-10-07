@@ -58,6 +58,7 @@ type StyledTextListProps = {
 };
 
 type HoursStyles = {
+  fontColor?: ThemeColor;
   startOfWeek: keyof DayOfWeekNames | "today";
   collapseDays: boolean;
   showAdditionalHoursText: boolean;
@@ -302,6 +303,11 @@ const LuxuryRetailStoreDetailsSectionFields: YextFields<
     label: msg("fields.hoursStyles", "Hours Styles"),
     type: "object",
     objectFields: {
+      fontColor: {
+        label: msg("fields.fontColor", "Font Color"),
+        type: "basicSelector",
+        options: "SITE_COLOR",
+      },
       startOfWeek: {
         label: msg("fields.startOfWeek", "Start Of Week"),
         type: "select",
@@ -868,7 +874,8 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
       locationInformationHeadingStyle.color,
     "--luxury-store-details-readable-color": readableTextColor,
     "--luxury-store-details-phone-link-color": mainPhoneHeadingStyle.color,
-    "--luxury-store-details-hours-color": storeHoursHeadingStyle.color,
+    "--luxury-store-details-hours-color":
+      resolveThemeColorCssValue(props.hoursStyles.fontColor) ?? readableTextColor,
     "--luxury-store-details-services-color": servicesStyle.color,
   } as React.CSSProperties;
 
@@ -1113,7 +1120,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
 
 export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailStoreDetailsSectionProps> =
   {
-    label: msg("fields.storeDetailsSection", "Store Details Section"),
+    label: msg("fields.storeDetailsSection", "Store Details"),
     fields: LuxuryRetailStoreDetailsSectionFields,
     defaultProps: {
       title: {
@@ -1337,6 +1344,7 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
         constantValueEnabled: false,
       },
       hoursStyles: {
+        fontColor: undefined,
         startOfWeek: "today",
         collapseDays: false,
         showAdditionalHoursText: false,
@@ -1379,7 +1387,7 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
 
 export const config: SectionConfig = {
   id: "LuxuryRetailStoreDetailsSection",
-  displayName: "Store Details Section",
-  description: "Store Details Section",
+  displayName: "Store Details",
+  description: "Store Details",
   pageSetTypes: ["ENTITY"],
 };

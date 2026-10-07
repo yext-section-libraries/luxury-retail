@@ -303,6 +303,13 @@
                   },
                   "constantValueEnabled": true
                 },
+                "styles": {
+                  "fontFamily": "default",
+                  "fontSize": "default",
+                  "fontWeight": "default",
+                  "fontStyle": "default",
+                  "textTransform": "default"
+                },
                 "fontColor": {
                   "selectedColor": "palette-tertiary",
                   "contrastingColor": "palette-tertiary-contrast"
@@ -1086,6 +1093,13 @@
                   },
                   "constantValueEnabled": true
                 },
+                "styles": {
+                  "fontFamily": "default",
+                  "fontSize": "default",
+                  "fontWeight": "default",
+                  "fontStyle": "default",
+                  "textTransform": "default"
+                },
                 "fontColor": {
                   "selectedColor": "palette-tertiary",
                   "contrastingColor": "palette-tertiary-contrast"
@@ -1327,6 +1341,13 @@
                   },
                   "constantValueEnabled": true
                 },
+                "styles": {
+                  "fontFamily": "default",
+                  "fontSize": "default",
+                  "fontWeight": "default",
+                  "fontStyle": "default",
+                  "textTransform": "default"
+                },
                 "fontColor": {
                   "selectedColor": "palette-tertiary",
                   "contrastingColor": "palette-tertiary-contrast"
@@ -1462,6 +1483,13 @@
                     "hasLocalizedValue": "true"
                   },
                   "constantValueEnabled": true
+                },
+                "styles": {
+                  "fontFamily": "default",
+                  "fontSize": "default",
+                  "fontWeight": "default",
+                  "fontStyle": "default",
+                  "textTransform": "default"
                 },
                 "fontColor": {
                   "selectedColor": "palette-tertiary",

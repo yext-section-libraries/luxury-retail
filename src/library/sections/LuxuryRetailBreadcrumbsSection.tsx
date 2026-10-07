@@ -377,7 +377,7 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
 
 export const LuxuryRetailBreadcrumbsSection: YextComponentConfig<LuxuryRetailBreadcrumbsSectionProps> =
   {
-    label: msg("components.breadcrumbsSection", "Breadcrumbs Section"),
+    label: msg("components.breadcrumbsSection", "Breadcrumbs"),
     fields: LuxuryRetailBreadcrumbsSectionFields,
     defaultProps: {
       rootLabel: {
@@ -437,7 +437,7 @@ export const LuxuryRetailBreadcrumbsSection: YextComponentConfig<LuxuryRetailBre
 
 export const config: SectionConfig = {
   id: "LuxuryRetailBreadcrumbsSection",
-  displayName: "Breadcrumbs Section",
-  description: "Breadcrumbs Section",
+  displayName: "Breadcrumbs",
+  description: "Breadcrumbs",
   pageSetTypes: ["ENTITY"],
 };

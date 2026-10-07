@@ -445,7 +445,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
 
 export const LuxuryRetailFaqSection: YextComponentConfig<LuxuryRetailFaqSectionProps> =
   {
-    label: msg("components.faqSection", "Faq Section"),
+    label: msg("components.faqSection", "FAQ"),
     fields: toPuckFields<LuxuryRetailFaqSectionProps>(
       LuxuryRetailFaqSectionFields,
     ),
@@ -499,7 +499,7 @@ export const LuxuryRetailFaqSection: YextComponentConfig<LuxuryRetailFaqSectionP
 
 export const config: SectionConfig = {
   id: "LuxuryRetailFaqSection",
-  displayName: "Faq Section",
-  description: "Faq Section",
+  displayName: "FAQ",
+  description: "FAQ",
   pageSetTypes: ["ENTITY"],
 };

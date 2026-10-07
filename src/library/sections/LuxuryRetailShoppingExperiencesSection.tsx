@@ -782,7 +782,7 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
 
 export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryRetailShoppingExperiencesSectionProps> =
   {
-    label: msg("fields.shoppingExperiencesSection", "Shopping Experiences Section"),
+    label: msg("fields.shoppingExperiencesSection", "Shopping Experiences"),
     fields: toPuckFields<LuxuryRetailShoppingExperiencesSectionProps>(
       LuxuryRetailShoppingExperiencesSectionFields,
     ),
@@ -889,7 +889,7 @@ export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryR
 
 export const config: SectionConfig = {
   id: "LuxuryRetailShoppingExperiencesSection",
-  displayName: "Shopping Experiences Section",
-  description: "Shopping Experiences Section",
+  displayName: "Shopping Experiences",
+  description: "Shopping Experiences",
   pageSetTypes: ["ENTITY"],
 };

@@ -17,6 +17,7 @@ import {
   useDocument,
   type ComprehensiveCTAValue,
   type StyledImageValue,
+  type StyledTextValue,
   type ThemeColor,
   type TranslatableAssetImage,
   type YextComponentConfig,
@@ -59,7 +60,7 @@ type RatingSummaryProps = {
 type LuxuryRetailHeroSectionProps = {
   heading: StyledTextProps;
   subheading: StyledTextProps;
-  body: StyledRtfProps;
+  body: StyledRtfProps & { styles?: StyledTextValue };
   heroImage: HeroImageProps;
   primaryCta: ComprehensiveCTAValue;
   secondaryCta: ComprehensiveCTAValue;
@@ -192,6 +193,10 @@ const LuxuryRetailHeroSectionFields: YextFields<LuxuryRetailHeroSectionProps> = 
         filter: {
           types: ["type.rich_text_v2"],
         },
+      },
+      styles: {
+        label: msg("fields.textStyles", "Text Styles"),
+        type: "styledText",
       },
       fontColor: {
         label: msg("fields.fontColor", "Font Color"),
@@ -458,6 +463,31 @@ const heroCss = `
     margin: 0;
   }
 
+  .luxury-hero .luxury-hero__body[style] * {
+    color: var(--luxury-hero-body-font-color) !important;
+  }
+
+  /* Apply selected Body styles over inline rich text styles. Keep Default styles. */
+  .luxury-hero__body[data-font-family]:not([data-font-family="default"]) * {
+    font-family: var(--luxury-hero-body-font-family) !important;
+  }
+
+  .luxury-hero__body[data-font-size]:not([data-font-size="default"]) * {
+    font-size: var(--luxury-hero-body-font-size) !important;
+  }
+
+  .luxury-hero__body[data-font-weight]:not([data-font-weight="default"]) * {
+    font-weight: var(--luxury-hero-body-font-weight) !important;
+  }
+
+  .luxury-hero__body[data-font-style]:not([data-font-style="default"]) * {
+    font-style: var(--luxury-hero-body-font-style) !important;
+  }
+
+  .luxury-hero__body[data-text-transform]:not([data-text-transform="default"]) * {
+    text-transform: var(--luxury-hero-body-text-transform) !important;
+  }
+
   .luxury-hero__ctas {
     display: flex;
     flex-wrap: wrap;
@@ -605,21 +635,18 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
     objectFit: props.heroImage.imageConstrain === "filled" ? "cover" : "contain",
     objectPosition: "center",
   };
-  const resolvedBodyContent = renderResolvedRichText(resolvedBody, {
-    color: resolveReadableTextColor(
-      props.body.fontColor,
-      props.section?.backgroundColor,
-      liveStreamDocument,
-    ),
-  });
+  const bodyStyles = props.body.styles
+    ? resolveTextStyles(props.body.styles)
+    : {};
+  const resolvedBodyContent = renderResolvedRichText(resolvedBody);
   const { averageRating, reviewCount } = getAggregateRating(liveStreamDocument);
   const headingColor = resolveReadableTextColor(
     props.heading.fontColor,
     props.section?.backgroundColor,
     liveStreamDocument,
   );
-  const bodyColor = resolveReadableTextColor(
-    props.body.fontColor,
+  const statusColor = resolveReadableTextColor(
+    undefined,
     props.section?.backgroundColor,
     liveStreamDocument,
   );
@@ -699,7 +726,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
             <div className="luxury-hero__content">
               <div
                 className="luxury-hero__status"
-                style={{ color: bodyColor }}
+                style={{ color: statusColor }}
               >
                 <EntityField
                   displayName={pt("hours", "Hours")}
@@ -778,7 +805,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
                 <p
                   className={`luxury-hero__rating${hasSubheading ? "" : " luxury-hero__rating--after-heading"}`}
                   aria-label={t("storeDetails", "Store details")}
-                  style={{ color: bodyColor }}
+                  style={{ color: statusColor }}
                 >
                   <FaStar aria-hidden="true" />
                   {t(
@@ -797,7 +824,26 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
                 fieldId={props.body.text.field}
                 constantValueEnabled={props.body.text.constantValueEnabled}
               >
-                <div className="luxury-hero__body">
+                <div
+                  className="luxury-hero__body"
+                  data-font-family={props.body.styles?.fontFamily}
+                  data-font-size={props.body.styles?.fontSize}
+                  data-font-weight={props.body.styles?.fontWeight}
+                  data-font-style={props.body.styles?.fontStyle}
+                  data-text-transform={props.body.styles?.textTransform}
+                  style={{
+                    "--luxury-hero-body-font-color": resolveReadableTextColor(
+                      props.body.fontColor,
+                      props.section?.backgroundColor,
+                      liveStreamDocument,
+                    ),
+                    "--luxury-hero-body-font-family": bodyStyles.fontFamily,
+                    "--luxury-hero-body-font-size": bodyStyles.fontSize,
+                    "--luxury-hero-body-font-weight": bodyStyles.fontWeight,
+                    "--luxury-hero-body-font-style": bodyStyles.fontStyle,
+                    "--luxury-hero-body-text-transform": bodyStyles.textTransform,
+                  } as React.CSSProperties}
+                >
                   {resolvedBodyContent}
                 </div>
               </EntityField>
@@ -853,7 +899,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
 
 export const LuxuryRetailHeroSection: YextComponentConfig<LuxuryRetailHeroSectionProps> =
   {
-    label: msg("components.heroSection", "Hero Section"),
+    label: msg("components.heroSection", "Hero"),
     fields: LuxuryRetailHeroSectionFields,
     defaultProps: {
       heading: {
@@ -900,6 +946,13 @@ export const LuxuryRetailHeroSection: YextComponentConfig<LuxuryRetailHeroSectio
             hasLocalizedValue: "true",
           },
           constantValueEnabled: true,
+        },
+        styles: {
+          fontFamily: "default",
+          fontSize: "default",
+          fontWeight: "default",
+          fontStyle: "default",
+          textTransform: "default",
         },
         fontColor: {
           selectedColor: "palette-tertiary",
@@ -1017,7 +1070,7 @@ export const LuxuryRetailHeroSection: YextComponentConfig<LuxuryRetailHeroSectio
 
 export const config: SectionConfig = {
   id: "LuxuryRetailHeroSection",
-  displayName: "Hero Section",
-  description: "Hero Section",
+  displayName: "Hero",
+  description: "Hero",
   pageSetTypes: ["ENTITY"],
 };

@@ -436,7 +436,7 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
 
 export const LuxuryRetailReviewsSection: YextComponentConfig<LuxuryRetailReviewsSectionProps> =
   {
-    label: msg("components.reviewsSection", "Reviews Section"),
+    label: msg("components.reviewsSection", "Reviews"),
     fields: LuxuryRetailReviewsSectionFields,
     defaultProps: {
       title: {
@@ -476,7 +476,7 @@ export const LuxuryRetailReviewsSection: YextComponentConfig<LuxuryRetailReviews
 
 export const config: SectionConfig = {
   id: "LuxuryRetailReviewsSection",
-  displayName: "Reviews Section",
-  description: "Reviews Section",
+  displayName: "Reviews",
+  description: "Reviews",
   pageSetTypes: ["ENTITY"],
 };

@@ -722,7 +722,7 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
 export const LuxuryRetailNearbyStoresSection: YextComponentConfig<
   LuxuryRetailNearbyStoresSectionProps
 > = {
-  label: msg("fields.nearbyStoresSection", "Nearby Stores Section"),
+  label: msg("fields.nearbyStoresSection", "Nearby Stores"),
   fields: LuxuryRetailNearbyStoresSectionFields,
   defaultProps: {
     title: {
@@ -788,7 +788,7 @@ export const LuxuryRetailNearbyStoresSection: YextComponentConfig<
 
 export const config: SectionConfig = {
   id: "LuxuryRetailNearbyStoresSection",
-  displayName: "Nearby Stores Section",
-  description: "Nearby Stores Section",
+  displayName: "Nearby Stores",
+  description: "Nearby Stores",
   pageSetTypes: ["ENTITY"],
 };

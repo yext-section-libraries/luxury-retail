@@ -16,6 +16,7 @@ import {
   useDocument,
   type ComprehensiveCTAValue,
   type StyledImageValue,
+  type StyledTextValue,
   type ThemeColor,
   type TranslatableAssetImage,
   type YextComponentConfig,
@@ -29,7 +30,6 @@ import {
   getReadableTextColor as resolveReadableTextColor,
   getReadableThemeColor as resolveReadableThemeColor,
   getTextStyles,
-  getThemeColorCssValue as resolveThemeColorCssValue,
   hasImageSource,
   renderResolvedRichText,
   type StyledRtfProps,
@@ -45,7 +45,7 @@ type PromoImageProps = {
 
 type LuxuryRetailSeasonalPromoSectionProps = {
   heading: StyledTextProps;
-  body: StyledRtfProps;
+  body: StyledRtfProps & { styles?: StyledTextValue };
   cta: ComprehensiveCTAValue;
   promoImage: PromoImageProps;
   section: {
@@ -104,6 +104,10 @@ const LuxuryRetailSeasonalPromoSectionFields: YextFields<
         type: "entityField",
         label: msg("fields.text", "Text"),
         filter: { types: ["type.rich_text_v2"] },
+      },
+      styles: {
+        label: msg("fields.textStyles", "Text Styles"),
+        type: "styledText",
       },
       fontColor: {
         label: msg("fields.fontColor", "Font Color"),
@@ -270,6 +274,31 @@ const promoCss = `
     line-height: 1.6;
   }
 
+  .luxury-seasonal-promo .luxury-seasonal-promo__body[style] * {
+    color: var(--luxury-seasonal-promo-body-font-color) !important;
+  }
+
+  /* Apply selected Body styles over inline rich text styles. Keep Default styles. */
+  .luxury-seasonal-promo__body[data-font-family]:not([data-font-family="default"]) * {
+    font-family: var(--luxury-seasonal-promo-body-font-family) !important;
+  }
+
+  .luxury-seasonal-promo__body[data-font-size]:not([data-font-size="default"]) * {
+    font-size: var(--luxury-seasonal-promo-body-font-size) !important;
+  }
+
+  .luxury-seasonal-promo__body[data-font-weight]:not([data-font-weight="default"]) * {
+    font-weight: var(--luxury-seasonal-promo-body-font-weight) !important;
+  }
+
+  .luxury-seasonal-promo__body[data-font-style]:not([data-font-style="default"]) * {
+    font-style: var(--luxury-seasonal-promo-body-font-style) !important;
+  }
+
+  .luxury-seasonal-promo__body[data-text-transform]:not([data-text-transform="default"]) * {
+    text-transform: var(--luxury-seasonal-promo-body-text-transform) !important;
+  }
+
   .luxury-seasonal-promo__body p {
     margin: 0;
   }
@@ -418,10 +447,8 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
     props.heading.fontColor,
     readableTextColor,
   );
-  const bodyStyleOverrides = {
-    color: resolveThemeColorCssValue(props.body.fontColor) ?? readableTextColor,
-  };
-  const bodyContent = renderResolvedRichText(body, bodyStyleOverrides);
+  const bodyStyles = props.body.styles ? getTextStyles(props.body.styles) : {};
+  const bodyContent = renderResolvedRichText(body);
   const ctaClassName = `luxury-seasonal-promo__cta ${
     props.cta.styles.variant === "link"
       ? "luxury-seasonal-promo__cta--underlined"
@@ -473,7 +500,26 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
                   fieldId={props.body.text.field}
                   constantValueEnabled={props.body.text.constantValueEnabled}
                 >
-                  <div className="luxury-seasonal-promo__body">
+                  <div
+                    className="luxury-seasonal-promo__body"
+                    data-font-family={props.body.styles?.fontFamily}
+                    data-font-size={props.body.styles?.fontSize}
+                    data-font-weight={props.body.styles?.fontWeight}
+                    data-font-style={props.body.styles?.fontStyle}
+                    data-text-transform={props.body.styles?.textTransform}
+                    style={{
+                      "--luxury-seasonal-promo-body-font-color": resolveReadableTextColor(
+                        props.body.fontColor,
+                        props.section?.backgroundColor,
+                        streamDocument,
+                      ),
+                      "--luxury-seasonal-promo-body-font-family": bodyStyles.fontFamily,
+                      "--luxury-seasonal-promo-body-font-size": bodyStyles.fontSize,
+                      "--luxury-seasonal-promo-body-font-weight": bodyStyles.fontWeight,
+                      "--luxury-seasonal-promo-body-font-style": bodyStyles.fontStyle,
+                      "--luxury-seasonal-promo-body-text-transform": bodyStyles.textTransform,
+                    } as React.CSSProperties}
+                  >
                     {bodyContent}
                   </div>
                 </EntityField>
@@ -563,7 +609,7 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
 export const LuxuryRetailSeasonalPromoSection: YextComponentConfig<
   LuxuryRetailSeasonalPromoSectionProps
 > = {
-  label: msg("fields.seasonalPromoSection", "Seasonal Promo Section"),
+  label: msg("fields.seasonalPromoSection", "Seasonal Promo"),
   fields: LuxuryRetailSeasonalPromoSectionFields,
   defaultProps: {
     heading: {
@@ -596,6 +642,13 @@ export const LuxuryRetailSeasonalPromoSection: YextComponentConfig<
           hasLocalizedValue: "true",
         },
         constantValueEnabled: true,
+      },
+      styles: {
+        fontFamily: "default",
+        fontSize: "default",
+        fontWeight: "default",
+        fontStyle: "default",
+        textTransform: "default",
       },
       fontColor: {
         selectedColor: "palette-tertiary",
@@ -665,7 +718,7 @@ export const LuxuryRetailSeasonalPromoSection: YextComponentConfig<
 
 export const config: SectionConfig = {
   id: "LuxuryRetailSeasonalPromoSection",
-  displayName: "Seasonal Promo Section",
-  description: "Seasonal Promo Section",
+  displayName: "Seasonal Promo",
+  description: "Seasonal Promo",
   pageSetTypes: ["ENTITY"],
 };
