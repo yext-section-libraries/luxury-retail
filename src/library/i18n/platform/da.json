@@ -349,5 +349,6 @@
   "utilityIconImage": "Billede til funktionsikon",
   "visitPage": "Besøg side",
   "visitPageForName": "Besøg siden for {{name}}",
-  "wednesday": "onsdag"
+  "wednesday": "onsdag",
+  "mapRequiresWebGL": "Kortet er ikke tilgængeligt, fordi WebGL ikke er tilgængeligt."
 }
