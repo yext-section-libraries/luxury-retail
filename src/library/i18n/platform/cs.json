@@ -361,5 +361,6 @@
   "utilityIconImage": "Obrázek ikony nástroje",
   "visitPage": "Navštivte stránku",
   "visitPageForName": "Navštivte stránku pro {{name}}",
-  "wednesday": "středa"
+  "wednesday": "středa",
+  "mapRequiresWebGL": "Mapa není dostupná, protože WebGL není k dispozici."
 }
