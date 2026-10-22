@@ -113,6 +113,7 @@
     "longitude": "Lengdegrad",
     "mainPhoneHeading": "Overskrift for hovedtelefon",
     "map": "Kart",
+    "mapStartingZoom": "Kartets startzoom",
     "mapboxMapStyle": "Mapbox-kartstil",
     "mapStyle": "Kartstil",
     "name": "Navn",

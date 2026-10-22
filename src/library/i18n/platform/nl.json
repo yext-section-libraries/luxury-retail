@@ -113,6 +113,7 @@
     "longitude": "Lengte",
     "mainPhoneHeading": "Kop voor hoofdtelefoonnummer",
     "map": "Kaart",
+    "mapStartingZoom": "Initieel zoomniveau van de kaart",
     "mapboxMapStyle": "Mapbox-kaartstijl",
     "mapStyle": "Kaartstijl",
     "name": "Naam",
