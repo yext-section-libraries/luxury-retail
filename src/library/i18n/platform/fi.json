@@ -113,6 +113,7 @@
     "longitude": "Pituusaste",
     "mainPhoneHeading": "Pääpuhelinnumeron otsikko",
     "map": "Kartta",
+    "mapStartingZoom": "Kartan aloituszoomaus",
     "mapboxMapStyle": "Mapbox-karttatyyli",
     "mapStyle": "Karttatyyli",
     "name": "Nimi",

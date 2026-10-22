@@ -113,6 +113,7 @@
     "longitude": "Pikkuskraad",
     "mainPhoneHeading": "Põhitelefoni pealkiri",
     "map": "Kaart",
+    "mapStartingZoom": "Kaardi algne suumitase",
     "mapboxMapStyle": "Mapboxi kaardistiil",
     "mapStyle": "Kaardistiil",
     "name": "Nimi",

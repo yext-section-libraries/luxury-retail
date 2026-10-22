@@ -113,6 +113,7 @@
     "longitude": "Longitude",
     "mainPhoneHeading": "Cabeçalho do telefone principal",
     "map": "Mapa",
+    "mapStartingZoom": "Nível de zoom inicial do mapa",
     "mapboxMapStyle": "Estilo de mapa Mapbox",
     "mapStyle": "Estilo de mapa",
     "name": "Nome",
