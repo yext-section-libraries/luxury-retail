@@ -1,17 +1,17 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
   msg,
-  pt,
   Background,
+  pt,
   ComprehensiveCTA,
   EntityField,
   Image,
   getAnalyticsScopeHash,
   getDefaultRTF,
-  getSurfaceColorStyle,
   resolveComponentData,
   useDocument,
   type ComprehensiveCTAValue,
@@ -32,8 +32,10 @@ import {
   getTextStyles,
   hasImageSource,
   renderResolvedRichText,
+  resolveBorderRadius,
   type StyledRtfProps,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type PromoImageProps = {
@@ -150,97 +152,15 @@ const LuxuryRetailSeasonalPromoSectionFields: YextFields<
 };
 
 const promoCss = `
-  .luxury-seasonal-promo :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-seasonal-promo :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-seasonal-promo :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-seasonal-promo :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-seasonal-promo :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-seasonal-promo :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-seasonal-promo :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-seasonal-promo :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-seasonal-promo :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-
   .luxury-seasonal-promo {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
     margin: 0;
-    padding-top: 48px;
   }
 
   .luxury-seasonal-promo__inner {
-    width: min(1760px, calc(100vw - 60px));
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
   }
 
@@ -253,50 +173,15 @@ const promoCss = `
   .luxury-seasonal-promo__copy {
     display: flex;
     align-items: center;
-    padding: 48px 40px;
+    padding: 0 40px;
   }
 
   .luxury-seasonal-promo__copy-inner {
-    max-width: 600px;
+    width: 100%;
   }
 
   .luxury-seasonal-promo__heading {
     margin: 0 0 16px;
-    font-family: var(--fontFamily-h2-fontFamily, Georgia, serif);
-    font-size: clamp(36px, 3vw, 58px);
-    font-weight: 400;
-    line-height: 0.98;
-    letter-spacing: -0.01em;
-  }
-
-  .luxury-seasonal-promo__body {
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  .luxury-seasonal-promo .luxury-seasonal-promo__body[style] * {
-    color: var(--luxury-seasonal-promo-body-font-color) !important;
-  }
-
-  /* Apply selected Body styles over inline rich text styles. Keep Default styles. */
-  .luxury-seasonal-promo__body[data-font-family]:not([data-font-family="default"]) * {
-    font-family: var(--luxury-seasonal-promo-body-font-family) !important;
-  }
-
-  .luxury-seasonal-promo__body[data-font-size]:not([data-font-size="default"]) * {
-    font-size: var(--luxury-seasonal-promo-body-font-size) !important;
-  }
-
-  .luxury-seasonal-promo__body[data-font-weight]:not([data-font-weight="default"]) * {
-    font-weight: var(--luxury-seasonal-promo-body-font-weight) !important;
-  }
-
-  .luxury-seasonal-promo__body[data-font-style]:not([data-font-style="default"]) * {
-    font-style: var(--luxury-seasonal-promo-body-font-style) !important;
-  }
-
-  .luxury-seasonal-promo__body[data-text-transform]:not([data-text-transform="default"]) * {
-    text-transform: var(--luxury-seasonal-promo-body-text-transform) !important;
   }
 
   .luxury-seasonal-promo__body p {
@@ -306,47 +191,10 @@ const promoCss = `
   .luxury-seasonal-promo__cta {
     display: inline-flex;
     align-items: center;
+    margin-top: 24px;
     position: relative;
-    text-decoration: none;
+
     transition: transform 0.18s ease;
-  }
-
-  .luxury-seasonal-promo__cta--button {
-    justify-content: center;
-    min-height: 48px;
-    margin-top: 24px;
-    padding: 0 24px;
-  }
-
-  .luxury-seasonal-promo__cta--underlined {
-    gap: 8px;
-    margin-top: 24px;
-    padding: 8px 12px 8px 0;
-  }
-
-  .luxury-seasonal-promo__cta--underlined::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 12px;
-    bottom: 2px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0.42);
-    transform-origin: left center;
-    opacity: 0.55;
-    transition: transform 0.18s ease, opacity 0.18s ease;
-  }
-
-  .luxury-seasonal-promo__cta--underlined:hover,
-  .luxury-seasonal-promo__cta--underlined:focus-visible {
-    transform: translateX(4px);
-  }
-
-  .luxury-seasonal-promo__cta--underlined:hover::after,
-  .luxury-seasonal-promo__cta--underlined:focus-visible::after {
-    transform: scaleX(1);
-    opacity: 1;
   }
 
   .luxury-seasonal-promo__image-shell {
@@ -382,21 +230,22 @@ const promoCss = `
   }
 
   .luxury-seasonal-promo__content--text-only .luxury-seasonal-promo__copy {
-    padding: 56px;
+    padding: 0 56px;
   }
 
   .luxury-seasonal-promo__content--text-only .luxury-seasonal-promo__copy-inner {
-    max-width: 760px;
+    width: 100%;
     margin: 0 auto;
   }
 
   @media (max-width: 1100px) {
     .luxury-seasonal-promo {
-      padding-top: 32px;
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     }
 
     .luxury-seasonal-promo__inner {
-      width: calc(100vw - 40px);
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
     }
 
     .luxury-seasonal-promo__content {
@@ -404,11 +253,13 @@ const promoCss = `
       gap: 24px;
     }
 
-    .luxury-seasonal-promo__copy {
+    .luxury-seasonal-promo__copy,
+    .luxury-seasonal-promo__content--text-only .luxury-seasonal-promo__copy {
       padding: 0;
     }
 
-    .luxury-seasonal-promo__image-shell {
+    .luxury-seasonal-promo__image-frame,
+    .luxury-seasonal-promo__image-frame img {
       max-height: 480px;
     }
   }
@@ -418,7 +269,8 @@ const promoCss = `
       padding: 16px;
     }
 
-    .luxury-seasonal-promo__image-shell {
+    .luxury-seasonal-promo__image-frame,
+    .luxury-seasonal-promo__image-frame img {
       max-height: 360px;
     }
   }
@@ -447,8 +299,10 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
     props.heading.fontColor,
     readableTextColor,
   );
-  const bodyStyles = props.body.styles ? getTextStyles(props.body.styles) : {};
-  const bodyContent = renderResolvedRichText(body);
+  const bodyContent = renderResolvedRichText(body, {
+    ...props.body.styles,
+    color: resolveReadableTextColor(props.body.fontColor, props.section?.backgroundColor, streamDocument),
+  });
   const ctaClassName = `luxury-seasonal-promo__cta ${
     props.cta.styles.variant === "link"
       ? "luxury-seasonal-promo__cta--underlined"
@@ -502,23 +356,6 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
                 >
                   <div
                     className="luxury-seasonal-promo__body"
-                    data-font-family={props.body.styles?.fontFamily}
-                    data-font-size={props.body.styles?.fontSize}
-                    data-font-weight={props.body.styles?.fontWeight}
-                    data-font-style={props.body.styles?.fontStyle}
-                    data-text-transform={props.body.styles?.textTransform}
-                    style={{
-                      "--luxury-seasonal-promo-body-font-color": resolveReadableTextColor(
-                        props.body.fontColor,
-                        props.section?.backgroundColor,
-                        streamDocument,
-                      ),
-                      "--luxury-seasonal-promo-body-font-family": bodyStyles.fontFamily,
-                      "--luxury-seasonal-promo-body-font-size": bodyStyles.fontSize,
-                      "--luxury-seasonal-promo-body-font-weight": bodyStyles.fontWeight,
-                      "--luxury-seasonal-promo-body-font-style": bodyStyles.fontStyle,
-                      "--luxury-seasonal-promo-body-text-transform": bodyStyles.textTransform,
-                    } as React.CSSProperties}
                   >
                     {bodyContent}
                   </div>
@@ -565,10 +402,9 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
                         aspectRatio: promoImageHasAspectRatio
                           ? props.promoImage.aspectRatio
                           : undefined,
-                        borderRadius:
-                          props.promoImage.styles?.borderRadius === "default"
-                            ? undefined
-                            : props.promoImage.styles?.borderRadius,
+                        borderRadius: resolveBorderRadius(
+                          props.promoImage.styles?.borderRadius,
+                        ),
                         overflow:
                           props.promoImage.imageConstrain === "filled" ||
                           Boolean(
@@ -609,7 +445,7 @@ const LuxuryRetailSeasonalPromoSectionComponent: PuckComponent<
 export const LuxuryRetailSeasonalPromoSection: YextComponentConfig<
   LuxuryRetailSeasonalPromoSectionProps
 > = {
-  label: msg("fields.seasonalPromoSection", "Seasonal Promo"),
+  label: msg("components.seasonalPromoSection", "Seasonal Promo Section"),
   fields: LuxuryRetailSeasonalPromoSectionFields,
   defaultProps: {
     heading: {
@@ -627,10 +463,7 @@ export const LuxuryRetailSeasonalPromoSection: YextComponentConfig<
         fontStyle: "default",
         textTransform: "default",
       },
-      fontColor: {
-        selectedColor: "palette-primary",
-        contrastingColor: "palette-primary-contrast",
-      },
+      fontColor: undefined,
     },
     body: {
       text: {
@@ -650,10 +483,7 @@ export const LuxuryRetailSeasonalPromoSection: YextComponentConfig<
         fontStyle: "default",
         textTransform: "default",
       },
-      fontColor: {
-        selectedColor: "palette-tertiary",
-        contrastingColor: "palette-tertiary-contrast",
-      },
+      fontColor: undefined,
     },
     cta: {
       data: {
@@ -683,7 +513,7 @@ export const LuxuryRetailSeasonalPromoSection: YextComponentConfig<
           fontWeight: "default",
           fontStyle: "default",
           textTransform: "default",
-          borderRadius: "999px",
+          borderRadius: "default",
           letterSpacing: "default",
         },
       },
@@ -718,7 +548,7 @@ export const LuxuryRetailSeasonalPromoSection: YextComponentConfig<
 
 export const config: SectionConfig = {
   id: "LuxuryRetailSeasonalPromoSection",
-  displayName: "Seasonal Promo",
-  description: "Seasonal Promo",
+  displayName: "Seasonal Promo Section",
+  description: "Seasonal Promo Section",
   pageSetTypes: ["ENTITY"],
 };

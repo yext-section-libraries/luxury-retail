@@ -27,7 +27,15 @@
     "locator": "Standortfinder",
     "phone": "Telefon",
     "reviewsSection": "Bewertungsabschnitt",
-    "sharedHeader": "Gemeinsame Kopfzeile"
+    "sharedHeader": "Gemeinsame Kopfzeile",
+    "aboutStoreSection": "Abschnitt Über das Geschäft",
+    "communitySection": "Community-Abschnitt",
+    "seasonalPromoSection": "Abschnitt Saisonale Aktion",
+    "shoppingExperiencesSection": "Abschnitt Einkaufserlebnisse",
+    "storeDetailsSection": "Abschnitt Geschäftsdetails",
+    "nearbyStoresSection": "Abschnitt Geschäfte in der Nähe",
+    "headerSection": "Gemeinsame Kopfzeile-Abschnitt",
+    "bannerSection": "Banner-Abschnitt"
   },
   "currentLocation": "Aktueller Standort",
   "customerRatingSummary": "Zusammenfassung der Kundenbewertungen",
@@ -212,7 +220,8 @@
       "today": "Heute",
       "utilityTopRow": "Obere Dienstprogrammzeile",
       "width": "Breite",
-      "yes": "Ja"
+      "yes": "Ja",
+      "x": "X"
     },
     "overrideLink": "Link überschreiben",
     "pageHeading": "Seitenüberschrift",
@@ -351,5 +360,7 @@
   "visitPage": "Standortseite aufrufen",
   "visitPageForName": "Besuchsseite für {{name}}",
   "wednesday": "Mittwoch",
-  "mapRequiresWebGL": "Die Karte ist nicht verfügbar, weil WebGL nicht verfügbar ist."
+  "mapRequiresWebGL": "Die Karte ist nicht verfügbar, weil WebGL nicht verfügbar ist.",
+  "sectionHiddenForPage": "Abschnitt auf dieser Seite ausgeblendet",
+  "mappedBannerFieldEmpty": "Das zugeordnete Bannerfeld ist leer"
 }

@@ -27,7 +27,15 @@
     "locator": "Lokators",
     "phone": "Telefons",
     "reviewsSection": "Atsauksmju sadaļa",
-    "sharedHeader": "Koplietota galvene"
+    "sharedHeader": "Koplietota galvene",
+    "aboutStoreSection": "Sadaļa Par veikalu",
+    "communitySection": "Kopienas sadaļa",
+    "seasonalPromoSection": "Sezonālās akcijas sadaļa",
+    "shoppingExperiencesSection": "Iepirkšanās pieredzes sadaļa",
+    "storeDetailsSection": "Veikala informācijas sadaļa",
+    "nearbyStoresSection": "Tuvumā esošo veikalu sadaļa",
+    "headerSection": "Koplietota galvene sadaļa",
+    "bannerSection": "Reklāmkarogs sadaļa"
   },
   "currentLocation": "Pašreizējā atrašanās vieta",
   "customerRatingSummary": "Klientu vērtējumu kopsavilkums",
@@ -212,7 +220,8 @@
       "today": "Šodien",
       "utilityTopRow": "Augšējā utilītu rinda",
       "width": "Platums",
-      "yes": "Jā"
+      "yes": "Jā",
+      "x": "X"
     },
     "overrideLink": "Pārrakstīt saiti",
     "pageHeading": "Lapas virsraksts",
@@ -354,5 +363,7 @@
   "visitPage": "Apmeklējuma lapa",
   "visitPageForName": "Apmeklējiet lapu {{name}}",
   "wednesday": "Trešdiena",
-  "mapRequiresWebGL": "Karte nav pieejama, jo WebGL nav pieejams."
+  "mapRequiresWebGL": "Karte nav pieejama, jo WebGL nav pieejams.",
+  "sectionHiddenForPage": "Sadaļa šajā lapā ir paslēpta",
+  "mappedBannerFieldEmpty": "Saistītais reklāmkaroga lauks ir tukšs"
 }

@@ -1,11 +1,12 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import type { PuckComponent } from "@puckeditor/core";
 import {
   msg,
-  pt,
   Background,
+  pt,
   createItemSource,
   EntityField,
   getDefaultRTF,
@@ -14,7 +15,6 @@ import {
   YextComponentConfig,
   YextFields,
   getAnalyticsScopeHash,
-  getSurfaceColorStyle,
   toPuckFields,
   type StyledTextValue,
   type ThemeColor,
@@ -30,6 +30,7 @@ import {
   getThemeColorCssValue,
   renderResolvedRichText,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type FaqItemFields = {
@@ -201,91 +202,6 @@ const LuxuryRetailFaqSectionFields: YextFields<LuxuryRetailFaqSectionProps> =
     },
   };
 
-const faqCss = `
-  .luxury-faq :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-faq :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-faq :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-faq :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-faq :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-faq :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-faq :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-faq :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-faq :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-`;
-
 const LuxuryRetailFaqSectionComponent: PuckComponent<
   LuxuryRetailFaqSectionProps
 > = (props) => {
@@ -331,21 +247,20 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
       <AnalyticsScopeProvider
         name={`LuxuryRetailFaqSection${getAnalyticsScopeHash(props.id)}`}
       >
-        <style>{faqCss}</style>
         <Background
           as="section"
           background={props.section.backgroundColor}
-          className="luxury-faq px-6 py-16 min-[1101px]:px-[30px]"
+          className="luxury-faq px-4 md:px-6 py-pageSection-verticalPadding"
           style={sectionStyle}
         >
-          <div className="mx-auto flex w-[min(1120px,calc(100vw-60px))] flex-col gap-8">
+          <div className="mx-auto flex w-full max-w-pageSection-contentWidth flex-col gap-8">
             <EntityField
               displayName={pt("heading", "Heading")}
               fieldId={props.heading.text.field}
               constantValueEnabled={props.heading.text.constantValueEnabled}
             >
               <h2
-                className="m-0 text-center text-[16px] uppercase tracking-[0.16em]"
+                className="m-0 text-center"
                 style={headingStyle}
               >
                 {resolvedHeading}
@@ -407,14 +322,14 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
                         }}
                       >
                         <span
-                          className="font-serif text-[20px]"
+                          className="luxury-retail-faq-label"
                           style={questionStyle}
                         >
                           {resolvedQuestion}
                         </span>
                         <span
                           aria-hidden="true"
-                          className="text-[20px]"
+                          className="shrink-0"
                           style={{ color: questionStyle.color }}
                         >
                           {isOpen ? "−" : "+"}
@@ -422,7 +337,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
                       </button>
                       {isOpen ? (
                         <div
-                          className="pb-5 pr-10 text-[14px] leading-[1.7]"
+                          className="pb-5 pr-10"
                           style={{ color: answerStyleOverrides.color }}
                         >
                           {renderResolvedRichText(
@@ -445,7 +360,7 @@ const LuxuryRetailFaqSectionComponent: PuckComponent<
 
 export const LuxuryRetailFaqSection: YextComponentConfig<LuxuryRetailFaqSectionProps> =
   {
-    label: msg("components.faqSection", "FAQ"),
+    label: msg("components.faqSection", "FAQ Section"),
     fields: toPuckFields<LuxuryRetailFaqSectionProps>(
       LuxuryRetailFaqSectionFields,
     ),
@@ -472,17 +387,11 @@ export const LuxuryRetailFaqSection: YextComponentConfig<LuxuryRetailFaqSectionP
         styles: {
           question: {
             styles: defaultTextStyles,
-            fontColor: {
-              selectedColor: "palette-primary",
-              contrastingColor: "palette-primary-contrast",
-            },
+            fontColor: undefined,
           },
           answer: {
             styles: defaultTextStyles,
-            fontColor: {
-              selectedColor: "palette-quaternary",
-              contrastingColor: "palette-quaternary-contrast",
-            },
+            fontColor: undefined,
           },
         },
       },
@@ -499,7 +408,7 @@ export const LuxuryRetailFaqSection: YextComponentConfig<LuxuryRetailFaqSectionP
 
 export const config: SectionConfig = {
   id: "LuxuryRetailFaqSection",
-  displayName: "FAQ",
-  description: "FAQ",
+  displayName: "FAQ Section",
+  description: "FAQ Section",
   pageSetTypes: ["ENTITY"],
 };

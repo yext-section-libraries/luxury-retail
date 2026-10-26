@@ -1,15 +1,15 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
   msg,
-  pt,
   Background,
+  pt,
   ComprehensiveCTA,
   EntityField,
   getAnalyticsScopeHash,
-  getSurfaceColorStyle,
   resolveComponentData,
   useDocument,
   type ComprehensiveCTAValue,
@@ -38,6 +38,7 @@ import {
   getTextStyles as resolveTextStyles,
   getThemeColorCssValue as resolveThemeColorCssValue,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type PhoneItemProps = {
@@ -249,7 +250,7 @@ const LuxuryRetailStoreDetailsSectionFields: YextFields<
           label: "",
         },
         getItemSummary: (item) =>
-          item.label || item.number?.field || item.number?.constantValue || "Phone",
+          item.label || item.number?.field || item.number?.constantValue || pt("phone", "Phone"),
       },
       phoneFormat: {
         label: msg("fields.phoneFormat", "Phone Format"),
@@ -406,97 +407,16 @@ const LuxuryRetailStoreDetailsSectionFields: YextFields<
 };
 
 const detailsCss = `
-  .luxury-store-details :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-store-details :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-store-details :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-store-details :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-store-details :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-store-details :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-store-details :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-store-details :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-store-details :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-
   .luxury-store-details {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
     margin: 0;
-    padding: 48px 0;
   }
 
   .luxury-store-details__inner {
-    width: min(1760px, calc(100vw - 60px));
+    container-type: inline-size;
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
   }
 
@@ -508,13 +428,8 @@ const detailsCss = `
   .luxury-store-details__title {
     margin: 0;
     color: var(--luxury-store-details-title-color);
-    font-family: var(--fontFamily-h3-fontFamily, Georgia, serif);
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.16em;
-    line-height: 1.2;
+
     text-align: center;
-    text-transform: uppercase;
   }
 
   .luxury-store-details__grid {
@@ -537,14 +452,10 @@ const detailsCss = `
   .luxury-store-details__label {
     margin: 0;
     color: var(--luxury-store-details-heading-color);
-    font-family: var(--fontFamily-h4-fontFamily, Georgia, serif);
-    font-weight: 400;
   }
 
   .luxury-store-details__card-title {
     margin-bottom: 22px;
-    font-size: 21px;
-    line-height: 1.18;
   }
 
   .luxury-store-details__stack {
@@ -557,20 +468,11 @@ const detailsCss = `
     gap: 12px;
   }
 
-  .luxury-store-details__label {
-    font-size: 14px;
-    letter-spacing: 0.12em;
-    line-height: 1.3;
-    text-transform: uppercase;
-  }
-
   .luxury-store-details__block,
   .luxury-store-details__phones,
   .luxury-store-details__hours,
   .luxury-store-details__services {
     color: var(--luxury-store-details-readable-color);
-    font-size: 15px;
-    line-height: 1.6;
   }
 
   .luxury-store-details__phones {
@@ -580,8 +482,6 @@ const detailsCss = `
 
   .luxury-store-details__phone-link {
     color: var(--luxury-store-details-phone-link-color);
-    text-decoration: underline;
-    text-underline-offset: 0.16em;
   }
 
   .luxury-store-details__actions {
@@ -597,44 +497,8 @@ const detailsCss = `
     display: inline-flex;
     align-items: center;
     position: relative;
-    text-decoration: none;
+
     transition: transform 0.18s ease;
-  }
-
-  .luxury-store-details__cta--button {
-    justify-content: center;
-    min-height: 48px;
-    padding: 0 24px;
-  }
-
-  .luxury-store-details__cta--underlined {
-    gap: 8px;
-    padding: 8px 12px 8px 0;
-  }
-
-  .luxury-store-details__cta--underlined::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 12px;
-    bottom: 2px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0.42);
-    transform-origin: left center;
-    opacity: 0.55;
-    transition: transform 0.18s ease, opacity 0.18s ease;
-  }
-
-  .luxury-store-details__cta--underlined:hover,
-  .luxury-store-details__cta--underlined:focus-visible {
-    transform: translateX(4px);
-  }
-
-  .luxury-store-details__cta--underlined:hover::after,
-  .luxury-store-details__cta--underlined:focus-visible::after {
-    transform: scaleX(1);
-    opacity: 1;
   }
 
   .luxury-store-details__hours .HoursTable {
@@ -660,7 +524,6 @@ const detailsCss = `
   .luxury-store-details__hours .HoursTable-row.is-today .HoursTable-day,
   .luxury-store-details__hours .HoursTable-row.is-today .HoursTable-intervals {
     color: var(--luxury-store-details-hours-color);
-    font-weight: 700;
   }
 
   .luxury-store-details__services {
@@ -676,15 +539,16 @@ const detailsCss = `
 
   @media (max-width: 1100px) {
     .luxury-store-details {
-      padding: 32px 0;
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     }
 
     .luxury-store-details__inner {
-      width: calc(100vw - 40px);
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
     }
   }
 
-  @media (max-width: 1020px) {
+  @container (max-width: 1020px) {
     .luxury-store-details__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -694,7 +558,7 @@ const detailsCss = `
     }
   }
 
-  @media (max-width: 720px) {
+  @container (max-width: 720px) {
     .luxury-store-details__content {
       gap: 32px;
     }
@@ -1120,7 +984,7 @@ const LuxuryRetailStoreDetailsSectionComponent: PuckComponent<
 
 export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailStoreDetailsSectionProps> =
   {
-    label: msg("fields.storeDetailsSection", "Store Details"),
+    label: msg("components.storeDetailsSection", "Store Details Section"),
     fields: LuxuryRetailStoreDetailsSectionFields,
     defaultProps: {
       title: {
@@ -1136,12 +1000,9 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
           fontSize: "default",
           fontWeight: "default",
           fontStyle: "default",
-          textTransform: "uppercase",
+          textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
       locationInformationHeading: {
         text: {
@@ -1158,10 +1019,7 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
           fontStyle: "default",
           textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
       addressHeading: {
         text: {
@@ -1176,12 +1034,9 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
           fontSize: "default",
           fontWeight: "default",
           fontStyle: "default",
-          textTransform: "uppercase",
+          textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
       mainPhoneHeading: {
         text: {
@@ -1196,12 +1051,9 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
           fontSize: "default",
           fontWeight: "default",
           fontStyle: "default",
-          textTransform: "uppercase",
+          textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
       storeHoursHeading: {
         text: {
@@ -1218,10 +1070,7 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
           fontStyle: "default",
           textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
       servicesHeading: {
         text: {
@@ -1238,10 +1087,7 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
           fontStyle: "default",
           textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
       address: {
         field: "address",
@@ -1298,7 +1144,7 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
             fontWeight: "default",
             fontStyle: "default",
             textTransform: "default",
-            borderRadius: "999px",
+            borderRadius: "default",
             letterSpacing: "default",
           },
         },
@@ -1331,7 +1177,7 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
             fontSize: "default",
             fontWeight: "default",
             fontStyle: "default",
-            textTransform: "uppercase",
+            textTransform: "default",
             letterSpacing: "default",
             includeCaret: "default",
           },
@@ -1369,10 +1215,7 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
           fontStyle: "default",
           textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-tertiary",
-          contrastingColor: "palette-tertiary-contrast",
-        },
+        fontColor: undefined,
       },
       section: {
         backgroundColor: {
@@ -1387,7 +1230,7 @@ export const LuxuryRetailStoreDetailsSection: YextComponentConfig<LuxuryRetailSt
 
 export const config: SectionConfig = {
   id: "LuxuryRetailStoreDetailsSection",
-  displayName: "Store Details",
-  description: "Store Details",
+  displayName: "Store Details Section",
+  description: "Store Details Section",
   pageSetTypes: ["ENTITY"],
 };

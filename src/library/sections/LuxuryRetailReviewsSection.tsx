@@ -1,3 +1,4 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
@@ -5,11 +6,10 @@ import { PuckComponent } from "@puckeditor/core";
 import { useTranslation } from "react-i18next";
 import {
   msg,
-  pt,
   Background,
+  pt,
   EntityField,
   getAnalyticsScopeHash,
-  getSurfaceColorStyle,
   resolveComponentData,
   useDocument,
   type ThemeColor,
@@ -24,6 +24,7 @@ import {
   getTextStyles,
   getThemeColorCssValue,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type LuxuryRetailReviewsSectionProps = {
@@ -84,109 +85,22 @@ const LuxuryRetailReviewsSectionFields: YextFields<LuxuryRetailReviewsSectionPro
   };
 
 const reviewsCss = `
-  .luxury-reviews :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-reviews :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-reviews :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-reviews :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-reviews :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-reviews :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-reviews :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-reviews :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-reviews :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-
   .luxury-reviews {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
     margin: 0;
-    padding: 96px 0 48px;
   }
 
   .luxury-reviews__inner {
-    width: min(1120px, calc(100vw - 64px));
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
   }
 
   .luxury-reviews__title {
     margin: 0 0 16px;
-    font-family: var(--fontFamily-h3-fontFamily, Georgia, serif);
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.16em;
-    line-height: 1.2;
+
     text-align: center;
-    text-transform: uppercase;
   }
 
   .luxury-reviews__summary {
@@ -195,14 +109,11 @@ const reviewsCss = `
     justify-content: center;
     gap: 18px;
     margin: 0 0 48px;
-    font-size: 15px;
-    line-height: 1.2;
   }
 
   .luxury-reviews__list {
     display: grid;
     gap: 28px;
-    max-width: 710px;
     margin: 0 auto;
   }
 
@@ -221,10 +132,6 @@ const reviewsCss = `
 
   .luxury-reviews__name {
     margin: 0;
-    font-family: var(--fontFamily-h4-fontFamily, Georgia, serif);
-    font-size: clamp(18px, 1.5vw, 22px);
-    font-weight: 400;
-    line-height: 1.35;
   }
 
   .luxury-reviews__rating {
@@ -232,30 +139,26 @@ const reviewsCss = `
     align-items: baseline;
     gap: 14px;
     margin: 0;
-    font-size: 15px;
-    line-height: 1.2;
   }
 
   .luxury-reviews__copy {
     margin: 0;
-    font-size: 15px;
-    line-height: 1.6;
   }
 
   @media (max-width: 720px) {
     .luxury-reviews {
-      padding: 64px 0 32px;
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     }
 
     .luxury-reviews__inner {
-      width: calc(100vw - 40px);
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
     }
 
     .luxury-reviews__summary {
       flex-wrap: wrap;
       gap: 10px;
-      font-size: 18px;
-    }
+  }
   }
 `;
 
@@ -436,7 +339,7 @@ const LuxuryRetailReviewsSectionComponent: PuckComponent<
 
 export const LuxuryRetailReviewsSection: YextComponentConfig<LuxuryRetailReviewsSectionProps> =
   {
-    label: msg("components.reviewsSection", "Reviews"),
+    label: msg("components.reviewsSection", "Reviews Section"),
     fields: LuxuryRetailReviewsSectionFields,
     defaultProps: {
       title: {
@@ -452,17 +355,11 @@ export const LuxuryRetailReviewsSection: YextComponentConfig<LuxuryRetailReviews
           fontSize: "default",
           fontWeight: "default",
           fontStyle: "default",
-          textTransform: "uppercase",
+          textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
-      reviewColor: {
-        selectedColor: "palette-quaternary",
-        contrastingColor: "palette-quaternary-contrast",
-      },
+      reviewColor: undefined,
       section: {
         backgroundColor: {
           selectedColor: "white",
@@ -476,7 +373,7 @@ export const LuxuryRetailReviewsSection: YextComponentConfig<LuxuryRetailReviews
 
 export const config: SectionConfig = {
   id: "LuxuryRetailReviewsSection",
-  displayName: "Reviews",
-  description: "Reviews",
+  displayName: "Reviews Section",
+  description: "Reviews Section",
   pageSetTypes: ["ENTITY"],
 };

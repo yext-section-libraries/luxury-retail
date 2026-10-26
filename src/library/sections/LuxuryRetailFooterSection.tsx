@@ -1,14 +1,14 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
   pt,
-  Background,
   EntityField,
   getAnalyticsScopeHash,
-  getSurfaceColorStyle,
   msg,
+  Background,
   resolveComponentData,
   useDocument,
   type EnhancedTranslatableCTA,
@@ -38,6 +38,7 @@ import {
   formatPhoneNumber,
   getReadableTextColor,
   getThemeColorCssValue,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type FooterLink = {
@@ -218,7 +219,7 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
       defaultItemProps: {
         cta: getCtaFieldDefault("Link", "#"),
       },
-      getItemSummary: (item) => getCtaSummary(item.cta, "Footer Link"),
+      getItemSummary: (item) => getCtaSummary(item.cta, pt("footerLink", "Footer Link")),
     },
     socialLinks: {
       label: msg("fields.socialLinks", "Social Links"),
@@ -240,7 +241,7 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
             { label: msg("fields.options.pinterest", "Pinterest"), value: "pinterest" },
             { label: msg("fields.options.snapchat", "Snapchat"), value: "snapchat" },
             { label: msg("fields.options.tiktok", "TikTok"), value: "tiktok" },
-            { label: "X", value: "x" },
+            { label: msg("fields.options.x", "X"), value: "x" },
           ],
         },
       },
@@ -248,7 +249,7 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
         cta: getCtaFieldDefault("Social", "#"),
         icon: "facebook",
       },
-      getItemSummary: (item) => getCtaSummary(item.cta, "Social Link"),
+      getItemSummary: (item) => getCtaSummary(item.cta, pt("socialLink", "Social Link")),
     },
     websiteCta: {
       label: msg("fields.websiteLink", "Website Link"),
@@ -308,7 +309,7 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
             },
             label: "",
           },
-          getItemSummary: (item) => item.label || "Phone",
+          getItemSummary: (item) => item.label || pt("phone", "Phone"),
         },
         phoneFormat: {
           label: msg("fields.phoneFormat", "Phone Format"),
@@ -336,97 +337,15 @@ const LuxuryRetailFooterSectionFields: YextFields<LuxuryRetailFooterSectionProps
   };
 
 const footerCss = `
-  .luxury-footer :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-footer :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-footer :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-footer :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-footer :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-footer :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-footer :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-footer :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-footer :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-
   .luxury-footer-section {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
   }
 
   .luxury-footer {
-    width: min(1760px, calc(100vw - 60px));
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
-    padding: 48px 0;
   }
 
   .luxury-footer__connect {
@@ -454,35 +373,12 @@ const footerCss = `
     display: inline-flex;
     position: relative;
     color: var(--luxury-footer-link-color);
-    font-size: 12px;
-    text-decoration: none;
+
     transition: color 0.18s ease;
   }
 
-  .luxury-footer__nav-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    width: 100%;
-    height: 2px;
-    background: currentColor;
-    transform: scaleX(0.32);
-    transform-origin: left center;
-    opacity: 0;
-    transition: transform 0.18s ease, opacity 0.18s ease;
-  }
 
-  .luxury-footer__nav-link:hover,
-  .luxury-footer__nav-link:focus-visible {
-    color: color-mix(in srgb, var(--luxury-footer-link-color) 82%, black);
-  }
 
-  .luxury-footer__nav-link:hover::after,
-  .luxury-footer__nav-link:focus-visible::after {
-    transform: scaleX(1);
-    opacity: 1;
-  }
 
   .luxury-footer__subrow {
     display: grid;
@@ -496,14 +392,8 @@ const footerCss = `
     gap: 10px;
   }
 
-  .luxury-footer__social-link {
-    text-decoration: none;
-  }
-
   .luxury-footer__contact {
     text-align: right;
-    font-size: 12px;
-    line-height: 1.6;
   }
 
   .luxury-footer__contact p {
@@ -512,8 +402,8 @@ const footerCss = `
 
   @media (max-width: 1100px) {
     .luxury-footer {
-      width: calc(100vw - 40px);
-      padding: 32px 0;
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
     }
 
     .luxury-footer__connect-column {
@@ -660,7 +550,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
                             linkType: linkData.linkType,
                           }}
                           eventName={`footerLink${index}`}
-                          className="luxury-footer__nav-link"
+                          className="luxury-footer__nav-link hover:underline focus:underline"
                         >
                           {linkData.label}
                         </Link>
@@ -781,7 +671,7 @@ const LuxuryRetailFooterSectionComponent: PuckComponent<
 
 export const LuxuryRetailFooterSection: YextComponentConfig<LuxuryRetailFooterSectionProps> =
   {
-    label: msg("components.footerSection", "Footer"),
+    label: msg("components.footerSection", "Footer Section"),
     fields: LuxuryRetailFooterSectionFields,
     defaultProps: {
       footerLinks: [
@@ -872,7 +762,7 @@ export const LuxuryRetailFooterSection: YextComponentConfig<LuxuryRetailFooterSe
 
 export const config: SectionConfig = {
   id: "LuxuryRetailFooterSection",
-  displayName: "Footer",
-  description: "Footer",
+  displayName: "Footer Section",
+  description: "Footer Section",
   pageSetTypes: ["ENTITY", "DIRECTORY", "LOCATOR"],
 };

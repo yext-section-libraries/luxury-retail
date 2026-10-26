@@ -1,17 +1,17 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
   msg,
-  pt,
   Background,
+  pt,
   ComprehensiveCTA,
   EntityField,
   getAnalyticsScopeHash,
   getDefaultRTF,
   getAggregateRating,
-  getSurfaceColorStyle,
   Image,
   resolveComponentData,
   useDocument,
@@ -33,9 +33,11 @@ import {
   getReadableThemeColor as resolveReadableThemeColor,
   getTextStyles as resolveTextStyles,
   hasImageSource,
+  resolveBorderRadius,
   renderResolvedRichText,
   type StyledRtfProps,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 import { createHoursStatusTemplate } from "../shared/components/contentBlocks/createHoursStatusTemplate";
 
@@ -259,95 +261,14 @@ const LuxuryRetailHeroSectionFields: YextFields<LuxuryRetailHeroSectionProps> = 
 };
 
 const heroCss = `
-  .luxury-hero :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-hero :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-hero :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-hero :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-hero :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-hero :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-hero :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-hero :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-hero :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-
   .luxury-hero {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
   }
 
   .luxury-hero__inner {
-    width: min(1760px, calc(100vw - 60px));
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
     display: grid;
     grid-template-columns: minmax(0, 1.38fr) minmax(0, 1fr);
@@ -370,6 +291,7 @@ const heroCss = `
   .luxury-hero__image-shell img {
     display: block;
     width: 100%;
+    border-radius: inherit;
   }
 
   .luxury-hero__image-shell--has-ratio > *,
@@ -392,12 +314,8 @@ const heroCss = `
     grid-template-columns: 1fr;
   }
 
-  .luxury-hero__inner--text-only .luxury-hero__panel {
-    min-height: 420px;
-  }
-
   .luxury-hero__inner--text-only .luxury-hero__content {
-    max-width: 760px;
+    width: 100%;
   }
 
   .luxury-hero__panel {
@@ -405,38 +323,24 @@ const heroCss = `
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 48px 48px;
+    padding: 0 48px;
   }
 
   .luxury-hero__content {
-    max-width: 560px;
+    width: 100%;
     text-align: center;
   }
 
   .luxury-hero__status {
     margin: 0 0 16px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
   }
 
   .luxury-hero__heading {
     margin: 0;
-    font-family: var(--fontFamily-h1-fontFamily, Georgia, serif);
-    font-size: clamp(52px, 4.2vw, 78px);
-    font-weight: 400;
-    line-height: 0.98;
-    letter-spacing: -0.01em;
   }
 
   .luxury-hero__subheading {
     margin: 0 0 24px;
-    font-family: var(--fontFamily-h2-fontFamily, Georgia, serif);
-    font-size: clamp(52px, 4.2vw, 78px);
-    font-weight: 400;
-    line-height: 0.98;
-    letter-spacing: -0.01em;
   }
 
   .luxury-hero__rating {
@@ -444,48 +348,14 @@ const heroCss = `
     align-items: center;
     gap: 8px;
     margin: 0 0 24px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
   }
 
   .luxury-hero__rating--after-heading {
     margin-top: 24px;
   }
 
-  .luxury-hero__body {
-    font-size: 18px;
-    line-height: 1.6;
-  }
-
   .luxury-hero__body p {
     margin: 0;
-  }
-
-  .luxury-hero .luxury-hero__body[style] * {
-    color: var(--luxury-hero-body-font-color) !important;
-  }
-
-  /* Apply selected Body styles over inline rich text styles. Keep Default styles. */
-  .luxury-hero__body[data-font-family]:not([data-font-family="default"]) * {
-    font-family: var(--luxury-hero-body-font-family) !important;
-  }
-
-  .luxury-hero__body[data-font-size]:not([data-font-size="default"]) * {
-    font-size: var(--luxury-hero-body-font-size) !important;
-  }
-
-  .luxury-hero__body[data-font-weight]:not([data-font-weight="default"]) * {
-    font-weight: var(--luxury-hero-body-font-weight) !important;
-  }
-
-  .luxury-hero__body[data-font-style]:not([data-font-style="default"]) * {
-    font-style: var(--luxury-hero-body-font-style) !important;
-  }
-
-  .luxury-hero__body[data-text-transform]:not([data-text-transform="default"]) * {
-    text-transform: var(--luxury-hero-body-text-transform) !important;
   }
 
   .luxury-hero__ctas {
@@ -500,44 +370,8 @@ const heroCss = `
     display: inline-flex;
     align-items: center;
     position: relative;
-    text-decoration: none;
+
     transition: transform 0.18s ease;
-  }
-
-  .luxury-hero__cta--button {
-    justify-content: center;
-    min-height: 48px;
-    padding: 0 24px;
-  }
-
-  .luxury-hero__cta--underlined {
-    gap: 8px;
-    padding: 8px 12px 8px 0;
-  }
-
-  .luxury-hero__cta--underlined::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 12px;
-    bottom: 2px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0.42);
-    transform-origin: left center;
-    opacity: 0.55;
-    transition: transform 0.18s ease, opacity 0.18s ease;
-  }
-
-  .luxury-hero__cta--underlined:hover,
-  .luxury-hero__cta--underlined:focus-visible {
-    transform: translateX(4px);
-  }
-
-  .luxury-hero__cta--underlined:hover::after,
-  .luxury-hero__cta--underlined:focus-visible::after {
-    transform: scaleX(1);
-    opacity: 1;
   }
 
   .luxury-hero__status .HoursStatus {
@@ -546,8 +380,10 @@ const heroCss = `
 
   @media (max-width: 1100px) {
     .luxury-hero__inner {
-      width: calc(100vw - 40px);
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
       grid-template-columns: 1fr;
+      row-gap: 32px;
     }
 
     .luxury-hero__image-shell {
@@ -556,7 +392,7 @@ const heroCss = `
     }
 
     .luxury-hero__panel {
-      padding: 48px 28px;
+      padding: 0 28px;
     }
   }
 
@@ -571,10 +407,6 @@ const heroCss = `
       padding-right: 0;
     }
 
-    .luxury-hero__heading,
-    .luxury-hero__subheading {
-      font-size: clamp(38px, 11vw, 52px);
-    }
   }
 `;
 
@@ -612,9 +444,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
     liveStreamDocument,
   );
   const heroImageBorderRadius =
-    props.heroImage.styles.borderRadius === "default"
-      ? undefined
-      : props.heroImage.styles.borderRadius;
+    resolveBorderRadius(props.heroImage.styles.borderRadius);
   const heroImageHasAspectRatio = props.heroImage.aspectRatio > 0;
   const heroImageShellStyle: React.CSSProperties = {
     width: "100%",
@@ -635,10 +465,10 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
     objectFit: props.heroImage.imageConstrain === "filled" ? "cover" : "contain",
     objectPosition: "center",
   };
-  const bodyStyles = props.body.styles
-    ? resolveTextStyles(props.body.styles)
-    : {};
-  const resolvedBodyContent = renderResolvedRichText(resolvedBody);
+  const resolvedBodyContent = renderResolvedRichText(resolvedBody, {
+    ...props.body.styles,
+    color: resolveReadableTextColor(props.body.fontColor, props.section?.backgroundColor, liveStreamDocument),
+  });
   const { averageRating, reviewCount } = getAggregateRating(liveStreamDocument);
   const headingColor = resolveReadableTextColor(
     props.heading.fontColor,
@@ -826,23 +656,6 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
               >
                 <div
                   className="luxury-hero__body"
-                  data-font-family={props.body.styles?.fontFamily}
-                  data-font-size={props.body.styles?.fontSize}
-                  data-font-weight={props.body.styles?.fontWeight}
-                  data-font-style={props.body.styles?.fontStyle}
-                  data-text-transform={props.body.styles?.textTransform}
-                  style={{
-                    "--luxury-hero-body-font-color": resolveReadableTextColor(
-                      props.body.fontColor,
-                      props.section?.backgroundColor,
-                      liveStreamDocument,
-                    ),
-                    "--luxury-hero-body-font-family": bodyStyles.fontFamily,
-                    "--luxury-hero-body-font-size": bodyStyles.fontSize,
-                    "--luxury-hero-body-font-weight": bodyStyles.fontWeight,
-                    "--luxury-hero-body-font-style": bodyStyles.fontStyle,
-                    "--luxury-hero-body-text-transform": bodyStyles.textTransform,
-                  } as React.CSSProperties}
                 >
                   {resolvedBodyContent}
                 </div>
@@ -899,7 +712,7 @@ const LuxuryRetailHeroSectionComponent: PuckComponent<
 
 export const LuxuryRetailHeroSection: YextComponentConfig<LuxuryRetailHeroSectionProps> =
   {
-    label: msg("components.heroSection", "Hero"),
+    label: msg("components.heroSection", "Hero Section"),
     fields: LuxuryRetailHeroSectionFields,
     defaultProps: {
       heading: {
@@ -954,10 +767,7 @@ export const LuxuryRetailHeroSection: YextComponentConfig<LuxuryRetailHeroSectio
           fontStyle: "default",
           textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-tertiary",
-          contrastingColor: "palette-tertiary-contrast",
-        },
+        fontColor: undefined,
       },
       heroImage: {
         image: {
@@ -1003,7 +813,7 @@ export const LuxuryRetailHeroSection: YextComponentConfig<LuxuryRetailHeroSectio
             fontWeight: "default",
             fontStyle: "default",
             textTransform: "default",
-            borderRadius: "999px",
+            borderRadius: "default",
             letterSpacing: "default",
           },
         },
@@ -1037,7 +847,7 @@ export const LuxuryRetailHeroSection: YextComponentConfig<LuxuryRetailHeroSectio
             fontWeight: "default",
             fontStyle: "default",
             textTransform: "default",
-            borderRadius: "999px",
+            borderRadius: "default",
             letterSpacing: "default",
           },
         },
@@ -1070,7 +880,7 @@ export const LuxuryRetailHeroSection: YextComponentConfig<LuxuryRetailHeroSectio
 
 export const config: SectionConfig = {
   id: "LuxuryRetailHeroSection",
-  displayName: "Hero",
-  description: "Hero",
+  displayName: "Hero Section",
+  description: "Hero Section",
   pageSetTypes: ["ENTITY"],
 };

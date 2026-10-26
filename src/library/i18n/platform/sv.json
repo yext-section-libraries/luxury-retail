@@ -27,7 +27,15 @@
     "locator": "Plats",
     "phone": "Telefon",
     "reviewsSection": "Recensionssektion",
-    "sharedHeader": "Delat sidhuvud"
+    "sharedHeader": "Delat sidhuvud",
+    "aboutStoreSection": "Avsnittet Om butiken",
+    "communitySection": "Community-avsnitt",
+    "seasonalPromoSection": "Avsnittet Säsongskampanj",
+    "shoppingExperiencesSection": "Avsnittet Köpupplevelser",
+    "storeDetailsSection": "Avsnittet Butiksinformation",
+    "nearbyStoresSection": "Avsnittet Närliggande butiker",
+    "headerSection": "Delat sidhuvud-sektion",
+    "bannerSection": "Banderoll-sektion"
   },
   "currentLocation": "Nuvarande plats",
   "customerRatingSummary": "Sammanfattning av kundbetyg",
@@ -212,7 +220,8 @@
       "today": "I dag",
       "utilityTopRow": "Övre verktygsrad",
       "width": "Bredd",
-      "yes": "Ja"
+      "yes": "Ja",
+      "x": "X"
     },
     "overrideLink": "Åsidosätt länk",
     "pageHeading": "Sidrubrik",
@@ -351,5 +360,7 @@
   "visitPage": "Besöka sidan",
   "visitPageForName": "Besök sidan för {{name}}",
   "wednesday": "Onsdag",
-  "mapRequiresWebGL": "Kartan är inte tillgänglig eftersom WebGL inte är tillgängligt."
+  "mapRequiresWebGL": "Kartan är inte tillgänglig eftersom WebGL inte är tillgängligt.",
+  "sectionHiddenForPage": "Sektionen är dold på den här sidan",
+  "mappedBannerFieldEmpty": "Det kopplade bannerfältet är tomt"
 }

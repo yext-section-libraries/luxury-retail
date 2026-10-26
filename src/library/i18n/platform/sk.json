@@ -27,7 +27,15 @@
     "locator": "Lokalita",
     "phone": "Telefón",
     "reviewsSection": "Sekcia recenzií",
-    "sharedHeader": "Zdieľaná hlavička"
+    "sharedHeader": "Zdieľaná hlavička",
+    "aboutStoreSection": "Sekcia O predajni",
+    "communitySection": "Sekcia Komunita",
+    "seasonalPromoSection": "Sekcia Sezónna akcia",
+    "shoppingExperiencesSection": "Sekcia Nákupné zážitky",
+    "storeDetailsSection": "Sekcia Podrobnosti o predajni",
+    "nearbyStoresSection": "Sekcia Predajne v okolí",
+    "headerSection": "Sekcia Zdieľaná hlavička",
+    "bannerSection": "Sekcia Banner"
   },
   "currentLocation": "Aktuálna poloha",
   "customerRatingSummary": "Súhrn hodnotení zákazníkov",
@@ -212,7 +220,8 @@
       "today": "Dnes",
       "utilityTopRow": "Horný riadok nástrojov",
       "width": "Šírka",
-      "yes": "Áno"
+      "yes": "Áno",
+      "x": "X"
     },
     "overrideLink": "Prepísať odkaz",
     "pageHeading": "Záhlavie stránky",
@@ -363,5 +372,7 @@
   "visitPage": "Navštíviť stránku",
   "visitPageForName": "Navštíviť stránku pre {{name}}",
   "wednesday": "Streda",
-  "mapRequiresWebGL": "Mapa nie je dostupná, pretože WebGL nie je k dispozícii."
+  "mapRequiresWebGL": "Mapa nie je dostupná, pretože WebGL nie je k dispozícii.",
+  "sectionHiddenForPage": "Sekcia je na tejto stránke skrytá",
+  "mappedBannerFieldEmpty": "Priradené pole bannera je prázdne"
 }

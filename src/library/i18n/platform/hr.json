@@ -27,7 +27,15 @@
     "locator": "Lokator",
     "phone": "Telefon",
     "reviewsSection": "Odjeljak recenzija",
-    "sharedHeader": "Zajedničko zaglavlje"
+    "sharedHeader": "Zajedničko zaglavlje",
+    "aboutStoreSection": "Odjeljak O trgovini",
+    "communitySection": "Odjeljak Zajednica",
+    "seasonalPromoSection": "Odjeljak Sezonska promocija",
+    "shoppingExperiencesSection": "Odjeljak Iskustva kupnje",
+    "storeDetailsSection": "Odjeljak Pojedinosti o trgovini",
+    "nearbyStoresSection": "Odjeljak Obližnje trgovine",
+    "headerSection": "Odjeljak Zajedničko zaglavlje",
+    "bannerSection": "Odjeljak Natpis"
   },
   "currentLocation": "Trenutna lokacija",
   "customerRatingSummary": "Sažetak ocjena korisnika",
@@ -212,7 +220,8 @@
       "today": "Danas",
       "utilityTopRow": "Gornji uslužni redak",
       "width": "Širina",
-      "yes": "Da"
+      "yes": "Da",
+      "x": "X"
     },
     "overrideLink": "Nadjačaj vezu",
     "pageHeading": "Naslov stranice",
@@ -357,5 +366,7 @@
   "visitPage": "Stranica za posjetu",
   "visitPageForName": "Posjetite stranicu za {{name}}",
   "wednesday": "srijeda",
-  "mapRequiresWebGL": "Karta nije dostupna jer WebGL nije dostupan."
+  "mapRequiresWebGL": "Karta nije dostupna jer WebGL nije dostupan.",
+  "sectionHiddenForPage": "Odjeljak je skriven na ovoj stranici",
+  "mappedBannerFieldEmpty": "Povezano polje natpisa je prazno"
 }

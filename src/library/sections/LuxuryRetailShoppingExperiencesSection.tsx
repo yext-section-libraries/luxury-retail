@@ -1,17 +1,17 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
   msg,
-  pt,
   Background,
+  pt,
   ComprehensiveCTA,
   createItemSource,
   EntityField,
   getDefaultRTF,
   getAnalyticsScopeHash,
-  getSurfaceColorStyle,
   resolveComponentData,
   useDocument,
   type StyledImageValue,
@@ -39,6 +39,7 @@ import {
   renderResolvedRichText,
   resolveBorderRadius,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type SharedCardTextStyles = Omit<StyledTextProps, "text">;
@@ -309,97 +310,16 @@ const LuxuryRetailShoppingExperiencesSectionFields: YextFields<LuxuryRetailShopp
   };
 
 const sectionCss = `
-  .luxury-experiences :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-experiences :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-experiences :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-experiences :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-experiences :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-experiences :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-experiences :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-experiences :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-experiences :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-
   .luxury-experiences {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
     margin: 0;
-    padding: 48px 0;
   }
 
   .luxury-experiences__inner {
-    width: min(1760px, calc(100vw - 60px));
+    container-type: inline-size;
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
   }
 
@@ -410,13 +330,8 @@ const sectionCss = `
 
   .luxury-experiences__title {
     margin: 0;
-    font-family: var(--fontFamily-h3-fontFamily, Georgia, serif);
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.16em;
-    line-height: 1.2;
+
     text-align: center;
-    text-transform: uppercase;
   }
 
   .luxury-experiences__grid {
@@ -433,20 +348,10 @@ const sectionCss = `
 
   .luxury-experiences__eyebrow {
     margin: 0 0 6px;
-    color: var(--colors-palette-tertiary);
-    font-family: var(--fontFamily-h4-fontFamily, Georgia, serif);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
   }
 
   .luxury-experiences__card-title {
     margin: 0 0 12px;
-    color: var(--colors-palette-primary);
-    font-family: var(--fontFamily-h4-fontFamily, Georgia, serif);
-    font-size: clamp(18px, 1.5vw, 22px);
-    font-weight: 400;
-    line-height: 1.35;
   }
 
   .luxury-experiences__image-shell {
@@ -477,9 +382,6 @@ const sectionCss = `
     flex-direction: column;
     gap: 16px;
     padding-top: 16px;
-    color: var(--colors-palette-tertiary);
-    font-size: 15px;
-    line-height: 1.6;
   }
 
   .luxury-experiences__body--no-image {
@@ -496,57 +398,29 @@ const sectionCss = `
     align-items: center;
     gap: 8px;
     position: relative;
-    text-decoration: none;
+
     transition: transform 0.18s ease;
-  }
-
-  .luxury-experiences__link--underlined {
-    padding: 8px 12px 8px 0;
-  }
-
-  .luxury-experiences__link--underlined::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 12px;
-    bottom: 2px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0.42);
-    transform-origin: left center;
-    opacity: 0.55;
-    transition: transform 0.18s ease, opacity 0.18s ease;
-  }
-
-  .luxury-experiences__link--underlined:hover,
-  .luxury-experiences__link--underlined:focus-visible {
-    transform: translateX(4px);
-  }
-
-  .luxury-experiences__link--underlined:hover::after,
-  .luxury-experiences__link--underlined:focus-visible::after {
-    transform: scaleX(1);
-    opacity: 1;
   }
 
   @media (max-width: 1100px) {
     .luxury-experiences {
-      padding: 32px 0;
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     }
 
     .luxury-experiences__inner {
-      width: calc(100vw - 40px);
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
     }
   }
 
-  @media (max-width: 1020px) {
+  @container (max-width: 1020px) {
     .luxury-experiences__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       row-gap: 48px;
     }
   }
 
-  @media (max-width: 720px) {
+  @container (max-width: 720px) {
     .luxury-experiences__grid {
       grid-template-columns: 1fr;
       row-gap: 32px;
@@ -782,7 +656,7 @@ const LuxuryRetailShoppingExperiencesSectionComponent: PuckComponent<
 
 export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryRetailShoppingExperiencesSectionProps> =
   {
-    label: msg("fields.shoppingExperiencesSection", "Shopping Experiences"),
+    label: msg("components.shoppingExperiencesSection", "Shopping Experiences Section"),
     fields: toPuckFields<LuxuryRetailShoppingExperiencesSectionProps>(
       LuxuryRetailShoppingExperiencesSectionFields,
     ),
@@ -800,12 +674,9 @@ export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryR
           fontSize: "default",
           fontWeight: "default",
           fontStyle: "default",
-          textTransform: "uppercase",
+          textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
       cards: {
         data: experienceCardsSource.defaultValue,
@@ -816,12 +687,9 @@ export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryR
               fontSize: "default",
               fontWeight: "default",
               fontStyle: "default",
-              textTransform: "uppercase",
+              textTransform: "default",
             },
-            fontColor: {
-              selectedColor: "palette-tertiary",
-              contrastingColor: "palette-tertiary-contrast",
-            },
+            fontColor: undefined,
           },
           title: {
             styles: {
@@ -831,10 +699,7 @@ export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryR
               fontStyle: "default",
               textTransform: "default",
             },
-            fontColor: {
-              selectedColor: "palette-primary",
-              contrastingColor: "palette-primary-contrast",
-            },
+            fontColor: undefined,
           },
           description: {
             styles: {
@@ -844,23 +709,17 @@ export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryR
               fontStyle: "default",
               textTransform: "default",
             },
-            fontColor: {
-              selectedColor: "palette-tertiary",
-              contrastingColor: "palette-tertiary-contrast",
-            },
+            fontColor: undefined,
           },
           cta: {
             variant: "link",
-            color: {
-              selectedColor: "palette-primary",
-              contrastingColor: "palette-primary-contrast",
-            },
+            color: undefined,
             link: {
               fontFamily: "default",
               fontSize: "default",
               fontWeight: "default",
               fontStyle: "default",
-              textTransform: "uppercase",
+              textTransform: "default",
               letterSpacing: "default",
               includeCaret: "default",
             },
@@ -889,7 +748,7 @@ export const LuxuryRetailShoppingExperiencesSection: YextComponentConfig<LuxuryR
 
 export const config: SectionConfig = {
   id: "LuxuryRetailShoppingExperiencesSection",
-  displayName: "Shopping Experiences",
-  description: "Shopping Experiences",
+  displayName: "Shopping Experiences Section",
+  description: "Shopping Experiences Section",
   pageSetTypes: ["ENTITY"],
 };

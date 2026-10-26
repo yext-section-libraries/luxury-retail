@@ -27,7 +27,15 @@
     "locator": "Paikantekijä",
     "phone": "Puhelin",
     "reviewsSection": "Arvosteluosio",
-    "sharedHeader": "Jaettu ylätunniste"
+    "sharedHeader": "Jaettu ylätunniste",
+    "aboutStoreSection": "Tietoja myymälästä -osio",
+    "communitySection": "Yhteisöosio",
+    "seasonalPromoSection": "Kausikampanjaosio",
+    "shoppingExperiencesSection": "Ostoskokemukset-osio",
+    "storeDetailsSection": "Myymälän tiedot -osio",
+    "nearbyStoresSection": "Lähellä olevat myymälät -osio",
+    "headerSection": "Jaettu ylätunniste-osio",
+    "bannerSection": "Banneri-osio"
   },
   "currentLocation": "Nykyinen sijainti",
   "customerRatingSummary": "Asiakasarvioiden yhteenveto",
@@ -212,7 +220,8 @@
       "today": "Tänään",
       "utilityTopRow": "Ylin apurivi",
       "width": "Leveys",
-      "yes": "Kyllä"
+      "yes": "Kyllä",
+      "x": "X"
     },
     "overrideLink": "Ohita linkki",
     "pageHeading": "Sivun otsikko",
@@ -351,5 +360,7 @@
   "visitPage": "Vieraile sivussa",
   "visitPageForName": "Siirry sivulle {{name}}",
   "wednesday": "keskiviikko",
-  "mapRequiresWebGL": "Kartta ei ole käytettävissä, koska WebGL ei ole käytettävissä."
+  "mapRequiresWebGL": "Kartta ei ole käytettävissä, koska WebGL ei ole käytettävissä.",
+  "sectionHiddenForPage": "Osio on piilotettu tältä sivulta",
+  "mappedBannerFieldEmpty": "Yhdistetty bannerikenttä on tyhjä"
 }

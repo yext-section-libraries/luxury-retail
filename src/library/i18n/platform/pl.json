@@ -27,7 +27,15 @@
     "locator": "Lokalizator",
     "phone": "Telefon",
     "reviewsSection": "Sekcja opinii",
-    "sharedHeader": "Wspólny nagłówek"
+    "sharedHeader": "Wspólny nagłówek",
+    "aboutStoreSection": "Sekcja O sklepie",
+    "communitySection": "Sekcja Społeczność",
+    "seasonalPromoSection": "Sekcja Promocja sezonowa",
+    "shoppingExperiencesSection": "Sekcja Doświadczenia zakupowe",
+    "storeDetailsSection": "Sekcja Szczegóły sklepu",
+    "nearbyStoresSection": "Sekcja Sklepy w pobliżu",
+    "headerSection": "Sekcja Wspólny nagłówek",
+    "bannerSection": "Sekcja Baner"
   },
   "currentLocation": "Aktualna lokalizacja",
   "customerRatingSummary": "Podsumowanie ocen klientów",
@@ -212,7 +220,8 @@
       "today": "Dzisiaj",
       "utilityTopRow": "Górny wiersz narzędzi",
       "width": "Szerokość",
-      "yes": "Tak"
+      "yes": "Tak",
+      "x": "X"
     },
     "overrideLink": "Zastąp łącze",
     "pageHeading": "Nagłówek strony",
@@ -363,5 +372,7 @@
   "visitPage": "Odwiedź stronę",
   "visitPageForName": "Odwiedź stronę dla {{name}}",
   "wednesday": "Środa",
-  "mapRequiresWebGL": "Mapa jest niedostępna, ponieważ WebGL jest niedostępny."
+  "mapRequiresWebGL": "Mapa jest niedostępna, ponieważ WebGL jest niedostępny.",
+  "sectionHiddenForPage": "Sekcja ukryta na tej stronie",
+  "mappedBannerFieldEmpty": "Powiązane pole banera jest puste"
 }

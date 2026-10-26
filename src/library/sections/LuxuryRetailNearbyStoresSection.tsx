@@ -1,3 +1,4 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
@@ -5,12 +6,11 @@ import { PuckComponent } from "@puckeditor/core";
 import { useTranslation } from "react-i18next";
 import {
   msg,
-  pt,
   Background,
+  pt,
   EntityField,
   MapboxStaticMapComponent,
   getAnalyticsScopeHash,
-  getSurfaceColorStyle,
   mapboxStaticMapStyleOptions,
   mergeMeta,
   resolveComponentData,
@@ -35,7 +35,9 @@ import {
   formatPhoneNumber,
   getReadableTextColor as resolveReadableTextColor,
   getTextStyles,
+  hasExplicitThemeColor,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type NearbyPhoneFieldProps = {
@@ -225,109 +227,22 @@ const LuxuryRetailNearbyStoresSectionFields: YextFields<
 };
 
 const nearbyCss = `
-  .luxury-nearby :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-nearby :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-nearby :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-nearby :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-nearby :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-nearby :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-nearby :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-nearby :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-nearby :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-
   .luxury-nearby {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
     margin: 0;
-    padding: 96px 0 48px;
   }
 
   .luxury-nearby__inner {
-    width: min(1220px, calc(100vw - 64px));
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
   }
 
   .luxury-nearby__title {
     margin: 0 0 48px;
-    font-family: var(--fontFamily-h3-fontFamily, Georgia, serif);
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.16em;
-    line-height: 1.2;
+
     text-align: center;
-    text-transform: uppercase;
   }
 
   .luxury-nearby__map {
@@ -361,7 +276,6 @@ const nearbyCss = `
     min-height: 100%;
     padding: 0;
     border: 0;
-    border-radius: 0;
     background: transparent;
     box-shadow: none;
     gap: 0;
@@ -374,15 +288,10 @@ const nearbyCss = `
   .luxury-nearby__card-link {
     display: block;
     color: inherit;
-    text-decoration: none;
   }
 
   .luxury-nearby__card-title {
     margin: 0 0 20px;
-    font-family: var(--fontFamily-h4-fontFamily, Georgia, serif);
-    font-size: clamp(18px, 1.5vw, 22px);
-    font-weight: 400;
-    line-height: 1.35;
   }
 
   .luxury-nearby__details {
@@ -393,8 +302,6 @@ const nearbyCss = `
   .luxury-nearby__line,
   .luxury-nearby__distance {
     margin: 0;
-    font-size: 15px;
-    line-height: 1.6;
   }
 
   .luxury-nearby__link {
@@ -405,26 +312,8 @@ const nearbyCss = `
     position: relative;
     margin-top: 18px;
     padding: 8px 12px 8px 0;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: transform 0.18s ease;
-  }
 
-  .luxury-nearby__link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 12px;
-    bottom: 2px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0.42);
-    transform-origin: left center;
-    opacity: 0.55;
-    transition: transform 0.18s ease, opacity 0.18s ease;
+    transition: transform 0.18s ease;
   }
 
   .luxury-nearby__link:hover,
@@ -432,19 +321,14 @@ const nearbyCss = `
     transform: translateX(4px);
   }
 
-  .luxury-nearby__link:hover::after,
-  .luxury-nearby__link:focus-visible::after {
-    transform: scaleX(1);
-    opacity: 1;
-  }
-
   @media (max-width: 1100px) {
     .luxury-nearby {
-      padding: 64px 0 32px;
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     }
 
     .luxury-nearby__inner {
-      width: calc(100vw - 40px);
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
     }
 
     .luxury-nearby__grid {
@@ -515,7 +399,9 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
   );
   const cardTextColor = resolveReadableTextColor(
     props.cardTextColor,
-    props.cardBackgroundColor,
+    hasExplicitThemeColor(props.cardBackgroundColor)
+      ? props.cardBackgroundColor
+      : props.section?.backgroundColor,
     streamDocument,
   );
   const shouldShowContent =
@@ -624,7 +510,7 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
 
               return (
                 <article
-                  className={`luxury-nearby__card luxury-nearby__card--with-background"`}
+                  className="luxury-nearby__card luxury-nearby__card--with-background"
                   key={locationData.id ?? locationData.name ?? index}
                   style={{
                     ...cardStyle,
@@ -722,7 +608,7 @@ const LuxuryRetailNearbyStoresSectionComponent: PuckComponent<
 export const LuxuryRetailNearbyStoresSection: YextComponentConfig<
   LuxuryRetailNearbyStoresSectionProps
 > = {
-  label: msg("fields.nearbyStoresSection", "Nearby Stores"),
+  label: msg("components.nearbyStoresSection", "Nearby Stores Section"),
   fields: LuxuryRetailNearbyStoresSectionFields,
   defaultProps: {
     title: {
@@ -738,12 +624,9 @@ export const LuxuryRetailNearbyStoresSection: YextComponentConfig<
         fontSize: "default",
         fontWeight: "default",
         fontStyle: "default",
-        textTransform: "uppercase",
+        textTransform: "default",
       },
-      fontColor: {
-        selectedColor: "palette-primary",
-        contrastingColor: "palette-primary-contrast",
-      },
+      fontColor: undefined,
     },
     map: {
       coordinate: {
@@ -788,7 +671,7 @@ export const LuxuryRetailNearbyStoresSection: YextComponentConfig<
 
 export const config: SectionConfig = {
   id: "LuxuryRetailNearbyStoresSection",
-  displayName: "Nearby Stores",
-  description: "Nearby Stores",
+  displayName: "Nearby Stores Section",
+  description: "Nearby Stores Section",
   pageSetTypes: ["ENTITY"],
 };

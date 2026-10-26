@@ -27,7 +27,15 @@
     "locator": "Localizzatore",
     "phone": "Telefono",
     "reviewsSection": "Sezione Recensioni",
-    "sharedHeader": "Intestazione condivisa"
+    "sharedHeader": "Intestazione condivisa",
+    "aboutStoreSection": "Sezione Informazioni sul negozio",
+    "communitySection": "Sezione Community",
+    "seasonalPromoSection": "Sezione Promozione stagionale",
+    "shoppingExperiencesSection": "Sezione Esperienze di acquisto",
+    "storeDetailsSection": "Sezione Dettagli del negozio",
+    "nearbyStoresSection": "Sezione Negozi nelle vicinanze",
+    "headerSection": "Sezione Intestazione condivisa",
+    "bannerSection": "Sezione Banner"
   },
   "currentLocation": "Posizione attuale",
   "customerRatingSummary": "Riepilogo delle valutazioni dei clienti",
@@ -212,7 +220,8 @@
       "today": "Oggi",
       "utilityTopRow": "Riga utilità superiore",
       "width": "Larghezza",
-      "yes": "SÌ"
+      "yes": "SÌ",
+      "x": "X"
     },
     "overrideLink": "Sostituisci collegamento",
     "pageHeading": "Intestazione della pagina",
@@ -357,5 +366,7 @@
   "visitPage": "Visita pagina",
   "visitPageForName": "Visita la pagina per {{name}}",
   "wednesday": "Mercoledì",
-  "mapRequiresWebGL": "La mappa non è disponibile perché WebGL non è disponibile."
+  "mapRequiresWebGL": "La mappa non è disponibile perché WebGL non è disponibile.",
+  "sectionHiddenForPage": "Sezione nascosta in questa pagina",
+  "mappedBannerFieldEmpty": "Il campo banner associato è vuoto"
 }

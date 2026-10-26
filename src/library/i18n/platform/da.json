@@ -27,7 +27,15 @@
     "locator": "Locator",
     "phone": "Telefon",
     "reviewsSection": "Anmeldelsessektion",
-    "sharedHeader": "Delt sidehoved"
+    "sharedHeader": "Delt sidehoved",
+    "aboutStoreSection": "Sektion om butik",
+    "communitySection": "Fællesskabssektion",
+    "seasonalPromoSection": "Sektion med sæsonkampagne",
+    "shoppingExperiencesSection": "Sektion med shoppingoplevelser",
+    "storeDetailsSection": "Sektion med butiksoplysninger",
+    "nearbyStoresSection": "Sektion med butikker i nærheden",
+    "headerSection": "Delt sidehoved-sektion",
+    "bannerSection": "Banner-sektion"
   },
   "currentLocation": "Nuværende placering",
   "customerRatingSummary": "Oversigt over kundebedømmelser",
@@ -212,7 +220,8 @@
       "today": "I dag",
       "utilityTopRow": "Øverste værktøjslinje",
       "width": "Bredde",
-      "yes": "Ja"
+      "yes": "Ja",
+      "x": "X"
     },
     "overrideLink": "Tilsidesæt link",
     "pageHeading": "Sideoverskrift",
@@ -351,5 +360,7 @@
   "visitPage": "Besøg side",
   "visitPageForName": "Besøg siden for {{name}}",
   "wednesday": "onsdag",
-  "mapRequiresWebGL": "Kortet er ikke tilgængeligt, fordi WebGL ikke er tilgængeligt."
+  "mapRequiresWebGL": "Kortet er ikke tilgængeligt, fordi WebGL ikke er tilgængeligt.",
+  "sectionHiddenForPage": "Sektionen er skjult på denne side",
+  "mappedBannerFieldEmpty": "Det tilknyttede bannerfelt er tomt"
 }

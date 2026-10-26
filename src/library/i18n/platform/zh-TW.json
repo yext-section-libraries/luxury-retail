@@ -27,7 +27,15 @@
     "locator": "定位器",
     "phone": "電話",
     "reviewsSection": "評論區段",
-    "sharedHeader": "共用頁首"
+    "sharedHeader": "共用頁首",
+    "aboutStoreSection": "商店簡介區段",
+    "communitySection": "社群區段",
+    "seasonalPromoSection": "季節促銷區段",
+    "shoppingExperiencesSection": "購物體驗區段",
+    "storeDetailsSection": "商店詳細資料區段",
+    "nearbyStoresSection": "附近商店區段",
+    "headerSection": "共用頁首區塊",
+    "bannerSection": "橫幅區塊"
   },
   "currentLocation": "目前位置",
   "customerRatingSummary": "顧客評分摘要",
@@ -212,7 +220,8 @@
       "today": "今天",
       "utilityTopRow": "頂部公用程式列",
       "width": "寬度",
-      "yes": "是的"
+      "yes": "是的",
+      "x": "X"
     },
     "overrideLink": "覆蓋連結",
     "pageHeading": "頁面標題",
@@ -345,5 +354,7 @@
   "visitPage": "訪問頁面",
   "visitPageForName": "造訪 {{name}} 頁面",
   "wednesday": "週三",
-  "mapRequiresWebGL": "由於 WebGL 無法使用，無法顯示地圖。"
+  "mapRequiresWebGL": "由於 WebGL 無法使用，無法顯示地圖。",
+  "sectionHiddenForPage": "此頁面已隱藏該區塊",
+  "mappedBannerFieldEmpty": "對應的橫幅欄位為空"
 }
