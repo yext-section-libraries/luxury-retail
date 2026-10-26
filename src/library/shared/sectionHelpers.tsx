@@ -55,11 +55,7 @@ export const hasExplicitThemeColor = (
 ): color is ThemeColor =>
   Boolean(color?.selectedColor && color.selectedColor !== "default");
 
-const defaultSurfaceColor: ThemeColor = {
-  selectedColor: "white",
-  contrastingColor: "palette-quaternary",
-};
-
+/** Read the selected surface itself; saved contrast metadata can be stale or colored. */
 export const getReadableTextColor = (
   fontColor: ThemeColor | undefined,
   backgroundColor: ThemeColor | undefined,
@@ -68,33 +64,42 @@ export const getReadableTextColor = (
   getThemeColorCssValue(fontColor) ??
   getThemeColorCssValue(
     getDefaultForegroundColor(
-      backgroundColor ?? defaultSurfaceColor,
+      hasExplicitThemeColor(backgroundColor)
+        ? backgroundColor.selectedColor
+        : "white",
       streamDocument,
     ),
   ) ??
-  "#000000";
+  "black";
+
+export const getSurfaceColorStyle = (
+  backgroundColor: ThemeColor | undefined,
+  streamDocument: Record<string, unknown>,
+): React.CSSProperties => ({
+  backgroundColor: getThemeColorCssValue(backgroundColor),
+  color: getReadableTextColor(undefined, backgroundColor, streamDocument),
+});
 
 export const getReadableThemeColor = (
   color: ThemeColor | undefined,
   backgroundColor: ThemeColor | undefined,
   streamDocument: Record<string, unknown>,
   variant?: ComprehensiveCTAValue["styles"]["variant"],
-): ThemeColor => {
-  const surfaceColor = backgroundColor ?? defaultSurfaceColor;
-  const foregroundColor =
-    getDefaultForegroundColor(surfaceColor, streamDocument) ?? {
-      selectedColor: "black",
-      contrastingColor: surfaceColor.selectedColor,
-    };
-
-  if (
-    variant === "secondary" &&
-    foregroundColor.selectedColor === "white"
-  ) {
-    return foregroundColor;
+): ThemeColor | undefined => {
+  if (hasExplicitThemeColor(color)) {
+    return color;
   }
-
-  return color && getThemeColorCssValue(color) ? color : foregroundColor;
+  // Buttons use the platform's Theme variants; default links follow the surface.
+  return variant === "link" || variant === "secondary"
+    ? {
+        selectedColor: getReadableTextColor(
+          undefined,
+          backgroundColor,
+          streamDocument,
+        ),
+        contrastingColor: backgroundColor?.selectedColor ?? "white",
+      }
+    : undefined;
 };
 
 export const hasImageSource = (
@@ -110,48 +115,117 @@ export const hasImageSource = (
 
   return Boolean(
     "image" in image &&
-      image.image &&
-      typeof image.image === "object" &&
-      "url" in image.image &&
-      typeof image.image.url === "string" &&
-      image.image.url.trim(),
+    image.image &&
+    typeof image.image === "object" &&
+    "url" in image.image &&
+    typeof image.image.url === "string" &&
+    image.image.url.trim(),
   );
 };
 
 export const resolveBorderRadius = (value?: string): string | undefined =>
-  !value || value === "default" ? undefined : value;
+  !value || value === "default"
+    ? "var(--borderRadius-image-borderRadius)"
+    : value;
+
+/** getDefaultRTF adds a paragraph style that is not an authored text style.
+ * Strip only that generated signature. Inline span styles and edited paragraphs
+ * remain intact, including deliberately authored rich-text colors. */
+export const cleanGeneratedRichTextStyles = (html: string): string => {
+  const cleaned = html.replace(
+    /(<p\b[^>]*?) style="font-size: 14\.67px; font-weight: 400; line-height: 18\.67px; (?:color: rgb\(0, 0, 0\); )?margin: 0; padding: 3px 2px 3px 2px; position: relative;"/g,
+    "$1",
+  );
+  // MaybeRTF supplies Theme rules with !important. Preserve authored inline
+  // values in variables so our scoped rules can restore them at that priority.
+  return cleaned.replace(
+    /\bstyle=(?:"([^"]*)"|'([^']*)')/g,
+    (_, doubleQuoted: string | undefined, singleQuoted: string | undefined) => {
+      const quote = doubleQuoted === undefined ? "'" : '"';
+      const declarations = doubleQuoted ?? singleQuoted ?? "";
+      const authoredStyles = Array.from(
+        declarations.matchAll(
+          /(?:^|;)\s*(color|font-family|font-size|font-weight|font-style|text-transform|letter-spacing)\s*:\s*([^;]+)/g,
+        ),
+        ([, property, value]) =>
+          `--luxury-retail-rtf-${property}: ${value.replace(/\s*!important\s*$/, "")}`,
+      );
+      return `style=${quote}${declarations}; ${authoredStyles.join("; ")}${quote}`;
+    },
+  );
+};
 
 export const renderResolvedRichText = (
   value: unknown,
   richTextStyleOverrides?: MaybeRTFProps["richTextStyleOverrides"],
 ): React.ReactNode => {
-  if (React.isValidElement(value)) {
-    if (!richTextStyleOverrides) {
-      return value;
-    }
+  const textStyles = getTextStyles({
+    fontFamily: "default",
+    fontSize: "default",
+    fontWeight: "default",
+    fontStyle: "default",
+    textTransform: "default",
+    ...richTextStyleOverrides,
+  });
+  const color = richTextStyleOverrides?.color;
+  const style = {
+    ...textStyles,
+    ...Object.fromEntries(
+      Object.entries(textStyles)
+        .filter(([, value]) => value !== undefined)
+        .map(([property, value]) => [
+          `--luxury-retail-body-${property}`,
+          value,
+        ]),
+    ),
+    color: typeof color === "object" ? getThemeColorCssValue(color) : color,
+  };
 
-    return React.cloneElement(
-      value as React.ReactElement<{ style?: React.CSSProperties }>,
-      {
-        style: {
-          ...(value.props as { style?: React.CSSProperties }).style,
-          ...richTextStyleOverrides,
-          color: getThemeColorCssValue(richTextStyleOverrides.color),
-        },
-      },
+  if (React.isValidElement<MaybeRTFProps>(value) && value.type === MaybeRTF) {
+    return renderResolvedRichText(value.props.data, {
+      ...value.props.richTextStyleOverrides,
+      ...richTextStyleOverrides,
+    });
+  }
+
+  if (
+    React.isValidElement<{
+      className?: string;
+      style?: React.CSSProperties;
+      children?: React.ReactNode;
+    }>(value)
+  ) {
+    // resolveComponentData wraps MaybeRTF. Forward overrides to its child;
+    // the scoped typography rules preserve authored inline styles.
+    return React.cloneElement(value, {
+      className: value.props.className?.replace(
+        /\brtf-(?:theme|wrapper)\b/g,
+        "",
+      ),
+      style: { ...value.props.style, ...style },
+      children: React.Children.map(value.props.children, (child) =>
+        renderResolvedRichText(child, richTextStyleOverrides),
+      ),
+    });
+  }
+
+  if (typeof value === "object" && value !== null && "html" in value) {
+    return (
+      <MaybeRTF
+        data={{
+          ...(value as RichText),
+          html: cleanGeneratedRichTextStyles(String(value.html ?? "")),
+        }}
+        className="luxury-retail-rich-text"
+        style={style}
+        richTextStyleOverrides={richTextStyleOverrides}
+      />
     );
   }
 
-  const data =
-    typeof value === "string" ||
-    (typeof value === "object" && value !== null && "html" in value)
-      ? (value as RichText | string)
-      : undefined;
-
-  return (
-    <MaybeRTF
-      data={data}
-      richTextStyleOverrides={richTextStyleOverrides}
-    />
-  );
+  return typeof value === "string" ? (
+    <div className="luxury-retail-rich-text" style={style}>
+      {value}
+    </div>
+  ) : null;
 };

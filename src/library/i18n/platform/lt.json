@@ -27,7 +27,15 @@
     "locator": "Lokatorius",
     "phone": "Telefonas",
     "reviewsSection": "Atsiliepimų skiltis",
-    "sharedHeader": "Bendrinama antraštė"
+    "sharedHeader": "Bendrinama antraštė",
+    "aboutStoreSection": "Skiltis Apie parduotuvę",
+    "communitySection": "Bendruomenės skiltis",
+    "seasonalPromoSection": "Sezoninės akcijos skiltis",
+    "shoppingExperiencesSection": "Apsipirkimo patirčių skiltis",
+    "storeDetailsSection": "Parduotuvės informacijos skiltis",
+    "nearbyStoresSection": "Netoliese esančių parduotuvių skiltis",
+    "headerSection": "Bendrinama antraštė skiltis",
+    "bannerSection": "Reklamjuostė skiltis"
   },
   "currentLocation": "Dabartinė vieta",
   "customerRatingSummary": "Klientų įvertinimų suvestinė",
@@ -212,7 +220,8 @@
       "today": "Šiandien",
       "utilityTopRow": "Viršutinė pagalbinė eilutė",
       "width": "Plotis",
-      "yes": "Taip"
+      "yes": "Taip",
+      "x": "X"
     },
     "overrideLink": "Perrašyti nuorodą",
     "pageHeading": "Puslapio antraštė",
@@ -363,5 +372,7 @@
   "visitPage": "Apsilankykite puslapyje",
   "visitPageForName": "Apsilankykite puslapyje {{name}}",
   "wednesday": "Trečiadienis",
-  "mapRequiresWebGL": "Žemėlapis nepasiekiamas, nes WebGL nepasiekiamas."
+  "mapRequiresWebGL": "Žemėlapis nepasiekiamas, nes WebGL nepasiekiamas.",
+  "sectionHiddenForPage": "Skiltis šiame puslapyje paslėpta",
+  "mappedBannerFieldEmpty": "Susietas reklamjuostės laukas tuščias"
 }

@@ -27,7 +27,15 @@
     "locator": "Localizator",
     "phone": "Telefon",
     "reviewsSection": "Secțiunea recenzii",
-    "sharedHeader": "Antet partajat"
+    "sharedHeader": "Antet partajat",
+    "aboutStoreSection": "Secțiunea Despre magazin",
+    "communitySection": "Secțiunea Comunitate",
+    "seasonalPromoSection": "Secțiunea Promoție sezonieră",
+    "shoppingExperiencesSection": "Secțiunea Experiențe de cumpărături",
+    "storeDetailsSection": "Secțiunea Detalii magazin",
+    "nearbyStoresSection": "Secțiunea Magazine din apropiere",
+    "headerSection": "Secțiune Antet partajat",
+    "bannerSection": "Secțiune Banner"
   },
   "currentLocation": "Locația curentă",
   "customerRatingSummary": "Rezumatul evaluărilor clienților",
@@ -212,7 +220,8 @@
       "today": "Astăzi",
       "utilityTopRow": "Rând utilitar superior",
       "width": "Lăţime",
-      "yes": "Da"
+      "yes": "Da",
+      "x": "X"
     },
     "overrideLink": "Înlocuiți linkul",
     "pageHeading": "Titlul paginii",
@@ -357,5 +366,7 @@
   "visitPage": "Vizitați pagina",
   "visitPageForName": "Vizitați pagina pentru {{name}}",
   "wednesday": "miercuri",
-  "mapRequiresWebGL": "Harta nu este disponibilă deoarece WebGL nu este disponibil."
+  "mapRequiresWebGL": "Harta nu este disponibilă deoarece WebGL nu este disponibil.",
+  "sectionHiddenForPage": "Secțiune ascunsă pe această pagină",
+  "mappedBannerFieldEmpty": "Câmpul de banner asociat este gol"
 }

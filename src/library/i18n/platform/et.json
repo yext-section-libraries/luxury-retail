@@ -27,7 +27,15 @@
     "locator": "Lokaator",
     "phone": "Telefon",
     "reviewsSection": "Arvustuste jaotis",
-    "sharedHeader": "Jagatud päis"
+    "sharedHeader": "Jagatud päis",
+    "aboutStoreSection": "Poe teabe jaotis",
+    "communitySection": "Kogukonna jaotis",
+    "seasonalPromoSection": "Hooajalise kampaania jaotis",
+    "shoppingExperiencesSection": "Ostukogemuste jaotis",
+    "storeDetailsSection": "Poe üksikasjade jaotis",
+    "nearbyStoresSection": "Läheduses asuvate poodide jaotis",
+    "headerSection": "Jagatud päis jaotis",
+    "bannerSection": "Bänner jaotis"
   },
   "currentLocation": "Praegune asukoht",
   "customerRatingSummary": "Klientide hinnangute kokkuvõte",
@@ -212,7 +220,8 @@
       "today": "Täna",
       "utilityTopRow": "Ülemine utiliidirida",
       "width": "Laius",
-      "yes": "Jah"
+      "yes": "Jah",
+      "x": "X"
     },
     "overrideLink": "Alista link",
     "pageHeading": "Lehekülje pealkiri",
@@ -351,5 +360,7 @@
   "visitPage": "Külastage leht",
   "visitPageForName": "Külastage lehte {{name}} jaoks",
   "wednesday": "Kolmapäev",
-  "mapRequiresWebGL": "Kaart pole saadaval, sest WebGL pole saadaval."
+  "mapRequiresWebGL": "Kaart pole saadaval, sest WebGL pole saadaval.",
+  "sectionHiddenForPage": "Jaotis on sellel lehel peidetud",
+  "mappedBannerFieldEmpty": "Seostatud bänneriväli on tühi"
 }

@@ -27,7 +27,15 @@
     "locator": "Lokator",
     "phone": "Telefon",
     "reviewsSection": "Anmeldelsesseksjon",
-    "sharedHeader": "Delt topptekst"
+    "sharedHeader": "Delt topptekst",
+    "aboutStoreSection": "Om butikken-seksjon",
+    "communitySection": "Fellesskapsseksjon",
+    "seasonalPromoSection": "Seksjon for sesongkampanje",
+    "shoppingExperiencesSection": "Seksjon for handleopplevelser",
+    "storeDetailsSection": "Seksjon for butikkdetaljer",
+    "nearbyStoresSection": "Seksjon for butikker i nærheten",
+    "headerSection": "Delt topptekst-seksjon",
+    "bannerSection": "Banner-seksjon"
   },
   "currentLocation": "Nåværende plassering",
   "customerRatingSummary": "Sammendrag av kundevurderinger",
@@ -212,7 +220,8 @@
       "today": "I dag",
       "utilityTopRow": "Øverste verktøyrad",
       "width": "Bredde",
-      "yes": "Ja"
+      "yes": "Ja",
+      "x": "X"
     },
     "overrideLink": "Overstyr kobling",
     "pageHeading": "Sideoverskrift",
@@ -351,5 +360,7 @@
   "visitPage": "Besøk side",
   "visitPageForName": "Besøk siden for {{name}}",
   "wednesday": "onsdag",
-  "mapRequiresWebGL": "Kartet er ikke tilgjengelig fordi WebGL ikke er tilgjengelig."
+  "mapRequiresWebGL": "Kartet er ikke tilgjengelig fordi WebGL ikke er tilgjengelig.",
+  "sectionHiddenForPage": "Seksjonen er skjult på denne siden",
+  "mappedBannerFieldEmpty": "Det tilknyttede bannerfeltet er tomt"
 }

@@ -27,7 +27,15 @@
     "locator": "Konumlandırıcı",
     "phone": "Telefon",
     "reviewsSection": "Yorumlar Bölümü",
-    "sharedHeader": "Paylaşılan Üstbilgi"
+    "sharedHeader": "Paylaşılan Üstbilgi",
+    "aboutStoreSection": "Mağaza Hakkında Bölümü",
+    "communitySection": "Topluluk Bölümü",
+    "seasonalPromoSection": "Sezonluk Promosyon Bölümü",
+    "shoppingExperiencesSection": "Alışveriş Deneyimleri Bölümü",
+    "storeDetailsSection": "Mağaza Ayrıntıları Bölümü",
+    "nearbyStoresSection": "Yakındaki Mağazalar Bölümü",
+    "headerSection": "Paylaşılan Üstbilgi Bölümü",
+    "bannerSection": "Afiş Bölümü"
   },
   "currentLocation": "Mevcut Konum",
   "customerRatingSummary": "Müşteri puanları özeti",
@@ -212,7 +220,8 @@
       "today": "Bugün",
       "utilityTopRow": "Üst Yardımcı Satır",
       "width": "Genişlik",
-      "yes": "Evet"
+      "yes": "Evet",
+      "x": "X"
     },
     "overrideLink": "Bağlantıyı Geçersiz Kıl",
     "pageHeading": "Sayfa Başlığı",
@@ -351,5 +360,7 @@
   "visitPage": "Sayfayı Ziyaret Edin",
   "visitPageForName": "{{name}} Sayfasını Ziyaret Edin",
   "wednesday": "Çarşamba",
-  "mapRequiresWebGL": "WebGL kullanılamadığı için harita kullanılamıyor."
+  "mapRequiresWebGL": "WebGL kullanılamadığı için harita kullanılamıyor.",
+  "sectionHiddenForPage": "Bölüm bu sayfada gizli",
+  "mappedBannerFieldEmpty": "Eşlenen banner alanı boş"
 }

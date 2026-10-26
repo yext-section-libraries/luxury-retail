@@ -27,7 +27,15 @@
     "locator": "定位器",
     "phone": "电话",
     "reviewsSection": "评论部分",
-    "sharedHeader": "共享页眉"
+    "sharedHeader": "共享页眉",
+    "aboutStoreSection": "商店简介部分",
+    "communitySection": "社区部分",
+    "seasonalPromoSection": "季节促销部分",
+    "shoppingExperiencesSection": "购物体验部分",
+    "storeDetailsSection": "商店详情部分",
+    "nearbyStoresSection": "附近商店部分",
+    "headerSection": "共享页眉版块",
+    "bannerSection": "横幅版块"
   },
   "currentLocation": "当前位置",
   "customerRatingSummary": "客户评分摘要",
@@ -212,7 +220,8 @@
       "today": "今天",
       "utilityTopRow": "顶部实用工具行",
       "width": "宽度",
-      "yes": "是的"
+      "yes": "是的",
+      "x": "X"
     },
     "overrideLink": "覆盖链接",
     "pageHeading": "页面标题",
@@ -345,5 +354,7 @@
   "visitPage": "访问页面",
   "visitPageForName": "访问 {{name}} 页面",
   "wednesday": "周三",
-  "mapRequiresWebGL": "由于 WebGL 不可用，无法显示地图。"
+  "mapRequiresWebGL": "由于 WebGL 不可用，无法显示地图。",
+  "sectionHiddenForPage": "此页面已隐藏该版块",
+  "mappedBannerFieldEmpty": "映射的横幅字段为空"
 }

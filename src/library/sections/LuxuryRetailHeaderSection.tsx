@@ -1,3 +1,4 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
@@ -13,8 +14,8 @@ import {
 } from "@yext/pages-components";
 import {
   msg,
-  pt,
   Background,
+  pt,
   ComprehensiveCTA,
   EntityField,
   type ComprehensiveCTAValue,
@@ -32,7 +33,6 @@ import {
   type YextFields,
   getAnalyticsScopeHash,
   getDefaultForegroundColor,
-  getSurfaceColorStyle,
   i18nPageInstance,
   normalizeLink,
   resolveComponentData,
@@ -44,6 +44,7 @@ import {
   hasExplicitThemeColor,
   hasImageSource,
   resolveBorderRadius,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type SharedHeaderVariant =
@@ -116,11 +117,6 @@ const defaultSurfaceColor: ThemeColor = {
   contrastingColor: "black",
 };
 
-const defaultPrimaryCtaColor: ThemeColor = {
-  selectedColor: "palette-primary",
-  contrastingColor: "palette-primary-contrast",
-};
-
 const defaultLinkStyles: StyledLinkValue = {
   fontFamily: "default",
   fontSize: "default",
@@ -160,18 +156,6 @@ const defaultUtilityIconImage: SharedHeaderAction["iconImage"] = {
   styles: {
     borderRadius: "default",
   },
-};
-
-const getReadableForegroundColor = (
-  surfaceColor: ThemeColor,
-  streamDocument?: StreamDocument,
-): ThemeColor => {
-  return (
-    getDefaultForegroundColor(surfaceColor, streamDocument) ?? {
-      selectedColor: "black",
-      contrastingColor: surfaceColor.selectedColor,
-    }
-  );
 };
 
 const getTranslatableSummary = (
@@ -347,7 +331,7 @@ const LuxuryRetailHeaderSectionFields: YextFields<LuxuryRetailHeaderSectionProps
             openInNewTab: false,
           }),
           getItemSummary: (item: SharedHeaderLink, index?: number) =>
-            getTranslatableSummary(item.label, `Link ${index ?? 0}`),
+            getTranslatableSummary(item.label, pt("fields.linkIndex", "Link {{index}}", { index: index ?? 0 })),
         },
         fontColor: {
           label: msg("fields.fontColor", "Font Color"),
@@ -453,7 +437,7 @@ const LuxuryRetailHeaderSectionFields: YextFields<LuxuryRetailHeaderSectionProps
             openInNewTab: false,
           }),
           getItemSummary: (item: SharedHeaderAction, index?: number) =>
-            getTranslatableSummary(item.label, `Action ${index ?? 0}`),
+            getTranslatableSummary(item.label, pt("fields.itemIndex", "Item {{index}}", { index: index ?? 0 })),
         },
       },
     },
@@ -502,7 +486,7 @@ const LuxuryRetailHeaderSectionFields: YextFields<LuxuryRetailHeaderSectionProps
               },
               styles: {
                 variant: "primary",
-                color: defaultPrimaryCtaColor,
+                color: undefined,
                 button: defaultButtonStyles,
                 link: defaultLinkStyles,
               },
@@ -514,7 +498,7 @@ const LuxuryRetailHeaderSectionFields: YextFields<LuxuryRetailHeaderSectionProps
           ) =>
             getTranslatableSummary(
               item.cta?.data?.cta?.constantValue?.label,
-              `CTA ${index ?? 0}`,
+              `${pt("fields.cta", "CTA")} ${index ?? 0}`,
             ),
         },
       },
@@ -597,7 +581,8 @@ const LuxuryRetailHeaderSectionComponent: PuckComponent<
     (hasExplicitThemeColor(props.navigation.fontColor)
       ? props.navigation.fontColor
       : undefined) ??
-    getReadableForegroundColor(props.section.backgroundColor, streamDocument);
+    getDefaultForegroundColor(props.section.backgroundColor?.selectedColor, streamDocument) ??
+    { selectedColor: "black", contrastingColor: "white" };
   const sectionStyle = getSurfaceColorStyle(
     props.section.backgroundColor,
     streamDocument,
@@ -792,7 +777,7 @@ const LuxuryRetailHeaderSectionComponent: PuckComponent<
               <ComprehensiveCTA
                 value={item.cta as Partial<ComprehensiveCTAValue>}
                 eventName={`headerCta${index}`}
-                className="inline-flex h-10 items-center justify-center px-5 transition-opacity hover:opacity-90"
+                className="inline-flex items-center justify-center transition-opacity hover:opacity-90"
               />
             </EntityField>
           ))}
@@ -950,15 +935,15 @@ const LuxuryRetailHeaderSectionComponent: PuckComponent<
       <Background
         as="header"
         background={props.section.backgroundColor}
-        className="relative"
+        className="relative px-4 md:px-6 py-pageSection-verticalPadding"
         style={{
           ...sectionStyle,
           color: resolveThemeColorCssValue(navigationColor),
         }}
       >
-        <div className="hidden lg:block">{desktopVariantContent}</div>
+        <div className="mx-auto w-full max-w-pageSection-contentWidth hidden lg:block">{desktopVariantContent}</div>
 
-        <div className="flex min-h-[82px] items-center gap-4 px-6 md:px-8 lg:hidden">
+        <div className="mx-auto w-full max-w-pageSection-contentWidth flex min-h-[82px] items-center gap-4 lg:hidden">
           <div className="min-w-0 flex-1">{renderLogo()}</div>
           {showCta && topBarCtaItem ? (
             <div className="hidden items-center gap-3 md:flex">
@@ -972,7 +957,7 @@ const LuxuryRetailHeaderSectionComponent: PuckComponent<
                 <ComprehensiveCTA
                   value={topBarCtaItem.cta as Partial<ComprehensiveCTAValue>}
                   eventName="responsiveTopBarCta"
-                  className="inline-flex h-10 items-center justify-center px-5 transition-opacity hover:opacity-90"
+                  className="inline-flex items-center justify-center transition-opacity hover:opacity-90"
                 />
               </EntityField>
             </div>
@@ -1048,7 +1033,7 @@ const LuxuryRetailHeaderSectionComponent: PuckComponent<
                           <ComprehensiveCTA
                             value={item.cta as Partial<ComprehensiveCTAValue>}
                             eventName={`tabletOverlayCta${index}`}
-                            className="inline-flex h-10 w-full items-center justify-center px-5 transition-opacity hover:opacity-90"
+                            className="inline-flex w-full items-center justify-center transition-opacity hover:opacity-90"
                           />
                         </EntityField>
                       ))}
@@ -1071,7 +1056,7 @@ const LuxuryRetailHeaderSectionComponent: PuckComponent<
                           <ComprehensiveCTA
                             value={item.cta as Partial<ComprehensiveCTAValue>}
                             eventName={`mobileOverlayCta${index}`}
-                            className="inline-flex h-10 w-full items-center justify-center px-5 transition-opacity hover:opacity-90"
+                            className="inline-flex w-full items-center justify-center transition-opacity hover:opacity-90"
                           />
                         </EntityField>
                       ))}
@@ -1128,7 +1113,7 @@ const LuxuryRetailHeaderSectionComponent: PuckComponent<
 
 export const LuxuryRetailHeaderSection: YextComponentConfig<LuxuryRetailHeaderSectionProps> =
   {
-    label: msg("components.sharedHeader", "Header"),
+    label: msg("components.headerSection", "Header Section"),
     fields: LuxuryRetailHeaderSectionFields,
     defaultProps: {
       variant: "stackedNavBelow",
@@ -1183,10 +1168,7 @@ export const LuxuryRetailHeaderSection: YextComponentConfig<LuxuryRetailHeaderSe
             openInNewTab: false,
           },
         ],
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
         styles: defaultLinkStyles,
       },
       utilities: {
@@ -1237,7 +1219,7 @@ export const LuxuryRetailHeaderSection: YextComponentConfig<LuxuryRetailHeaderSe
               },
               styles: {
                 variant: "primary",
-                color: defaultPrimaryCtaColor,
+                color: undefined,
                 button: defaultButtonStyles,
                 link: defaultLinkStyles,
               },
@@ -1279,7 +1261,7 @@ export const LuxuryRetailHeaderSection: YextComponentConfig<LuxuryRetailHeaderSe
 
 export const config: SectionConfig = {
   id: "LuxuryRetailHeaderSection",
-  displayName: "Header",
-  description: "Header",
+  displayName: "Header Section",
+  description: "Header Section",
   pageSetTypes: ["ENTITY", "DIRECTORY", "LOCATOR"],
 };

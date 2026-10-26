@@ -27,7 +27,15 @@
     "locator": "Locator",
     "phone": "Telefoon",
     "reviewsSection": "Beoordelingensectie",
-    "sharedHeader": "Gedeelde koptekst"
+    "sharedHeader": "Gedeelde koptekst",
+    "aboutStoreSection": "Sectie Over de winkel",
+    "communitySection": "Communitysectie",
+    "seasonalPromoSection": "Sectie Seizoensactie",
+    "shoppingExperiencesSection": "Sectie Winkelervaringen",
+    "storeDetailsSection": "Sectie Winkelgegevens",
+    "nearbyStoresSection": "Sectie Winkels in de buurt",
+    "headerSection": "Gedeelde koptekst-sectie",
+    "bannerSection": "Banner-sectie"
   },
   "currentLocation": "Huidige locatie",
   "customerRatingSummary": "Samenvatting van klantbeoordelingen",
@@ -212,7 +220,8 @@
       "today": "Vandaag",
       "utilityTopRow": "Bovenste hulprij",
       "width": "Breedte",
-      "yes": "Ja"
+      "yes": "Ja",
+      "x": "X"
     },
     "overrideLink": "Link overschrijven",
     "pageHeading": "Paginakop",
@@ -351,5 +360,7 @@
   "visitPage": "Bezoek pagina",
   "visitPageForName": "Bezoek pagina voor {{name}}",
   "wednesday": "Woensdag",
-  "mapRequiresWebGL": "De kaart is niet beschikbaar omdat WebGL niet beschikbaar is."
+  "mapRequiresWebGL": "De kaart is niet beschikbaar omdat WebGL niet beschikbaar is.",
+  "sectionHiddenForPage": "Sectie verborgen op deze pagina",
+  "mappedBannerFieldEmpty": "Het gekoppelde bannerveld is leeg"
 }

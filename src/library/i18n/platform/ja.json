@@ -27,7 +27,15 @@
     "locator": "ロケータ",
     "phone": "電話",
     "reviewsSection": "レビューセクション",
-    "sharedHeader": "共有ヘッダー"
+    "sharedHeader": "共有ヘッダー",
+    "aboutStoreSection": "店舗についてセクション",
+    "communitySection": "コミュニティセクション",
+    "seasonalPromoSection": "季節限定プロモーションセクション",
+    "shoppingExperiencesSection": "ショッピング体験セクション",
+    "storeDetailsSection": "店舗詳細セクション",
+    "nearbyStoresSection": "近隣店舗セクション",
+    "headerSection": "共有ヘッダーセクション",
+    "bannerSection": "バナーセクション"
   },
   "currentLocation": "現在地",
   "customerRatingSummary": "顧客評価の概要",
@@ -212,7 +220,8 @@
       "today": "今日",
       "utilityTopRow": "上部ユーティリティ行",
       "width": "幅",
-      "yes": "はい"
+      "yes": "はい",
+      "x": "X"
     },
     "overrideLink": "オーバーライドリンク",
     "pageHeading": "ページ見出し",
@@ -345,5 +354,7 @@
   "visitPage": "ページにアクセスしてください",
   "visitPageForName": "{{name}} のページにアクセスしてください",
   "wednesday": "水曜日",
-  "mapRequiresWebGL": "WebGL が利用できないため、地図を表示できません。"
+  "mapRequiresWebGL": "WebGL が利用できないため、地図を表示できません。",
+  "sectionHiddenForPage": "このページではセクションが非表示です",
+  "mappedBannerFieldEmpty": "関連付けられたバナーフィールドが空です"
 }

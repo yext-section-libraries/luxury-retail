@@ -27,7 +27,15 @@
     "locator": "Lokátor",
     "phone": "Telefon",
     "reviewsSection": "Vélemények szakasz",
-    "sharedHeader": "Megosztott fejléc"
+    "sharedHeader": "Megosztott fejléc",
+    "aboutStoreSection": "Az üzletről szakasz",
+    "communitySection": "Közösség szakasz",
+    "seasonalPromoSection": "Szezonális promóció szakasz",
+    "shoppingExperiencesSection": "Vásárlási élmények szakasz",
+    "storeDetailsSection": "Üzlet részletei szakasz",
+    "nearbyStoresSection": "Közeli üzletek szakasz",
+    "headerSection": "Megosztott fejléc szakasz",
+    "bannerSection": "Szalag szakasz"
   },
   "currentLocation": "Jelenlegi hely",
   "customerRatingSummary": "Vásárlói értékelések összegzése",
@@ -212,7 +220,8 @@
       "today": "Ma",
       "utilityTopRow": "Felső segédsor",
       "width": "Szélesség",
-      "yes": "Igen"
+      "yes": "Igen",
+      "x": "X"
     },
     "overrideLink": "Hivatkozás felülbírálása",
     "pageHeading": "Oldalfejléc",
@@ -351,5 +360,7 @@
   "visitPage": "Látogasson el az oldalra",
   "visitPageForName": "Látogassa meg a {{name}} oldalát",
   "wednesday": "szerda",
-  "mapRequiresWebGL": "A térkép nem érhető el, mert a WebGL nem érhető el."
+  "mapRequiresWebGL": "A térkép nem érhető el, mert a WebGL nem érhető el.",
+  "sectionHiddenForPage": "A szakasz el van rejtve ezen az oldalon",
+  "mappedBannerFieldEmpty": "A hozzárendelt szalagmező üres"
 }

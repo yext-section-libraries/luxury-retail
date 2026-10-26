@@ -27,7 +27,15 @@
     "locator": "Lokátor",
     "phone": "Telefon",
     "reviewsSection": "Sekce recenzí",
-    "sharedHeader": "Sdílené záhlaví"
+    "sharedHeader": "Sdílené záhlaví",
+    "aboutStoreSection": "Sekce O prodejně",
+    "communitySection": "Sekce Komunita",
+    "seasonalPromoSection": "Sekce Sezónní akce",
+    "shoppingExperiencesSection": "Sekce Nákupní zážitky",
+    "storeDetailsSection": "Sekce Podrobnosti o prodejně",
+    "nearbyStoresSection": "Sekce Prodejny v okolí",
+    "headerSection": "Sekce Sdílené záhlaví",
+    "bannerSection": "Sekce Banner"
   },
   "currentLocation": "Aktuální poloha",
   "customerRatingSummary": "Souhrn hodnocení zákazníků",
@@ -212,7 +220,8 @@
       "today": "Dnes",
       "utilityTopRow": "Horní řádek nástrojů",
       "width": "Šířka",
-      "yes": "Ano"
+      "yes": "Ano",
+      "x": "X"
     },
     "overrideLink": "Přepište odkaz",
     "pageHeading": "Záhlaví stránky",
@@ -363,5 +372,7 @@
   "visitPage": "Navštivte stránku",
   "visitPageForName": "Navštivte stránku pro {{name}}",
   "wednesday": "středa",
-  "mapRequiresWebGL": "Mapa není dostupná, protože WebGL není k dispozici."
+  "mapRequiresWebGL": "Mapa není dostupná, protože WebGL není k dispozici.",
+  "sectionHiddenForPage": "Sekce je na této stránce skrytá",
+  "mappedBannerFieldEmpty": "Mapované pole banneru je prázdné"
 }

@@ -1,16 +1,16 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
   msg,
-  pt,
   Background,
+  pt,
   ComprehensiveCTA,
   EntityField,
   getAnalyticsScopeHash,
   getDefaultRTF,
-  getSurfaceColorStyle,
   Image,
   resolveComponentData,
   useDocument,
@@ -34,6 +34,7 @@ import {
   resolveBorderRadius,
   type StyledRtfProps,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type SectionImageProps = {
@@ -149,97 +150,15 @@ const LuxuryRetailCommunitySectionFields: YextFields<LuxuryRetailCommunitySectio
   };
 
 const communityCss = `
-  .luxury-community :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-community :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-community :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-community :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-community :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-community :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-community :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-community :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-community :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-
   .luxury-community {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
     margin: 0;
-    padding-top: 48px;
   }
 
   .luxury-community__inner {
-    width: min(1760px, calc(100vw - 60px));
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
   }
 
@@ -255,96 +174,24 @@ const communityCss = `
   }
 
   .luxury-community__copy-inner {
-    max-width: 560px;
+    width: 100%;
   }
 
   .luxury-community__heading {
     margin: 0 0 16px;
-    font-family: var(--fontFamily-h2-fontFamily, Georgia, serif);
-    font-size: clamp(36px, 3vw, 58px);
-    font-weight: 400;
-    line-height: 0.98;
-    letter-spacing: -0.01em;
-  }
-
-  .luxury-community__body {
-    font-size: 15px;
-    line-height: 1.6;
   }
 
   .luxury-community__body p {
     margin: 0;
   }
 
-  .luxury-community .luxury-community__body[style] * {
-    color: var(--luxury-community-body-font-color) !important;
-  }
-
-  /* Apply selected Body styles over inline rich text styles. Keep Default styles. */
-  .luxury-community__body[data-font-family]:not([data-font-family="default"]) * {
-    font-family: var(--luxury-community-body-font-family) !important;
-  }
-
-  .luxury-community__body[data-font-size]:not([data-font-size="default"]) * {
-    font-size: var(--luxury-community-body-font-size) !important;
-  }
-
-  .luxury-community__body[data-font-weight]:not([data-font-weight="default"]) * {
-    font-weight: var(--luxury-community-body-font-weight) !important;
-  }
-
-  .luxury-community__body[data-font-style]:not([data-font-style="default"]) * {
-    font-style: var(--luxury-community-body-font-style) !important;
-  }
-
-  .luxury-community__body[data-text-transform]:not([data-text-transform="default"]) * {
-    text-transform: var(--luxury-community-body-text-transform) !important;
-  }
-
   .luxury-community__cta {
     display: inline-flex;
     align-items: center;
+    margin-top: 24px;
     position: relative;
-    text-decoration: none;
+
     transition: transform 0.18s ease;
-  }
-
-  .luxury-community__cta--button {
-    justify-content: center;
-    min-height: 48px;
-    margin-top: 24px;
-    padding: 0 24px;
-  }
-
-  .luxury-community__cta--underlined {
-    gap: 8px;
-    margin-top: 24px;
-    padding: 8px 12px 8px 0;
-  }
-
-  .luxury-community__cta--underlined::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 12px;
-    bottom: 2px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0.42);
-    transform-origin: left center;
-    opacity: 0.55;
-    transition: transform 0.18s ease, opacity 0.18s ease;
-  }
-
-  .luxury-community__cta--underlined:hover,
-  .luxury-community__cta--underlined:focus-visible {
-    transform: translateX(4px);
-  }
-
-  .luxury-community__cta--underlined:hover::after,
-  .luxury-community__cta--underlined:focus-visible::after {
-    transform: scaleX(1);
-    opacity: 1;
   }
 
   .luxury-community__image-shell {
@@ -376,21 +223,22 @@ const communityCss = `
   }
 
   .luxury-community__content--text-only .luxury-community__copy {
-    padding: 48px 56px;
+    padding: 0 56px;
   }
 
   .luxury-community__content--text-only .luxury-community__copy-inner {
-    max-width: 760px;
+    width: 100%;
     margin: 0 auto;
   }
 
   @media (max-width: 1100px) {
     .luxury-community {
-      padding-top: 32px;
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     }
 
     .luxury-community__inner {
-      width: calc(100vw - 40px);
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
     }
 
     .luxury-community__content {
@@ -398,17 +246,20 @@ const communityCss = `
       gap: 24px;
     }
 
-    .luxury-community__copy {
-      padding-right: 0;
+    .luxury-community__copy,
+    .luxury-community__content--text-only .luxury-community__copy {
+      padding: 0;
     }
 
-    .luxury-community__image-shell {
+    .luxury-community__image-frame,
+    .luxury-community__image-frame img {
       max-height: 420px;
     }
   }
 
   @media (max-width: 720px) {
-    .luxury-community__image-shell {
+    .luxury-community__image-frame,
+    .luxury-community__image-frame img {
       max-height: 320px;
     }
   }
@@ -436,8 +287,10 @@ const LuxuryRetailCommunitySectionComponent: PuckComponent<
     props.heading.fontColor,
     readableTextColor,
   );
-  const bodyStyles = props.body.styles ? getTextStyles(props.body.styles) : {};
-  const bodyContent = renderResolvedRichText(body);
+  const bodyContent = renderResolvedRichText(body, {
+    ...props.body.styles,
+    color: resolveReadableTextColor(props.body.fontColor, props.section?.backgroundColor, streamDocument),
+  });
   const imageWrapperStyle: React.CSSProperties = {
     position: "relative",
     width: "100%",
@@ -513,23 +366,6 @@ const LuxuryRetailCommunitySectionComponent: PuckComponent<
                 >
                   <div
                     className="luxury-community__body"
-                    data-font-family={props.body.styles?.fontFamily}
-                    data-font-size={props.body.styles?.fontSize}
-                    data-font-weight={props.body.styles?.fontWeight}
-                    data-font-style={props.body.styles?.fontStyle}
-                    data-text-transform={props.body.styles?.textTransform}
-                    style={{
-                      "--luxury-community-body-font-color": resolveReadableTextColor(
-                        props.body.fontColor,
-                        props.section?.backgroundColor,
-                        streamDocument,
-                      ),
-                      "--luxury-community-body-font-family": bodyStyles.fontFamily,
-                      "--luxury-community-body-font-size": bodyStyles.fontSize,
-                      "--luxury-community-body-font-weight": bodyStyles.fontWeight,
-                      "--luxury-community-body-font-style": bodyStyles.fontStyle,
-                      "--luxury-community-body-text-transform": bodyStyles.textTransform,
-                    } as React.CSSProperties}
                   >
                     {bodyContent}
                   </div>
@@ -587,7 +423,7 @@ const LuxuryRetailCommunitySectionComponent: PuckComponent<
 
 export const LuxuryRetailCommunitySection: YextComponentConfig<LuxuryRetailCommunitySectionProps> =
   {
-    label: msg("fields.communitySection", "Community"),
+    label: msg("components.communitySection", "Community Section"),
     fields: LuxuryRetailCommunitySectionFields,
     defaultProps: {
       heading: {
@@ -605,10 +441,7 @@ export const LuxuryRetailCommunitySection: YextComponentConfig<LuxuryRetailCommu
           fontStyle: "default",
           textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
       body: {
         text: {
@@ -628,10 +461,7 @@ export const LuxuryRetailCommunitySection: YextComponentConfig<LuxuryRetailCommu
           fontStyle: "default",
           textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-tertiary",
-          contrastingColor: "palette-tertiary-contrast",
-        },
+        fontColor: undefined,
       },
       cta: {
         data: {
@@ -661,7 +491,7 @@ export const LuxuryRetailCommunitySection: YextComponentConfig<LuxuryRetailCommu
             fontWeight: "default",
             fontStyle: "default",
             textTransform: "default",
-            borderRadius: "999px",
+            borderRadius: "default",
             letterSpacing: "default",
           },
         },
@@ -696,7 +526,7 @@ export const LuxuryRetailCommunitySection: YextComponentConfig<LuxuryRetailCommu
 
 export const config: SectionConfig = {
   id: "LuxuryRetailCommunitySection",
-  displayName: "Community",
-  description: "Community",
+  displayName: "Community Section",
+  description: "Community Section",
   pageSetTypes: ["ENTITY"],
 };

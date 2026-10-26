@@ -1,15 +1,15 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
 import { PuckComponent } from "@puckeditor/core";
 import {
   msg,
-  pt,
   Background,
+  pt,
   EntityField,
   getAnalyticsScopeHash,
   getDefaultRTF,
-  getSurfaceColorStyle,
   Image,
   resolveComponentData,
   useDocument,
@@ -32,6 +32,7 @@ import {
   resolveBorderRadius,
   type StyledRtfProps,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type SectionImageProps = {
@@ -143,97 +144,15 @@ const LuxuryRetailAboutStoreSectionFields: YextFields<
 };
 
 const splitCss = `
-  .luxury-about :where(p) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-about :where(li) {
-    font-family: var(--fontFamily-body-fontFamily);
-    font-size: var(--fontSize-body-fontSize);
-    line-height: 1.5;
-    font-weight: var(--fontWeight-body-fontWeight);
-    font-style: var(--fontStyle-body-fontStyle);
-    text-transform: var(--textTransform-body-textTransform);
-  }
-
-  .luxury-about :where(h1) {
-    font-family: var(--fontFamily-h1-fontFamily);
-    font-size: var(--fontSize-h1-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h1-fontWeight);
-    font-style: var(--fontStyle-h1-fontStyle);
-    text-transform: var(--textTransform-h1-textTransform);
-  }
-
-  .luxury-about :where(h2) {
-    font-family: var(--fontFamily-h2-fontFamily);
-    font-size: var(--fontSize-h2-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h2-fontWeight);
-    font-style: var(--fontStyle-h2-fontStyle);
-    text-transform: var(--textTransform-h2-textTransform);
-  }
-
-  .luxury-about :where(h3) {
-    font-family: var(--fontFamily-h3-fontFamily);
-    font-size: var(--fontSize-h3-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h3-fontWeight);
-    font-style: var(--fontStyle-h3-fontStyle);
-    text-transform: var(--textTransform-h3-textTransform);
-  }
-
-  .luxury-about :where(h4) {
-    font-family: var(--fontFamily-h4-fontFamily);
-    font-size: var(--fontSize-h4-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h4-fontWeight);
-    font-style: var(--fontStyle-h4-fontStyle);
-    text-transform: var(--textTransform-h4-textTransform);
-  }
-
-  .luxury-about :where(h5) {
-    font-family: var(--fontFamily-h5-fontFamily);
-    font-size: var(--fontSize-h5-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h5-fontWeight);
-    font-style: var(--fontStyle-h5-fontStyle);
-    text-transform: var(--textTransform-h5-textTransform);
-  }
-
-  .luxury-about :where(h6) {
-    font-family: var(--fontFamily-h6-fontFamily);
-    font-size: var(--fontSize-h6-fontSize);
-    line-height: 1.2;
-    font-weight: var(--fontWeight-h6-fontWeight);
-    font-style: var(--fontStyle-h6-fontStyle);
-    text-transform: var(--textTransform-h6-textTransform);
-  }
-
-  .luxury-about :where(a) {
-    font-family: var(--fontFamily-link-fontFamily);
-    font-size: var(--fontSize-link-fontSize);
-    font-weight: var(--fontWeight-link-fontWeight);
-    font-style: var(--fontStyle-link-fontStyle);
-    line-height: 1.5;
-    text-decoration: underline;
-    text-transform: var(--textTransform-link-textTransform);
-    letter-spacing: var(--letterSpacing-link-letterSpacing);
-  }
-
   .luxury-about {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
     margin: 0;
-    padding-top: 48px;
   }
 
   .luxury-about__inner {
-    width: min(1760px, calc(100vw - 60px));
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
   }
 
@@ -246,50 +165,15 @@ const splitCss = `
     display: flex;
     align-items: center;
     order: 2;
-    padding: 48px 56px;
+    padding: 0 56px;
   }
 
   .luxury-about__copy {
-    max-width: 560px;
+    width: 100%;
   }
 
   .luxury-about__heading {
     margin: 0 0 16px;
-    font-family: var(--fontFamily-h2-fontFamily, Georgia, serif);
-    font-size: clamp(36px, 3vw, 58px);
-    font-weight: 400;
-    line-height: 0.98;
-    letter-spacing: -0.01em;
-  }
-
-  .luxury-about__body {
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  .luxury-about .luxury-about__body[style] * {
-    color: var(--luxury-about-body-font-color) !important;
-  }
-
-  /* Apply selected Body styles over inline rich text styles. Keep Default styles. */
-  .luxury-about__body[data-font-family]:not([data-font-family="default"]) * {
-    font-family: var(--luxury-about-body-font-family) !important;
-  }
-
-  .luxury-about__body[data-font-size]:not([data-font-size="default"]) * {
-    font-size: var(--luxury-about-body-font-size) !important;
-  }
-
-  .luxury-about__body[data-font-weight]:not([data-font-weight="default"]) * {
-    font-weight: var(--luxury-about-body-font-weight) !important;
-  }
-
-  .luxury-about__body[data-font-style]:not([data-font-style="default"]) * {
-    font-style: var(--luxury-about-body-font-style) !important;
-  }
-
-  .luxury-about__body[data-text-transform]:not([data-text-transform="default"]) * {
-    text-transform: var(--luxury-about-body-text-transform) !important;
   }
 
   .luxury-about__image-shell {
@@ -327,21 +211,22 @@ const splitCss = `
 
   .luxury-about__content--text-only .luxury-about__copy-shell {
     order: initial;
-    padding: 56px;
+    padding: 0 56px;
   }
 
   .luxury-about__content--text-only .luxury-about__copy {
-    max-width: 760px;
+    width: 100%;
     margin: 0 auto;
   }
 
   @media (max-width: 1100px) {
     .luxury-about {
-      padding-top: 32px;
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     }
 
     .luxury-about__inner {
-      width: calc(100vw - 40px);
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
     }
 
     .luxury-about__content {
@@ -354,11 +239,13 @@ const splitCss = `
       order: initial;
     }
 
-    .luxury-about__copy-shell {
+    .luxury-about__copy-shell,
+    .luxury-about__content--text-only .luxury-about__copy-shell {
       padding: 0;
     }
 
-    .luxury-about__image-shell {
+    .luxury-about__image-frame,
+    .luxury-about__image-frame img {
       max-height: 420px;
     }
   }
@@ -368,7 +255,8 @@ const splitCss = `
       padding: 16px;
     }
 
-    .luxury-about__image-shell {
+    .luxury-about__image-frame,
+    .luxury-about__image-frame img {
       max-height: 320px;
     }
   }
@@ -405,8 +293,10 @@ const LuxuryRetailAboutStoreSectionComponent: PuckComponent<
     props.heading.fontColor,
     readableTextColor,
   );
-  const bodyStyles = props.body.styles ? getTextStyles(props.body.styles) : {};
-  const bodyContent = renderResolvedRichText(body);
+  const bodyContent = renderResolvedRichText(body, {
+    ...props.body.styles,
+    color: getReadableTextColor(props.body.fontColor, props.section?.backgroundColor, streamDocument),
+  });
   const imageWrapperStyle: React.CSSProperties = {
     position: "relative",
     width: "100%",
@@ -467,23 +357,6 @@ const LuxuryRetailAboutStoreSectionComponent: PuckComponent<
                 >
                   <div
                     className="luxury-about__body"
-                    data-font-family={props.body.styles?.fontFamily}
-                    data-font-size={props.body.styles?.fontSize}
-                    data-font-weight={props.body.styles?.fontWeight}
-                    data-font-style={props.body.styles?.fontStyle}
-                    data-text-transform={props.body.styles?.textTransform}
-                    style={{
-                      "--luxury-about-body-font-color": getReadableTextColor(
-                        props.body.fontColor,
-                        props.section?.backgroundColor,
-                        streamDocument,
-                      ),
-                      "--luxury-about-body-font-family": bodyStyles.fontFamily,
-                      "--luxury-about-body-font-size": bodyStyles.fontSize,
-                      "--luxury-about-body-font-weight": bodyStyles.fontWeight,
-                      "--luxury-about-body-font-style": bodyStyles.fontStyle,
-                      "--luxury-about-body-text-transform": bodyStyles.textTransform,
-                    } as React.CSSProperties}
                   >
                     {bodyContent}
                   </div>
@@ -527,7 +400,7 @@ const LuxuryRetailAboutStoreSectionComponent: PuckComponent<
 export const LuxuryRetailAboutStoreSection: YextComponentConfig<
   LuxuryRetailAboutStoreSectionProps
 > = {
-  label: msg("fields.aboutStoreSection", "About Store"),
+  label: msg("components.aboutStoreSection", "About Store Section"),
   fields: LuxuryRetailAboutStoreSectionFields,
   defaultProps: {
     heading: {
@@ -543,10 +416,7 @@ export const LuxuryRetailAboutStoreSection: YextComponentConfig<
         fontStyle: "default",
         textTransform: "default",
       },
-      fontColor: {
-        selectedColor: "palette-primary",
-        contrastingColor: "palette-primary-contrast",
-      },
+      fontColor: undefined,
     },
     body: {
       text: {
@@ -566,10 +436,7 @@ export const LuxuryRetailAboutStoreSection: YextComponentConfig<
         fontStyle: "default",
         textTransform: "default",
       },
-      fontColor: {
-        selectedColor: "palette-tertiary",
-        contrastingColor: "palette-tertiary-contrast",
-      },
+      fontColor: undefined,
     },
     image: {
       image: {
@@ -600,7 +467,7 @@ export const LuxuryRetailAboutStoreSection: YextComponentConfig<
 
 export const config: SectionConfig = {
   id: "LuxuryRetailAboutStoreSection",
-  displayName: "About Store",
-  description: "About Store",
+  displayName: "About Store Section",
+  description: "About Store Section",
   pageSetTypes: ["ENTITY"],
 };

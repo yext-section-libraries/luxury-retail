@@ -1,11 +1,13 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import { PuckComponent } from "@puckeditor/core";
 import { CircleSlash2 } from "lucide-react";
-import { renderResolvedRichText } from "../shared/sectionHelpers";
+import { getReadableTextColor, renderResolvedRichText } from "../shared/sectionHelpers";
 import { useTranslation } from "react-i18next";
 import {
   msg,
+  Background,
   pt,
   Body,
   EntityField,
@@ -141,16 +143,15 @@ const LuxuryRetailBannerComponent: PuckComponent<LuxuryRetailBannerProps> = ({
       <PageSection
         background={section.backgroundColor}
         className="flex items-center justify-center"
-        verticalPadding="sm"
       >
         <div className="relative flex h-20 w-full flex-row items-center justify-center gap-3 rounded-lg border border-gray-200 bg-gray-100 px-4">
           <CircleSlash2 className="h-10 w-10 flex-shrink-0 text-gray-400" />
           <div className="flex flex-col items-start">
             <Body className="font-medium text-gray-500" variant="sm">
-              Section hidden for this page
+              {pt("sectionHiddenForPage", "Section hidden for this page")}
             </Body>
             <Body className="font-normal text-gray-500" variant="sm">
-              The mapped banner field is empty
+              {pt("mappedBannerFieldEmpty", "The mapped banner field is empty")}
             </Body>
           </div>
         </div>
@@ -160,7 +161,7 @@ const LuxuryRetailBannerComponent: PuckComponent<LuxuryRetailBannerProps> = ({
 
   const richTextStyleOverrides = {
     ...data.styles,
-    color: data.fontColor ?? section.backgroundColor.contrastingColor,
+    color: getReadableTextColor(data.fontColor, section.backgroundColor, streamDocument),
   };
   const resolvedText = resolveComponentData(
     data.text,
@@ -173,25 +174,29 @@ const LuxuryRetailBannerComponent: PuckComponent<LuxuryRetailBannerProps> = ({
   }
 
   return (
-    <PageSection
+    <Background
+      as="section"
       background={section.backgroundColor}
-      className={`flex items-center ${
-        {
-          left: "justify-start text-left",
-          center: "justify-center text-center",
-          right: "justify-end text-right",
-        }[styles.textAlignment]
-      }`}
-      verticalPadding="sm"
+      className="px-4 md:px-6 py-pageSection-verticalPadding"
     >
-      <EntityField
-        constantValueEnabled={data.text.constantValueEnabled}
-        displayName={pt("fields.bannerText", "Banner Text")}
-        fieldId={data.text.field}
+      <div
+        className={`mx-auto max-w-pageSection-contentWidth flex items-center ${
+          {
+            left: "justify-start text-left",
+            center: "justify-center text-center",
+            right: "justify-end text-right",
+          }[styles.textAlignment]
+        }`}
       >
-        {renderResolvedRichText(resolvedText, richTextStyleOverrides)}
-      </EntityField>
-    </PageSection>
+        <EntityField
+          constantValueEnabled={data.text.constantValueEnabled}
+          displayName={pt("fields.bannerText", "Banner Text")}
+          fieldId={data.text.field}
+        >
+          {renderResolvedRichText(resolvedText, richTextStyleOverrides)}
+        </EntityField>
+      </div>
+    </Background>
   );
 };
 
@@ -199,7 +204,7 @@ const LuxuryRetailBannerComponent: PuckComponent<LuxuryRetailBannerProps> = ({
  * Displays a full-width, editor-configurable rich-text banner.
  */
 export const LuxuryRetailBanner: YextComponentConfig<LuxuryRetailBannerProps> = {
-  label: msg("components.banner", "Banner"),
+  label: msg("components.bannerSection", "Banner Section"),
   fields: toPuckFields<LuxuryRetailBannerProps>(LuxuryRetailBannerFields),
   defaultProps: {
     data: {
@@ -238,7 +243,7 @@ export const LuxuryRetailBanner: YextComponentConfig<LuxuryRetailBannerProps> = 
 
 export const config: SectionConfig = {
   id: "LuxuryRetailBanner",
-  displayName: "Banner",
-  description: "Banner",
+  displayName: "Banner Section",
+  description: "Banner Section",
   pageSetTypes: ["ENTITY"],
 };

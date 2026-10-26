@@ -1,3 +1,4 @@
+import "../shared/typography.css";
 import type { SectionConfig } from "@yext/visual-editor";
 
 import * as React from "react";
@@ -5,12 +6,11 @@ import { PuckComponent } from "@puckeditor/core";
 import { useTranslation } from "react-i18next";
 import {
   msg,
-  pt,
   Background,
+  pt,
   EntityField,
   VisibilityWrapper,
   getAnalyticsScopeHash,
-  getSurfaceColorStyle,
   resolveBreadcrumbs,
   resolveComponentData,
   useDocument,
@@ -24,6 +24,7 @@ import {
   getReadableTextColor,
   getTextStyles,
   type StyledTextProps,
+  getSurfaceColorStyle,
 } from "../shared/sectionHelpers";
 
 type LuxuryRetailBreadcrumbsSectionProps = {
@@ -126,17 +127,15 @@ const LuxuryRetailBreadcrumbsSectionFields: YextFields<LuxuryRetailBreadcrumbsSe
 
 const breadcrumbsCss = `
   .luxury-breadcrumbs {
+    padding: var(--padding-pageSection-verticalPadding) 1rem;
     width: 100%;
     margin: 0;
   }
 
   .luxury-breadcrumbs__inner {
-    width: min(1760px, calc(100vw - 60px));
+    width: 100%;
+    max-width: var(--maxWidth-pageSection-contentWidth);
     margin: 0 auto;
-  }
-
-  .luxury-breadcrumbs__nav {
-    padding: 18px 0 20px;
   }
 
   .luxury-breadcrumbs__list {
@@ -156,16 +155,6 @@ const breadcrumbsCss = `
     min-width: 0;
   }
 
-  .luxury-breadcrumbs__link,
-  .luxury-breadcrumbs__current {
-  font-family: var(--fontFamily-body-fontFamily);
-  font-size: var(--fontSize-body-fontSize);
-  line-height: 1.5;
-  font-weight: var(--fontWeight-body-fontWeight);
-  font-style: var(--fontStyle-body-fontStyle);
-  text-transform: var(--textTransform-body-textTransform);
-  }
-
   .luxury-breadcrumbs__link {
     opacity: 0.76;
     transition: opacity 0.18s ease, transform 0.18s ease;
@@ -182,17 +171,12 @@ const breadcrumbsCss = `
 
   .luxury-breadcrumbs__separator {
     opacity: 0.35;
-    font-size: 10px;
-    line-height: 1;
   }
 
   @media (max-width: 900px) {
     .luxury-breadcrumbs__inner {
-      width: min(1760px, calc(100vw - 40px));
-    }
-
-    .luxury-breadcrumbs__nav {
-      padding: 16px 0 18px;
+      width: 100%;
+      max-width: var(--maxWidth-pageSection-contentWidth);
     }
   }
 
@@ -200,13 +184,7 @@ const breadcrumbsCss = `
     .luxury-breadcrumbs__list {
       gap: 6px 10px;
     }
-
-    .luxury-breadcrumbs__link,
-    .luxury-breadcrumbs__current {
-      font-size: 10px;
-      letter-spacing: 0.14em;
-    }
-  }
+}
 `;
 
 const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
@@ -226,7 +204,6 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
     return props.puck.isEditing ? (
       <p
         style={{
-          fontFamily: "Arial, Helvetica, sans-serif",
           padding: "18px 24px",
         }}
       >
@@ -377,7 +354,7 @@ const LuxuryRetailBreadcrumbsSectionComponent: PuckComponent<
 
 export const LuxuryRetailBreadcrumbsSection: YextComponentConfig<LuxuryRetailBreadcrumbsSectionProps> =
   {
-    label: msg("components.breadcrumbsSection", "Breadcrumbs"),
+    label: msg("components.breadcrumbsSection", "Breadcrumbs Section"),
     fields: LuxuryRetailBreadcrumbsSectionFields,
     defaultProps: {
       rootLabel: {
@@ -393,12 +370,9 @@ export const LuxuryRetailBreadcrumbsSection: YextComponentConfig<LuxuryRetailBre
           fontSize: "11px",
           fontWeight: "default",
           fontStyle: "default",
-          textTransform: "uppercase",
+          textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-tertiary",
-          contrastingColor: "palette-tertiary-contrast",
-        },
+        fontColor: undefined,
       },
       currentPage: {
         text: {
@@ -413,12 +387,9 @@ export const LuxuryRetailBreadcrumbsSection: YextComponentConfig<LuxuryRetailBre
           fontSize: "11px",
           fontWeight: "default",
           fontStyle: "default",
-          textTransform: "uppercase",
+          textTransform: "default",
         },
-        fontColor: {
-          selectedColor: "palette-primary",
-          contrastingColor: "palette-primary-contrast",
-        },
+        fontColor: undefined,
       },
       includeCurrentLocation: true,
       separator: "/",
@@ -437,7 +408,7 @@ export const LuxuryRetailBreadcrumbsSection: YextComponentConfig<LuxuryRetailBre
 
 export const config: SectionConfig = {
   id: "LuxuryRetailBreadcrumbsSection",
-  displayName: "Breadcrumbs",
-  description: "Breadcrumbs",
+  displayName: "Breadcrumbs Section",
+  description: "Breadcrumbs Section",
   pageSetTypes: ["ENTITY"],
 };

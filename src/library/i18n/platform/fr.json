@@ -27,7 +27,15 @@
     "locator": "Localisateur",
     "phone": "Téléphone",
     "reviewsSection": "Section Avis",
-    "sharedHeader": "En-tête partagé"
+    "sharedHeader": "En-tête partagé",
+    "aboutStoreSection": "Section À propos du magasin",
+    "communitySection": "Section Communauté",
+    "seasonalPromoSection": "Section Promotion saisonnière",
+    "shoppingExperiencesSection": "Section Expériences d’achat",
+    "storeDetailsSection": "Section Détails du magasin",
+    "nearbyStoresSection": "Section Magasins à proximité",
+    "headerSection": "Section En-tête partagé",
+    "bannerSection": "Section Bannière"
   },
   "currentLocation": "Emplacement actuel",
   "customerRatingSummary": "Résumé des évaluations des clients",
@@ -212,7 +220,8 @@
       "today": "Aujourd'hui",
       "utilityTopRow": "Ligne d’utilitaires supérieure",
       "width": "Largeur",
-      "yes": "Oui"
+      "yes": "Oui",
+      "x": "X"
     },
     "overrideLink": "Remplacer le lien",
     "pageHeading": "En-tête de page",
@@ -357,5 +366,7 @@
   "visitPage": "Page de visite",
   "visitPageForName": "Visitez la page pour {{name}}",
   "wednesday": "Mercredi",
-  "mapRequiresWebGL": "La carte est indisponible car WebGL est indisponible."
+  "mapRequiresWebGL": "La carte est indisponible car WebGL est indisponible.",
+  "sectionHiddenForPage": "Section masquée sur cette page",
+  "mappedBannerFieldEmpty": "Le champ de bannière associé est vide"
 }
